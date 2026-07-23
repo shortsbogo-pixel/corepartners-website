@@ -16,7 +16,9 @@ import { Route as CenterRouteImport } from './routes/center'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PromoBannerRouteImport } from './routes/promo-banner'
 import { Route as ApiApplyRouteImport } from './routes/api/apply'
+import { Route as ApiPromoUploadRouteImport } from './routes/api/promo-upload'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -53,9 +55,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PromoBannerRoute = PromoBannerRouteImport.update({
+  id: '/promo-banner',
+  path: '/promo-banner',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiApplyRoute = ApiApplyRouteImport.update({
   id: '/api/apply',
   path: '/api/apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPromoUploadRoute = ApiPromoUploadRouteImport.update({
+  id: '/api/promo-upload',
+  path: '/api/promo-upload',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -68,6 +80,8 @@ export interface FileRoutesByFullPath {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/apply': typeof ApiApplyRoute
+  '/promo-banner': typeof PromoBannerRoute
+  '/api/promo-upload': typeof ApiPromoUploadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +92,8 @@ export interface FileRoutesByTo {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/apply': typeof ApiApplyRoute
+  '/promo-banner': typeof PromoBannerRoute
+  '/api/promo-upload': typeof ApiPromoUploadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +105,8 @@ export interface FileRoutesById {
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/apply': typeof ApiApplyRoute
+  '/promo-banner': typeof PromoBannerRoute
+  '/api/promo-upload': typeof ApiPromoUploadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +119,8 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/api/apply'
+    | '/promo-banner'
+    | '/api/promo-upload'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +131,8 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/api/apply'
+    | '/promo-banner'
+    | '/api/promo-upload'
   id:
     | '__root__'
     | '/'
@@ -121,6 +143,8 @@ export interface FileRouteTypes {
     | '/robots.txt'
     | '/sitemap.xml'
     | '/api/apply'
+    | '/promo-banner'
+    | '/api/promo-upload'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +156,8 @@ export interface RootRouteChildren {
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiApplyRoute: typeof ApiApplyRoute
+  PromoBannerRoute: typeof PromoBannerRoute
+  ApiPromoUploadRoute: typeof ApiPromoUploadRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -192,6 +218,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiApplyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/promo-banner': {
+      id: '/promo-banner'
+      path: '/promo-banner'
+      fullPath: '/promo-banner'
+      preLoaderRoute: typeof PromoBannerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/promo-upload': {
+      id: '/api/promo-upload'
+      path: '/api/promo-upload'
+      fullPath: '/api/promo-upload'
+      preLoaderRoute: typeof ApiPromoUploadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -204,6 +244,8 @@ const rootRouteChildren: RootRouteChildren = {
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiApplyRoute: ApiApplyRoute,
+  PromoBannerRoute: PromoBannerRoute,
+  ApiPromoUploadRoute: ApiPromoUploadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
