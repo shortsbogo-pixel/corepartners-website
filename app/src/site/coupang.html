@@ -166,6 +166,25 @@ footer{margin-top:32px;padding:26px 0 32px}
 .recruit{padding:28px 18px}
 }
 
+/* footer trust block */
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:22px;text-align:left;margin-bottom:20px}
+@media(max-width:720px){.fgrid{grid-template-columns:1fr 1fr;gap:18px}}
+@media(max-width:460px){.fgrid{grid-template-columns:1fr}}
+.fcol h5{font-size:12px;letter-spacing:.12em;color:#8fa3c8;font-weight:800;text-transform:uppercase;margin-bottom:10px}
+.fcol a{display:block;font-size:13px;color:#d6e2f8;font-weight:600;padding:4px 0;text-decoration:none}
+.fcol a:hover{color:#fff;text-decoration:none}
+.fbrand .fl{justify-content:flex-start;margin-bottom:6px}
+.fdesc{font-size:12.5px;color:#9fb0d1;line-height:1.8;text-align:left}
+.finfo{border-top:1px solid rgba(255,255,255,.12);padding-top:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;font-size:12px;color:#9fb0d1}
+.finfo b{color:#d6e2f8;margin-right:5px}
+.fcopy{margin-top:10px;font-size:11px;color:#7488ad}
+
+/* inline guide accordion (start guide, FAQ 등) */
+.guide{max-width:760px;margin:18px auto 0;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:4px 18px;box-shadow:var(--shadow)}
+.guide .acc-h{font-size:14.5px}
+.acc-b p{padding:2px 10px 13px;font-size:13.5px;color:var(--txt-2);line-height:1.7;margin:0}
+.acc-b p b{color:var(--navy)}
+
 /* wayfinding routes — 3-color content code stripes */
 .finder{padding:30px 0 6px}
 .finder-h{text-align:center;margin-bottom:20px}
@@ -529,6 +548,7 @@ footer{margin-top:32px;padding:26px 0 32px}
       <button class="acc-h" type="button">라이더 모집 <i>▾</i></button>
       <div class="acc-b">
         <a href="/coupang-plus">미션 · 수익 안내</a>
+        <a href="/coupang-plus#promo">이번 주 프로모션</a>
         <a href="/coupang-plus#apply">온라인 지원 신청</a>
         <a href="tel:0426720901">전화 상담 042-672-0901</a>
       </div>
@@ -663,67 +683,24 @@ footer{margin-top:32px;padding:26px 0 32px}
         <p>180건~350건 구간별 순차 달성 시 누적 지급</p>
       </div>
     </div>
+    </div>
+  </div>
+</section>
+
+<!-- Weekly promo -->
+<section id="promo">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">Weekly Notice</div>
+      <h2>이번 주 프로모션</h2>
+      <p>프로모션은 매주 업데이트됩니다. 최신 배너로 이번 주 미션과 보상을 확인하세요.</p>
+    </div>
     <div class="promo reveal">
       <div class="pcard"><img src="/assets/promo-week.webp" alt="코아파트너스 주간 프로모션 안내 배너 — 평일 런치·포스트런치·올빼미 미션 상세, 주간 누적 보상, 라이더 혜택 요약, 문의 042-672-0777 / 042-672-0901" loading="lazy"></div>
       <p class="pcap">이번 주 프로모션 안내 배너 — 프로모션은 매주 업데이트되며, 최신 내용은 전화로 확인하실 수 있습니다.</p>
     </div>
   </div>
-</section>
-
-<!-- Weekly income -->
-<section>
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-kicker">Weekly Income</div>
-      <h2>라이더 실수익, 이만큼 가능해요</h2>
-      <p>내가 수행한 배달료(콜비)에 미션 보상까지 더한 실제 수익입니다.</p>
-    </div>
-    <div class="income reveal">
-      <div class="combo">
-        <div class="crow"><span class="ci">🛵</span><div class="ck"><b>① 기본 배달 수익 (콜비)</b><small>내가 수행한 배달 콜비 전액 정산 — 수행 건수만큼</small></div></div>
-        <div class="cop">＋</div>
-        <div class="crow"><span class="ci">🎯</span><div class="ck"><b>② 미션 보상 <em>주간 최대 31만원 +α</em></b><small>평일런치·포스트런치·올빼미·누적보상 (아래 상세)</small></div></div>
-        <div class="cequal">
-          <div class="cl">＝ 성실 수행 라이더 기준 · 통계상</div>
-          <div class="cv">주 <b>150만원 이상</b> 가능</div>
-        </div>
-      </div>
-      <a class="challenge" href="#apply">
-        <span class="ct">쿠팡플러스 공식 협력사 <b>코아파트너스</b>에서<br><b class="amt">주 150만원 이상</b> 수입에 지금 바로 도전하세요!</span>
-        <span class="cbtn">🔥 지금 바로 도전하기 →</span>
-      </a>
-      
-      <div class="proof reveal">
-        <div class="pcard"><img src="/assets/settlement-screen.webp" alt="실제 정산 상세 내역 화면 — 최종 입금액과 지급, 공제 내역" loading="lazy"></div>
-        <p class="pcap">실제 정산 화면을 투명하게 공개합니다 — 최종 입금액과 지급·공제 내역을 한눈에.</p>
-      </div>
-      <div class="subdiv">미션 보상 상세 · 주간 최대 31만원 +α</div>
-      <div class="sumlist">
-        <div class="sumr"><span class="k">평일런치 미션<small>주 5일 × 1만원</small></span><span class="v tnum">50,000</span></div>
-        <div class="sumr"><span class="k">포스트런치 미션<small>주 7일 × 1만원</small></span><span class="v tnum">70,000</span></div>
-        <div class="sumr"><span class="k">여름철 올빼미 미션<small>요일별 1~2만원</small></span><span class="v tnum">100,000</span></div>
-        <div class="sumr"><span class="k">주간 누적보상<small>350건 달성 시</small></span><span class="v tnum">90,000</span></div>
-        <div class="sumr total"><span class="k">주간 합계</span><span class="v tnum">310,000원</span></div>
-        <div class="sumr alpha"><span class="k">쿠팡 본사 단체미션<small>비정기 운영</small></span><span class="v">+α</span></div>
-      </div>
-      <div class="daywrap">
-        <div class="daycap"><span>요일별 상세 · 수 → 다음 주 화</span><span>단위: 원</span></div>
-        <table class="daytable">
-          <thead><tr><th>요일</th><th>런치</th><th>포런치</th><th>올빼미</th><th>소계</th></tr></thead>
-          <tbody>
-            <tr><td>수</td><td>10,000</td><td>10,000</td><td>10,000</td><td class="st">30,000</td></tr>
-            <tr><td>목</td><td>10,000</td><td>10,000</td><td>10,000</td><td class="st">30,000</td></tr>
-            <tr><td>금</td><td>10,000</td><td>10,000</td><td>20,000</td><td class="st">40,000</td></tr>
-            <tr><td>토</td><td>—</td><td>10,000</td><td>20,000</td><td class="st">30,000</td></tr>
-            <tr><td>일</td><td>—</td><td>10,000</td><td>20,000</td><td class="st">30,000</td></tr>
-            <tr><td>월</td><td>10,000</td><td>10,000</td><td>10,000</td><td class="st">30,000</td></tr>
-            <tr><td>화</td><td>10,000</td><td>10,000</td><td>10,000</td><td class="st">30,000</td></tr>
-          </tbody>
-          <tfoot><tr><td>일일합계</td><td>50,000</td><td>70,000</td><td>100,000</td><td class="st">220,000</td></tr></tfoot>
-        </table>
-        <p class="incnote">※ 위 표는 <b style="color:var(--navy)">미션 보상</b>만 계산한 금액입니다(일일미션 220,000원 + 주간 누적보상 90,000원 = 310,000원). 실제 정산 시 여기에 <b style="color:var(--navy)">본인이 수행한 배달 콜비</b>가 전액 더해지며, 성실 수행 라이더 기준 주 150만원 이상도 가능합니다(통계 기준·수행 건수/시간대에 따라 상이). 미션은 각 최고 구간 및 주간 350건 달성 기준이고, 신입 웰컴(3만원)·친구추천(5만원)은 별도, 쿠팡 본사 단체미션은 비정기로 운영됩니다.</p>
-      </div>
-    </div>
+    <div class="rnote">지난 주차 배너와 상세 조건은 전화로 안내드립니다 · <b>042-672-0901</b></div>
   </div>
 </section>
 
@@ -783,6 +760,18 @@ footer{margin-top:32px;padding:26px 0 32px}
       <div class="step"><span class="sn">3</span><h4>앱 설치·교육</h4><p>배달 앱 세팅과 운영 안내</p></div>
       <div class="step"><span class="sn">4</span><h4>장비·정비 안내</h4><p>직영 센터 정비·장비 지원 연결</p></div>
       <div class="step"><span class="sn">5</span><h4>첫 배달 시작</h4><p>콜비 + 미션 수익 바로 시작</p></div>
+    </div>
+    <div class="guide reveal" id="startGuide">
+      <div class="acc"><button class="acc-h" type="button">STEP 1 · 상담 신청 — 어떻게 시작하나요? <i>▾</i></button>
+        <div class="acc-b"><p>전화 <b>042-672-0901</b> 또는 아래 <b>온라인 지원 신청</b>으로 시작합니다. 희망 근무 지역·시간대, 이륜차 보유 여부만 알려주시면 나머지는 담당자가 안내해 드립니다.</p></div></div>
+      <div class="acc"><button class="acc-h" type="button">STEP 2 · 서류 접수 — 무엇을 준비하나요? <i>▾</i></button>
+        <div class="acc-b"><p><b>신분증, 운전면허증, 본인 명의 통장 사본</b>을 준비하시면 접수가 빠릅니다. 상황에 따라 필요한 세부 서류는 상담 시 정확히 안내해 드립니다.</p></div></div>
+      <div class="acc"><button class="acc-h" type="button">STEP 3 · 앱 설치·교육 — 무엇을 배우나요? <i>▾</i></button>
+        <div class="acc-b"><p>배달 운행에 필요한 <b>앱 설치와 계정 세팅</b>, 콜 수행 방법과 <b>미션 확인·달성 요령</b>까지 처음 하시는 분 기준으로 차근차근 알려드립니다.</p></div></div>
+      <div class="acc"><button class="acc-h" type="button">STEP 4 · 장비·정비 안내 — 오토바이가 없어도 되나요? <i>▾</i></button>
+        <div class="acc-b"><p>배달통 등 기본 장비를 안내해 드리고, 직영 <b>진바이크(용전동)·코아바이크(자양동)</b> 센터의 정비 지원과 연결됩니다. 이륜차가 없다면 <b>EV 렌트(일 9,500원~)</b> 상담도 가능합니다.</p></div></div>
+      <div class="acc"><button class="acc-h" type="button">STEP 5 · 첫 배달 시작 — 첫 주는 어떻게 공략하나요? <i>▾</i></button>
+        <div class="acc-b"><p><b>평일런치 미션(월~금 10:55~12:59)</b> 10건 달성부터 가볍게 시작하세요. 신입 기사는 <b>웰컴 미션(최초 150건 달성 시 3만원)</b>이 있고, 100건 이상 완료 시 <b>오일·필터 무상지원</b>도 받을 수 있습니다.</p></div></div>
     </div>
   </div>
 </section>
@@ -845,15 +834,35 @@ footer{margin-top:32px;padding:26px 0 32px}
   </div>
 </section>
 
-<footer>
-  <div class="wrap">
-    <div class="fl"><img class="mark" src="/assets/logo-mark.webp" alt="코아파트너스 CP 엠블럼"> CORE PARTNERS · 코아파트너스</div>
-    <p>대전 쿠팡이츠플러스 공식 협력사<br>
-    본사 · 대전광역시 동구 동서대로 1623 (홍도동) 4층 401호<br>
-    문의 042-672-0901 · 042-672-0777<br>
-    © 2026 CorePartners. All rights reserved.</p>
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div class="fcol fbrand">
+      <div class="fl"><img class="mark" src="/assets/logo-mark.webp" alt="코아파트너스 CP 엠블럼"> CORE PARTNERS · 코아파트너스</div>
+      <p class="fdesc">대전 쿠팡이츠플러스 · 배민플러스 공식 협력사<br>배달대행 · 오토바이센터 직영 · EV 렌트</p>
+    </div>
+    <div class="fcol"><h5>라이더</h5>
+      <a href="/coupang-plus">모집 안내</a>
+      <a href="/coupang-plus#promo">이번 주 프로모션</a>
+      <a href="/coupang-plus#apply">온라인 지원 신청</a>
+    </div>
+    <div class="fcol"><h5>센터 · 렌트</h5>
+      <a href="/center">오토바이센터</a>
+      <a href="/center#rent">EV 렌트</a>
+      <a href="/about">회사소개</a>
+    </div>
+    <div class="fcol"><h5>문의</h5>
+      <a href="tel:0426720901">대표 042-672-0901</a>
+      <a href="tel:0426720777">042-672-0777</a>
+      <a href="https://blog.naver.com/core-coupang" target="_blank" rel="noopener">네이버 블로그</a>
+    </div>
   </div>
-</footer>
+  <div class="finfo">
+    <span><b>상호</b> 코아파트너스</span>
+    <span><b>주소</b> 대전광역시 동구 동서대로 1623 (홍도동) 4층 401호</span>
+    <span><b>대표문의</b> 042-672-0901</span>
+  </div>
+  <p class="fcopy">© 2026 CorePartners. All rights reserved.</p>
+</div></footer>
 
 <!-- Sticky call bar -->
 <div class="callbar">
@@ -936,6 +945,17 @@ document.addEventListener('click',function(e){
   var a=e.target&&e.target.closest?e.target.closest('a[href^="tel:"]'):null;
   if(a){e.preventDefault();window.location.href=a.getAttribute('href');}
 },true);
+</script>
+<script>
+(function(){
+  var g=document.getElementById('startGuide');
+  if(!g)return;
+  g.querySelectorAll('.acc-h').forEach(function(h){h.addEventListener('click',function(){
+    var it=h.parentElement,was=it.classList.contains('open');
+    g.querySelectorAll('.acc.open').forEach(function(x){x.classList.remove('open')});
+    if(!was)it.classList.add('open');
+  })});
+})();
 </script>
 </body>
 </html>

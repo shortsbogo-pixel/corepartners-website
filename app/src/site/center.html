@@ -166,6 +166,25 @@ footer{margin-top:32px;padding:26px 0 32px}
 .recruit{padding:28px 18px}
 }
 
+/* footer trust block */
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:22px;text-align:left;margin-bottom:20px}
+@media(max-width:720px){.fgrid{grid-template-columns:1fr 1fr;gap:18px}}
+@media(max-width:460px){.fgrid{grid-template-columns:1fr}}
+.fcol h5{font-size:12px;letter-spacing:.12em;color:#8fa3c8;font-weight:800;text-transform:uppercase;margin-bottom:10px}
+.fcol a{display:block;font-size:13px;color:#d6e2f8;font-weight:600;padding:4px 0;text-decoration:none}
+.fcol a:hover{color:#fff;text-decoration:none}
+.fbrand .fl{justify-content:flex-start;margin-bottom:6px}
+.fdesc{font-size:12.5px;color:#9fb0d1;line-height:1.8;text-align:left}
+.finfo{border-top:1px solid rgba(255,255,255,.12);padding-top:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;font-size:12px;color:#9fb0d1}
+.finfo b{color:#d6e2f8;margin-right:5px}
+.fcopy{margin-top:10px;font-size:11px;color:#7488ad}
+
+/* inline guide accordion (start guide, FAQ 등) */
+.guide{max-width:760px;margin:18px auto 0;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:4px 18px;box-shadow:var(--shadow)}
+.guide .acc-h{font-size:14.5px}
+.acc-b p{padding:2px 10px 13px;font-size:13.5px;color:var(--txt-2);line-height:1.7;margin:0}
+.acc-b p b{color:var(--navy)}
+
 /* wayfinding routes — 3-color content code stripes */
 .finder{padding:30px 0 6px}
 .finder-h{text-align:center;margin-bottom:20px}
@@ -316,6 +335,7 @@ footer{margin-top:32px;padding:26px 0 32px}
       <button class="acc-h" type="button">라이더 모집 <i>▾</i></button>
       <div class="acc-b">
         <a href="/coupang-plus">미션 · 수익 안내</a>
+        <a href="/coupang-plus#promo">이번 주 프로모션</a>
         <a href="/coupang-plus#apply">온라인 지원 신청</a>
         <a href="tel:0426720901">전화 상담 042-672-0901</a>
       </div>
@@ -390,10 +410,33 @@ footer{margin-top:32px;padding:26px 0 32px}
 </div>
 </div></section>
 <footer><div class="wrap">
-<div class="fl"><img class="mark" src="/assets/logo-mark.webp" alt="코아파트너스 CP 엠블럼"> CORE PARTNERS · 코아파트너스</div>
-<p>대전 쿠팡이츠플러스 · 배민플러스 공식 협력사 | 바로고 B2B · 꼬르륵 배달대행 | 진바이크 · 코아바이크<br>
-본사 · 대전광역시 동구 동서대로 1623 (홍도동) 4층 401호 · 대표문의 042-672-0901<br>
-<a href="/about">회사소개</a> · <a href="/center">오토바이센터</a> · <a href="/coupang-plus">라이더 모집</a> · <a href="https://blog.naver.com/core-coupang" target="_blank" rel="noopener">네이버 블로그</a> · © 2026 CorePartners.</p>
+  <div class="fgrid">
+    <div class="fcol fbrand">
+      <div class="fl"><img class="mark" src="/assets/logo-mark.webp" alt="코아파트너스 CP 엠블럼"> CORE PARTNERS · 코아파트너스</div>
+      <p class="fdesc">대전 쿠팡이츠플러스 · 배민플러스 공식 협력사<br>배달대행 · 오토바이센터 직영 · EV 렌트</p>
+    </div>
+    <div class="fcol"><h5>라이더</h5>
+      <a href="/coupang-plus">모집 안내</a>
+      <a href="/coupang-plus#promo">이번 주 프로모션</a>
+      <a href="/coupang-plus#apply">온라인 지원 신청</a>
+    </div>
+    <div class="fcol"><h5>센터 · 렌트</h5>
+      <a href="/center">오토바이센터</a>
+      <a href="/center#rent">EV 렌트</a>
+      <a href="/about">회사소개</a>
+    </div>
+    <div class="fcol"><h5>문의</h5>
+      <a href="tel:0426720901">대표 042-672-0901</a>
+      <a href="tel:0426720777">042-672-0777</a>
+      <a href="https://blog.naver.com/core-coupang" target="_blank" rel="noopener">네이버 블로그</a>
+    </div>
+  </div>
+  <div class="finfo">
+    <span><b>상호</b> 코아파트너스</span>
+    <span><b>주소</b> 대전광역시 동구 동서대로 1623 (홍도동) 4층 401호</span>
+    <span><b>대표문의</b> 042-672-0901</span>
+  </div>
+  <p class="fcopy">© 2026 CorePartners. All rights reserved.</p>
 </div></footer>
 <div class="callbar"><div class="wrap">
 <a class="c1" href="tel:0426720901">📞 대표문의</a>
