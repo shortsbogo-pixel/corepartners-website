@@ -154,6 +154,29 @@ footer a{color:var(--sky-2)}
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+/* inquiry form */
+.iform{margin-top:16px;background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-lg);padding:26px 22px;backdrop-filter:blur(10px)}
+.iform h4{font-size:18px;font-weight:850;color:#fff;letter-spacing:-.02em}
+.iform .fsub{font-size:13px;color:var(--mut);margin-top:5px;margin-bottom:18px}
+.ifield{margin-bottom:13px}
+.ifield label{display:block;font-size:12.5px;font-weight:700;color:var(--sky-2);margin-bottom:6px}
+.ifield label .req{color:#ff8f8f}
+.ifield input,.ifield select,.ifield textarea{width:100%;background:rgba(7,13,31,.5);border:1px solid var(--stroke);border-radius:12px;padding:14px 15px;font-size:15px;color:#fff;font-family:inherit;transition:border-color .15s}
+.ifield input::placeholder,.ifield textarea::placeholder{color:var(--mut-2)}
+.ifield input:focus,.ifield select:focus,.ifield textarea:focus{outline:none;border-color:var(--blue)}
+.ifield textarea{resize:vertical;min-height:80px}
+.ifield select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237db4ff' d='M6 8 0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+.ifrow{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+@media(max-width:560px){.ifrow{grid-template-columns:1fr}}
+.isubmit{width:100%;margin-top:6px;background:linear-gradient(135deg,#4f8dff,#2563eb);color:#fff;font-weight:850;font-size:16px;padding:16px;border:none;border-radius:14px;cursor:pointer;box-shadow:0 10px 26px rgba(37,99,235,.4);transition:transform .15s var(--ease)}
+.isubmit:active{transform:scale(.98)}
+.isubmit:disabled{opacity:.6}
+.iformnote{font-size:11.5px;color:var(--mut-2);margin-top:12px;line-height:1.6;text-align:center}
+.iformok{display:none;text-align:center;padding:26px 10px}
+.iformok .ico{font-size:40px}
+.iformok h4{margin-top:10px}
+.iformok p{font-size:14px;color:var(--sky-2);margin-top:8px;line-height:1.6}
+.iformerr{display:none;font-size:13px;color:#ff8f8f;font-weight:700;margin-top:10px;text-align:center}
 </style>
 </head>
 <body>
@@ -307,6 +330,36 @@ footer a{color:var(--sky-2)}
         </div>
       </div>
     </div>
+
+    <div class="iform reveal" id="inquiry">
+      <div id="iform-body">
+        <h4>📮 문의 · 상담 신청</h4>
+        <p class="fsub">가맹점 입점, 라이더 지원, 오토바이센터 등 무엇이든 남겨주시면 빠르게 연락드립니다.</p>
+        <form id="inqForm" autocomplete="on">
+          <div class="ifrow">
+            <div class="ifield"><label>이름/상호 <span class="req">*</span></label><input name="name" type="text" placeholder="홍길동 / OO식당" required maxlength="40"></div>
+            <div class="ifield"><label>연락처 <span class="req">*</span></label><input name="phone" type="tel" inputmode="tel" placeholder="010-0000-0000" required maxlength="20"></div>
+          </div>
+          <div class="ifield"><label>문의 유형</label>
+            <select name="type">
+              <option value="가맹점·입점 문의">가맹점·입점 문의 (배달대행 맡기기)</option>
+              <option value="라이더 지원 문의">라이더 지원 문의</option>
+              <option value="오토바이센터">오토바이센터 (정비·매입)</option>
+              <option value="기타 문의">기타 문의</option>
+            </select>
+          </div>
+          <div class="ifield"><label>내용 (선택)</label><textarea name="message" placeholder="문의하실 내용을 적어주세요" maxlength="500"></textarea></div>
+          <button type="submit" class="isubmit" id="inqBtn">문의 남기기</button>
+          <div class="iformerr" id="inqErr">전송에 실패했습니다. 잠시 후 다시 시도하거나 전화로 문의해 주세요.</div>
+          <div class="iformnote">남겨주신 정보(이름·연락처)는 문의 응대 목적으로만 이용됩니다.</div>
+        </form>
+      </div>
+      <div class="iformok" id="inqOk">
+        <div class="ico">✅</div>
+        <h4>문의가 접수되었습니다!</h4>
+        <p>담당자가 확인 후 빠르게 연락드리겠습니다.<br>급하시면 대표 <a href="tel:042-672-0901" style="color:#fff;font-weight:800">042-672-0901</a>로 전화 주세요.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -330,6 +383,54 @@ footer a{color:var(--sky-2)}
 <script>
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// inquiry form submit
+(function(){
+  var form=document.getElementById('inqForm');
+  if(!form)return;
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=document.getElementById('inqBtn');
+    var err=document.getElementById('inqErr');
+    err.style.display='none';
+    var data={
+      name:form.name.value.trim(),
+      phone:form.phone.value.trim(),
+      area:form.type.value,
+      bike:'-',
+      message:form.message.value.trim(),
+      source:'홈-문의'
+    };
+    if(!data.name||!data.phone){err.textContent='이름과 연락처를 입력해 주세요.';err.style.display='block';return;}
+    btn.disabled=true;btn.textContent='전송 중…';
+    fetch('/api/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+      .then(function(r){return r.json().catch(function(){return{ok:false}})})
+      .then(function(res){
+        if(res&&res.ok){
+          try{
+            fetch('https://formsubmit.co/ajax/shortsbogo@gmail.com',{
+              method:'POST',
+              headers:{'Content-Type':'application/json','Accept':'application/json'},
+              body:JSON.stringify({
+                _subject:'📮 [코어파트너스] 홈페이지 문의 · '+data.name,
+                _template:'table',
+                '이름/상호':data.name,연락처:data.phone,
+                문의유형:data.area,내용:data.message||'-',출처:'홈-문의'
+              })
+            }).catch(function(){});
+          }catch(e){}
+          document.getElementById('iform-body').style.display='none';
+          document.getElementById('inqOk').style.display='block';
+          document.getElementById('inquiry').scrollIntoView({behavior:'smooth',block:'center'});
+        }else{throw new Error('fail')}
+      })
+      .catch(function(){
+        btn.disabled=false;btn.textContent='문의 남기기';
+        err.textContent='전송에 실패했습니다. 잠시 후 다시 시도하거나 전화로 문의해 주세요.';
+        err.style.display='block';
+      });
+  });
+})();
 </script>
 </body>
 </html>
