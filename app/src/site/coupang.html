@@ -21,14 +21,14 @@
   --blue:#2563eb; --blue-soft:#eaf1fe;
   --teal:#0d9d92; --teal-soft:#e5f6f4;
   --gold:#c9930a; --gold-2:#8f6a00; --gold-soft:#fdf6e1; --gold-line:#e6c261;
-  --bg:#ffffff; --bg-2:#f6f8fb;
+  --bg:#ffffff; --bg-2:#f5f9f9; --tint:#f2f8f8;
   --txt:#1d2434; --txt-2:#49536a; --mut:#7b8499; --mut-2:#a4abbc;
-  --line:#e6e9f0; --line-2:#d5dae5;
+  --line:#e7edee; --line-2:#d6dee0;
   --acc:var(--navy); --acc-2:var(--navy-2); --acc-soft:var(--navy-soft);
   --r-lg:18px; --r-md:14px; --r-sm:10px; --maxw:1080px;
   --ease:cubic-bezier(.22,.68,0,1);
-  --shadow:0 2px 10px rgba(14,38,71,.06);
-  --shadow-lg:0 16px 36px rgba(14,38,71,.12);
+  --shadow:0 2px 9px rgba(14,38,71,.045);
+  --shadow-lg:0 14px 32px rgba(14,38,71,.10);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -59,7 +59,7 @@ a{color:inherit;text-decoration:none}
 @media(max-width:720px){.gnb a.mn{display:none}}
 
 /* hero — white, trust first */
-.hero{position:relative;padding:56px 0 20px;text-align:center;background:linear-gradient(180deg,var(--bg-2),#fff 78%)}
+.hero{position:relative;padding:56px 0 42px;text-align:center;background:linear-gradient(180deg,#eef6f6,#fff 80%)}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:750;color:var(--navy);background:#fff;border:1px solid var(--line-2);padding:8px 16px;border-radius:999px;box-shadow:var(--shadow)}
 .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:#16a34a;box-shadow:0 0 8px rgba(22,163,74,.6);animation:p 2s infinite}
 @keyframes p{0%,100%{opacity:1}50%{opacity:.4}}
@@ -71,7 +71,9 @@ a{color:inherit;text-decoration:none}
 .trust .b .ck{color:#16a34a;font-weight:900}
 
 /* sections */
-section{padding:44px 0 4px}
+section{padding:46px 0 42px}
+section:nth-of-type(even){background:var(--tint)}
+header.hero+section{padding-top:38px}
 .sec-head{text-align:center;margin-bottom:24px}
 .sec-kicker{font-size:12px;font-weight:800;letter-spacing:.16em;color:var(--acc);text-transform:uppercase}
 .sec-head h2{margin-top:8px;font-size:clamp(24px,5.6vw,32px);font-weight:850;letter-spacing:-.03em;color:var(--navy)}
@@ -185,6 +187,18 @@ footer{margin-top:32px;padding:26px 0 32px}
 .acc-b p{padding:2px 10px 13px;font-size:13.5px;color:var(--txt-2);line-height:1.7;margin:0}
 .acc-b p b{color:var(--navy)}
 
+/* desktop dropdown navigation */
+.gnb .has-sub{position:relative;display:inline-flex}
+.subm{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);min-width:212px;background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow-lg);padding:8px;opacity:0;visibility:hidden;transition:opacity .16s,transform .16s;z-index:60}
+.subm::before{content:"";position:absolute;top:-12px;left:0;right:0;height:12px}
+.gnb .has-sub:hover .subm,.gnb .has-sub:focus-within .subm{opacity:1;visibility:visible;transform:translateX(-50%) translateY(3px)}
+.subm a{display:block;padding:9px 12px;font-size:13.5px;font-weight:650;color:var(--txt-2);border-radius:9px;white-space:nowrap}
+.subm a:hover{background:var(--teal-soft);color:var(--navy)}
+@media(max-width:820px){.subm{display:none}}
+
+section[id]{scroll-margin-top:74px}
+.guide[id]{scroll-margin-top:82px}
+
 /* wayfinding routes — 3-color content code stripes */
 .finder{padding:30px 0 6px}
 .finder-h{text-align:center;margin-bottom:20px}
@@ -196,7 +210,7 @@ footer{margin-top:32px;padding:26px 0 32px}
 .route{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:24px 20px 22px;transition:transform .2s var(--ease),border-color .2s,box-shadow .2s;overflow:hidden;box-shadow:var(--shadow)}
 .route::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--acc)}
 .route:hover{transform:translateY(-4px);border-color:var(--acc);box-shadow:var(--shadow-lg)}
-.route .ic{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;font-size:26px;background:var(--acc-soft);margin-bottom:14px}
+.route .ic{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;font-size:26px;background:var(--acc-soft);margin-bottom:14px;box-shadow:inset 0 0 0 1px rgba(13,157,146,.10)}
 .route h3{font-size:19px;font-weight:850;color:var(--navy);letter-spacing:-.02em}
 .route p{font-size:13.5px;color:var(--txt-2);margin-top:7px;line-height:1.55;flex:1}
 .route .go{margin-top:16px;display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:850;color:var(--acc)}
@@ -244,7 +258,7 @@ footer{margin-top:32px;padding:26px 0 32px}
 .why{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 @media(max-width:640px){.why{grid-template-columns:1fr}}
 .wc{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:18px;box-shadow:var(--shadow)}
-.wc .e{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px;background:var(--navy-soft)}
+.wc .e{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px;background:var(--teal-soft)}
 .wc h4{font-size:15.5px;font-weight:850;color:var(--navy);letter-spacing:-.01em}
 .wc p{font-size:13px;color:var(--txt-2);margin-top:4px;line-height:1.55}
 
@@ -254,7 +268,7 @@ footer{margin-top:32px;padding:26px 0 32px}
 @media(max-width:640px){.contact .cgrid{grid-template-columns:1fr;gap:16px}}
 .contact h4{font-size:13px;font-weight:800;color:var(--navy-2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
 .cline{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.cline .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:16px;background:var(--navy-soft);flex:none}
+.cline .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:16px;background:var(--teal-soft);flex:none}
 .cline .k{font-size:11.5px;color:var(--mut)}
 .cline .v{font-size:17px;font-weight:850;color:var(--navy)}
 .cline .v.sm{font-size:14px;font-weight:700}
@@ -328,7 +342,7 @@ footer{margin-top:32px;padding:26px 0 32px}
 @media(max-width:560px){.grid2{grid-template-columns:1fr}}
 .xcard{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:18px 16px;transition:border-color .2s;box-shadow:var(--shadow)}
 .xcard:hover{border-color:var(--navy-2)}
-.xcard .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:18px;background:var(--navy-soft);margin-bottom:12px}
+.xcard .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:18px;background:var(--teal-soft);margin-bottom:12px}
 .xcard h4{font-size:14.5px;font-weight:800;letter-spacing:-.01em;color:var(--navy);margin-bottom:5px}
 .xcard p{font-size:12.5px;color:var(--txt-2);line-height:1.55}
 .xcard p b{color:var(--gold-2);font-weight:800}
@@ -356,7 +370,7 @@ footer{margin-top:32px;padding:26px 0 32px}
 .income{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 20px;box-shadow:var(--shadow)}
 .combo{display:flex;flex-direction:column;gap:8px}
 .crow{display:flex;gap:13px;align-items:center;background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r-md);padding:15px 16px}
-.crow .ci{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:18px;background:var(--navy-soft)}
+.crow .ci{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:18px;background:var(--teal-soft)}
 .crow .ck b{display:block;font-size:15px;font-weight:800;color:var(--navy);letter-spacing:-.01em}
 .crow .ck b em{font-style:normal;color:var(--gold-2)}
 .crow .ck small{display:block;font-size:12px;color:var(--mut);margin-top:2px}
@@ -426,7 +440,7 @@ footer{margin-top:32px;padding:26px 0 32px}
 .bitem::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold)}
 .bitem:nth-child(2)::before{background:var(--blue)}
 .bitem:nth-child(3)::before{background:var(--teal)}
-.bitem .e{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px;background:var(--bg-2)}
+.bitem .e{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px;background:var(--teal-soft)}
 .bitem h4{font-size:15px;font-weight:800;letter-spacing:-.015em;color:var(--navy)}
 .bitem p{font-size:12.5px;color:var(--txt-2);margin-top:2px}
 
@@ -517,10 +531,36 @@ footer{margin-top:32px;padding:26px 0 32px}
 <div class="topbar"><div class="wrap">
   <a class="logo" href="/"><img class="mark" src="/assets/logo-mark.webp" alt="코아파트너스 CP 엠블럼"><span class="nm">CORE PARTNERS<small>코아파트너스</small></span></a>
   <nav class="gnb">
-    <a class="mn" href="/about">회사소개</a>
-    <a class="mn" href="/#services">서비스</a>
-    <a class="mn" href="/coupang-plus">라이더 모집</a>
-    <a class="mn" href="/center">오토바이센터</a>
+    <span class="has-sub"><a class="mn" href="/about">소개</a>
+      <span class="subm">
+        <a href="/about">코아파트너스 소개</a>
+        <a href="/about#contact">회사 정보</a>
+        <a href="/#contact">문의 · 오시는 길</a>
+      </span>
+    </span>
+    <span class="has-sub"><a class="mn" href="/coupang-plus#start">시작 가이드</a>
+      <span class="subm">
+        <a href="/coupang-plus#start">5단계 시작 절차</a>
+        <a href="/coupang-plus#startGuide">준비 서류 · 상세 안내</a>
+        <a href="/coupang-plus#apply">온라인 지원 신청</a>
+      </span>
+    </span>
+    <span class="has-sub"><a class="mn" href="/coupang-plus#benefits">혜택</a>
+      <span class="subm">
+        <a href="/coupang-plus#benefits">미션 · 수익 안내</a>
+        <a href="/coupang-plus#weekly">주간 누적 보상</a>
+        <a href="/coupang-plus#promo">이번 주 프로모션</a>
+        <a href="/coupang-plus#welfare">라이더 복지</a>
+        <a href="/coupang-plus#faq">자주 묻는 질문</a>
+      </span>
+    </span>
+    <span class="has-sub"><a class="mn" href="/center">센터 · 렌트</a>
+      <span class="subm">
+        <a href="/center">오토바이센터 서비스</a>
+        <a href="/center#rent">EV 렌트 · 일 9,500원~</a>
+        <a href="/center#center">진바이크 · 코아바이크</a>
+      </span>
+    </span>
     <a class="cta" href="tel:0426720901">📞 대표문의</a>
     <button class="menu-toggle" id="menuToggle" aria-label="전체 메뉴 열기" aria-expanded="false" type="button"><span></span><span></span><span></span></button>
   </nav>
@@ -528,11 +568,37 @@ footer{margin-top:32px;padding:26px 0 32px}
 <div class="drawer" id="drawer">
   <div class="wrap">
     <div class="acc">
-      <button class="acc-h" type="button">회사소개 <i>▾</i></button>
+      <button class="acc-h" type="button">소개 <i>▾</i></button>
       <div class="acc-b">
         <a href="/about">코아파트너스 소개</a>
-        <a href="/about#contact">회사 정보 · 연락처</a>
+        <a href="/about#contact">회사 정보</a>
         <a href="/#contact">문의 · 오시는 길</a>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h" type="button">시작 가이드 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/coupang-plus#start">5단계 시작 절차</a>
+        <a href="/coupang-plus#startGuide">준비 서류 · 상세 안내</a>
+        <a href="/coupang-plus#apply">온라인 지원 신청</a>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h" type="button">혜택 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/coupang-plus#benefits">미션 · 수익 안내</a>
+        <a href="/coupang-plus#weekly">주간 누적 보상</a>
+        <a href="/coupang-plus#promo">이번 주 프로모션</a>
+        <a href="/coupang-plus#welfare">라이더 복지</a>
+        <a href="/coupang-plus#faq">자주 묻는 질문</a>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h" type="button">센터 · 렌트 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/center">오토바이센터 서비스</a>
+        <a href="/center#rent">EV 렌트 · 일 9,500원~</a>
+        <a href="/center#center">진바이크 · 코아바이크</a>
       </div>
     </div>
     <div class="acc">
@@ -540,32 +606,11 @@ footer{margin-top:32px;padding:26px 0 32px}
       <div class="acc-b">
         <a href="/coupang-plus">쿠팡이츠플러스 · 모집중</a>
         <a href="/#services">배민플러스 · 준비중</a>
-        <a href="/#services">바로고 B2B</a>
-        <a href="/#services">꼬르륵 배달대행</a>
-      </div>
-    </div>
-    <div class="acc">
-      <button class="acc-h" type="button">라이더 모집 <i>▾</i></button>
-      <div class="acc-b">
-        <a href="/coupang-plus">미션 · 수익 안내</a>
-        <a href="/coupang-plus#promo">이번 주 프로모션</a>
-        <a href="/coupang-plus#apply">온라인 지원 신청</a>
-        <a href="tel:0426720901">전화 상담 042-672-0901</a>
-      </div>
-    </div>
-    <div class="acc">
-      <button class="acc-h" type="button">오토바이센터 <i>▾</i></button>
-      <div class="acc-b">
-        <a href="/center">센터 서비스 안내</a>
-        <a href="/center#rent">EV 렌트 · 일 9,500원~</a>
-        <a href="/center#center">진바이크 · 용전동점</a>
-        <a href="/center#center">코아바이크 · 자양동점</a>
+        <a href="/#services">바로고 B2B · 꼬르륵 배달대행</a>
       </div>
     </div>
   </div>
 </div>
-
-<!-- Hero -->
 <header class="hero">
   <div class="wrap">
     <span class="chip"><span class="dot"></span>라이더 상시 모집 중</span>
@@ -595,7 +640,7 @@ footer{margin-top:32px;padding:26px 0 32px}
 </header>
 
 <!-- Missions -->
-<section>
+<section id="benefits">
   <div class="wrap">
     <div class="sec-head">
       <div class="sec-kicker">Daily Missions</div>
@@ -661,7 +706,7 @@ footer{margin-top:32px;padding:26px 0 32px}
 </section>
 
 <!-- Weekly ladder -->
-<section>
+<section id="weekly">
   <div class="wrap">
     <div class="sec-head">
       <div class="sec-kicker">Weekly Reward</div>
@@ -705,7 +750,7 @@ footer{margin-top:32px;padding:26px 0 32px}
 </section>
 
 <!-- Welfare -->
-<section>
+<section id="welfare">
   <div class="wrap">
     <div class="sec-head">
       <div class="sec-kicker">Rider Care</div>
@@ -747,7 +792,7 @@ footer{margin-top:32px;padding:26px 0 32px}
 </section>
 
 <!-- Start steps -->
-<section>
+<section id="start">
   <div class="wrap">
     <div class="sec-head">
       <div class="sec-kicker">How to Start</div>
@@ -772,6 +817,31 @@ footer{margin-top:32px;padding:26px 0 32px}
         <div class="acc-b"><p>배달통 등 기본 장비를 안내해 드리고, 직영 <b>진바이크(용전동)·코아바이크(자양동)</b> 센터의 정비 지원과 연결됩니다. 이륜차가 없다면 <b>EV 렌트(일 9,500원~)</b> 상담도 가능합니다.</p></div></div>
       <div class="acc"><button class="acc-h" type="button">STEP 5 · 첫 배달 시작 — 첫 주는 어떻게 공략하나요? <i>▾</i></button>
         <div class="acc-b"><p><b>평일런치 미션(월~금 10:55~12:59)</b> 10건 달성부터 가볍게 시작하세요. 신입 기사는 <b>웰컴 미션(최초 150건 달성 시 3만원)</b>이 있고, 100건 이상 완료 시 <b>오일·필터 무상지원</b>도 받을 수 있습니다.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">FAQ</div>
+      <h2>자주 묻는 질문</h2>
+      <p>지원 전에 많이 물어보시는 내용을 모았습니다. 더 궁금하신 점은 전화로 편하게 물어보세요.</p>
+    </div>
+    <div class="guide reveal">
+      <div class="acc"><button class="acc-h" type="button">정산은 언제, 어떻게 되나요? <i>▾</i></button>
+        <div class="acc-b"><p>수행하신 <b>배달 콜비는 건수만큼 전액 정산</b>되고, 여기에 달성한 미션 보상이 더해집니다. 주간 집계는 <b>수요일부터 다음 주 화요일까지</b>를 한 주로 봅니다. 최종 입금액과 지급·공제 내역은 정산 상세 화면에서 한눈에 확인하실 수 있고, 내역에 이의가 있으시면 <b>042-672-0901</b>(평일 10:30~18:00)로 연락 주세요.</p></div></div>
+      <div class="acc"><button class="acc-h" type="button">보험은 어떻게 되나요? <i>▾</i></button>
+        <div class="acc-b"><p>정산 내역에 <b>기사부담 고용보험 · 산재보험 · 시간제보험</b> 항목이 있으며, 가입 형태와 부담 금액은 운행 조건에 따라 달라집니다. 본인 상황에 맞는 정확한 안내는 상담 시 담당자가 설명해 드립니다. EV 렌트를 이용하시면 <b>대인 무한 · 대물 3천만원 범위 종합보험</b>이 함께 안내됩니다.</p></div></div>
+      <div class="acc"><button class="acc-h" type="button">오토바이가 없어도 지원할 수 있나요? <i>▾</i></button>
+        <div class="acc-b"><p>가능합니다. <b>EV 렌트를 일 9,500원부터</b> 이용하실 수 있고, 월 1회 정기 점검 쿠폰과 휴대폰 거치대·리어캐리어·배달박스 등 액세서리도 함께 제공됩니다. 배터리 교환 스테이션 위치도 안내해 드립니다.</p></div></div>
+      <div class="acc"><button class="acc-h" type="button">근무 지역과 시간은 어떻게 정하나요? <i>▾</i></button>
+        <div class="acc-b"><p>코아파트너스는 <b>대전 전역</b>에서 운영합니다. 희망하시는 지역과 시간대를 상담 때 말씀해 주시면 함께 조율합니다. 미션은 시간대별로 나뉘어 있어 <b>점심(런치)·오후(포스트런치)·야간(올빼미)</b> 중 본인 생활 패턴에 맞춰 선택하실 수 있습니다.</p></div></div>
+      <div class="acc"><button class="acc-h" type="button">정말 주 150만원이 가능한가요? <i>▾</i></button>
+        <div class="acc-b"><p>수행하신 <b>배달 콜비</b>에 <b>미션 보상(주간 최대 31만원 +α)</b>을 더한 금액 기준으로, 성실 수행 라이더 기준 통계상 가능한 수치입니다. 다만 <b>수행 건수와 시간대에 따라 실제 수익은 달라집니다.</b> 과장 없이 판단하실 수 있도록 실제 정산 화면과 계산 근거를 사이트에 그대로 공개하고 있습니다.</p></div></div>
+      <div class="acc"><button class="acc-h" type="button">미션 내용은 어디서 확인하나요? <i>▾</i></button>
+        <div class="acc-b"><p>이 페이지의 <b>이번 주 프로모션</b> 배너에서 확인하실 수 있습니다. 프로모션은 <b>매주 업데이트</b>되며, 비정기 게릴라 미션과 쿠팡 본사 단체미션은 상황에 따라 별도 공지됩니다. 최신 내용은 전화로도 안내해 드립니다.</p></div></div>
     </div>
   </div>
 </section>
@@ -950,13 +1020,13 @@ document.addEventListener('click',function(e){
 </script>
 <script>
 (function(){
-  var g=document.getElementById('startGuide');
-  if(!g)return;
+  document.querySelectorAll('.guide').forEach(function(g){
   g.querySelectorAll('.acc-h').forEach(function(h){h.addEventListener('click',function(){
     var it=h.parentElement,was=it.classList.contains('open');
     g.querySelectorAll('.acc.open').forEach(function(x){x.classList.remove('open')});
     if(!was)it.classList.add('open');
   })});
+  });
 })();
 </script>
 </body>
