@@ -6,7 +6,7 @@ export const Route = createFileRoute("/")({
     handlers: {
       GET: async () =>
         new Response(homeHtml, {
-          headers: { "Content-Type": "text/html; charset=utf-8" },
+          headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache, must-revalidate" },
         }),
     },
   },

@@ -6,7 +6,7 @@ export const Route = createFileRoute("/coupang-plus")({
     handlers: {
       GET: async () =>
         new Response(coupangHtml, {
-          headers: { "Content-Type": "text/html; charset=utf-8" },
+          headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-cache, must-revalidate" },
         }),
     },
   },
