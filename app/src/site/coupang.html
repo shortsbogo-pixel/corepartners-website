@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#070d1f">
-<title>대전 쿠팡이츠플러스 · 코어파트너스 라이더 모집</title>
-<meta name="description" content="대전 쿠팡이츠플러스 코어파트너스 라이더 모집 — 콜비 정산 + 미션 보상으로 주 150만원 이상 가능. 미션 보상 주간 최대 31만원+α, 여름철 얼린 생수·휴게공간 지원. 문의 042-672-0901.">
-<meta property="og:title" content="대전 쿠팡이츠플러스 · 코어파트너스 라이더 모집">
+<title>대전 쿠팡이츠플러스 · 코아파트너스 라이더 모집</title>
+<meta name="description" content="대전 쿠팡이츠플러스 코아파트너스 라이더 모집 — 콜비 정산 + 미션 보상으로 주 150만원 이상 가능. 미션 보상 주간 최대 31만원+α, 여름철 얼린 생수·휴게공간 지원. 문의 042-672-0901.">
+<meta property="og:title" content="대전 쿠팡이츠플러스 · 코아파트너스 라이더 모집">
 <meta property="og:description" content="콜비 정산 + 미션 보상 합산 주 150만원 이상 가능. 미션 보상 주간 최대 31만원+α + 라이더 복지 지원.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://corepartners-dj.higgsfield.app/coupang-plus">
@@ -17,14 +17,14 @@
 <style>
 :root{
   --navy:#0e2647; --navy-2:#173a6e; --navy-deep:#0a1c36; --navy-soft:#eef2f9;
-  --red:#e5342f; --red-2:#c62622; --red-soft:#fdeeed;
+  --err:#c0392b;
   --blue:#2563eb; --blue-soft:#eaf1fe;
   --teal:#0d9d92; --teal-soft:#e5f6f4;
   --gold:#c9930a; --gold-2:#8f6a00; --gold-soft:#fdf6e1; --gold-line:#e6c261;
   --bg:#ffffff; --bg-2:#f6f8fb;
   --txt:#1d2434; --txt-2:#49536a; --mut:#7b8499; --mut-2:#a4abbc;
   --line:#e6e9f0; --line-2:#d5dae5;
-  --acc:var(--red); --acc-2:var(--red-2); --acc-soft:var(--red-soft);
+  --acc:var(--navy); --acc-2:var(--navy-2); --acc-soft:var(--navy-soft);
   --r-lg:18px; --r-md:14px; --r-sm:10px; --maxw:1080px;
   --ease:cubic-bezier(.22,.68,0,1);
   --shadow:0 2px 10px rgba(14,38,71,.06);
@@ -32,14 +32,14 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-::selection{background:rgba(229,52,47,.18)}
+::selection{background:rgba(14,38,71,.16)}
 body{font-family:'Pretendard Variable',Pretendard,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--txt);line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;padding-bottom:82px;overflow-x:hidden}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
 a{color:inherit;text-decoration:none}
 .tnum{font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 
 /* content color codes: rider red / store-settle blue / center teal / brand navy */
-.t-rider{--acc:#e5342f;--acc-2:#c62622;--acc-soft:#fdeeed}
+.t-rider{--acc:#c9930a;--acc-2:#8f6a00;--acc-soft:#fdf6e1}
 .t-store{--acc:#2563eb;--acc-2:#1d4fc4;--acc-soft:#eaf1fe}
 .t-center{--acc:#0d9d92;--acc-2:#0a7d75;--acc-soft:#e5f6f4}
 .t-brand{--acc:#0e2647;--acc-2:#173a6e;--acc-soft:#eef2f9}
@@ -54,8 +54,8 @@ a{color:inherit;text-decoration:none}
 .gnb{margin-left:auto;display:flex;align-items:center;gap:24px}
 .gnb a.mn{font-size:14px;font-weight:650;color:#cfdaf0;transition:color .15s}
 .gnb a.mn:hover{color:#fff}
-.gnb .cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#fff;background:var(--red);padding:9px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(229,52,47,.35);transition:background .15s}
-.gnb .cta:hover{background:var(--red-2)}
+.gnb .cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--navy-deep);background:linear-gradient(135deg,#eec95f,#cf9a10);padding:9px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(184,134,11,.35);transition:filter .15s}
+.gnb .cta:hover{filter:brightness(1.06)}
 @media(max-width:720px){.gnb a.mn{display:none}}
 
 /* hero — white, trust first */
@@ -64,7 +64,7 @@ a{color:inherit;text-decoration:none}
 .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:#16a34a;box-shadow:0 0 8px rgba(22,163,74,.6);animation:p 2s infinite}
 @keyframes p{0%,100%{opacity:1}50%{opacity:.4}}
 .hero h1{margin-top:22px;font-size:clamp(33px,8vw,54px);font-weight:850;line-height:1.16;letter-spacing:-.04em;color:var(--navy)}
-.hero h1 .grad{color:var(--red);background:none}
+.hero h1 .grad{color:var(--gold-2);background:none}
 .hero .sub{margin:18px auto 0;color:var(--txt-2);font-size:clamp(15.5px,3.8vw,18px);font-weight:500;max-width:38ch;line-height:1.6}
 .trust{margin-top:24px;display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
 .trust .b{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:750;color:var(--txt);background:#fff;border:1px solid var(--line-2);padding:9px 14px;border-radius:999px;box-shadow:var(--shadow)}
@@ -89,8 +89,8 @@ section{padding:44px 0 4px}
 /* shared button */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:850;border-radius:var(--r-md);padding:16px 26px;font-size:15.5px;letter-spacing:-.01em;transition:transform .15s var(--ease),box-shadow .15s,background .15s}
 .btn:active{transform:scale(.975)}
-.btn-primary{background:var(--red);color:#fff;box-shadow:0 10px 26px rgba(229,52,47,.32)}
-.btn-primary:hover{background:var(--red-2)}
+.btn-primary{background:var(--navy);color:#fff;box-shadow:0 10px 26px rgba(14,38,71,.28)}
+.btn-primary:hover{background:var(--navy-2)}
 .btn-ghost{background:#fff;color:var(--navy);border:1.5px solid var(--line-2)}
 .hero-cta{margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
@@ -105,13 +105,32 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .callbar{position:fixed;bottom:0;left:0;right:0;z-index:50;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.92);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);border-top:1px solid var(--line)}
 .callbar .wrap{display:flex;gap:10px;max-width:520px}
 .callbar a{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:850;font-size:15px;padding:15px;border-radius:14px}
-.callbar .c1{background:var(--red);color:#fff;box-shadow:0 8px 20px rgba(229,52,47,.32)}
-.callbar .c2{background:var(--navy);color:#fff}
+.callbar .c1{background:var(--navy);color:#fff;box-shadow:0 8px 20px rgba(14,38,71,.28)}
+.callbar .c2{background:linear-gradient(135deg,#eec95f,#cf9a10);color:var(--navy-deep)}
 @media(min-width:721px){.callbar{display:none}body{padding-bottom:0}}
 
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* hamburger + accordion menu */
+.menu-toggle{margin-left:6px;width:38px;height:38px;flex:none;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);border-radius:10px;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer}
+.menu-toggle span{width:16px;height:2px;background:#fff;border-radius:2px;transition:transform .2s var(--ease),opacity .2s}
+.menu-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.menu-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.drawer{position:fixed;top:60px;left:0;right:0;z-index:39;background:#fff;border-bottom:1px solid var(--line);box-shadow:var(--shadow-lg);max-height:0;overflow:hidden;transition:max-height .32s var(--ease)}
+.drawer.open{max-height:calc(100vh - 60px);overflow:auto}
+.drawer .wrap{padding:8px 20px 16px}
+.acc{border-bottom:1px solid var(--line)}
+.acc:last-child{border-bottom:none}
+.acc-h{width:100%;display:flex;align-items:center;justify-content:space-between;background:none;border:none;font:inherit;font-size:15px;font-weight:800;color:var(--navy);padding:15px 2px;cursor:pointer;text-align:left}
+.acc-h i{font-style:normal;color:var(--mut);transition:transform .25s var(--ease)}
+.acc.open .acc-h i{transform:rotate(180deg)}
+.acc-b{max-height:0;overflow:hidden;transition:max-height .3s var(--ease)}
+.acc.open .acc-b{max-height:340px;padding-bottom:8px}
+.acc-b a{display:block;padding:11px 10px;font-size:14px;font-weight:600;color:var(--txt-2);border-radius:9px}
+.acc-b a:hover{background:var(--navy-soft);color:var(--navy)}
 
 /* wayfinding routes — 3-color content code stripes */
 .finder{padding:30px 0 6px}
@@ -194,7 +213,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .iform .fsub{font-size:13px;color:var(--mut);margin-top:5px;margin-bottom:18px}
 .ifield{margin-bottom:13px}
 .ifield label{display:block;font-size:12.5px;font-weight:750;color:var(--navy-2);margin-bottom:6px}
-.ifield label .req{color:var(--red)}
+.ifield label .req{color:var(--gold-2)}
 .ifield input,.ifield select,.ifield textarea{width:100%;background:var(--bg-2);border:1px solid var(--line-2);border-radius:12px;padding:15px;font-size:16px;color:var(--txt);font-family:inherit;transition:border-color .15s,background .15s}
 .ifield input::placeholder,.ifield textarea::placeholder{color:var(--mut-2)}
 .ifield input:focus,.ifield select:focus,.ifield textarea:focus{outline:none;border-color:var(--navy-2);background:#fff}
@@ -202,8 +221,8 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .ifield select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23173a6e' d='M6 8 0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
 .ifrow{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 @media(max-width:560px){.ifrow{grid-template-columns:1fr}}
-.isubmit{width:100%;margin-top:6px;background:var(--red);color:#fff;font-weight:850;font-size:16px;padding:17px;border:none;border-radius:14px;cursor:pointer;box-shadow:0 10px 24px rgba(229,52,47,.3);transition:transform .15s var(--ease),background .15s}
-.isubmit:hover{background:var(--red-2)}
+.isubmit{width:100%;margin-top:6px;background:var(--navy);color:#fff;font-weight:850;font-size:16px;padding:17px;border:none;border-radius:14px;cursor:pointer;box-shadow:0 10px 24px rgba(14,38,71,.26);transition:transform .15s var(--ease),background .15s}
+.isubmit:hover{background:var(--navy-2)}
 .isubmit:active{transform:scale(.98)}
 .isubmit:disabled{opacity:.6}
 .iformnote{font-size:11.5px;color:var(--mut);margin-top:12px;line-height:1.6;text-align:center}
@@ -211,14 +230,12 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .iformok .ico{font-size:40px}
 .iformok h4{margin-top:10px;color:var(--navy)}
 .iformok p{font-size:14px;color:var(--txt-2);margin-top:8px;line-height:1.6}
-.iformok p a{color:var(--red)!important}
-.iformerr{display:none;font-size:13px;color:var(--red);font-weight:700;margin-top:10px;text-align:center}
+.iformok p a{color:var(--navy)!important;text-decoration:underline}
+.iformerr{display:none;font-size:13px;color:var(--err);font-weight:700;margin-top:10px;text-align:center}
 
 /* top bar variant */
-.top-cta{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:#fff;background:var(--red);padding:9px 15px;border-radius:999px;box-shadow:0 4px 14px rgba(229,52,47,.35)}
-
 /* hero */
-.chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:750;color:var(--red-2);background:var(--red-soft);border:1px solid #f6c9c6;padding:7px 14px;border-radius:999px;letter-spacing:.2px}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:750;color:var(--navy);background:#fff;border:1px solid var(--line-2);padding:7px 14px;border-radius:999px;letter-spacing:.2px;box-shadow:var(--shadow)}
 .chip .dot{width:6px;height:6px;border-radius:50%;background:#16a34a;box-shadow:0 0 8px rgba(22,163,74,.6);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .hero h1 .gold{color:var(--gold-2);background:none}
@@ -283,14 +300,14 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .cequal .cl{font-size:12px;font-weight:750;color:var(--gold-2);letter-spacing:.02em}
 .cequal .cv{margin-top:6px;font-size:clamp(21px,5.6vw,27px);font-weight:900;letter-spacing:-.03em;color:var(--navy)}
 .cequal .cv b{color:var(--gold-2)}
-/* challenge — red CTA banner */
-.challenge{margin-top:14px;display:block;text-align:center;border-radius:var(--r-md);padding:22px 18px;background:var(--red);color:#fff;box-shadow:0 14px 30px rgba(229,52,47,.3);transition:background .15s,transform .15s var(--ease)}
-.challenge:hover{background:var(--red-2)}
+/* challenge — gold CTA banner */
+.challenge{margin-top:14px;display:block;text-align:center;border-radius:var(--r-md);padding:22px 18px;background:linear-gradient(135deg,#f0cd68,#cf9a10);color:var(--navy-deep);box-shadow:0 14px 30px rgba(184,134,11,.28);transition:filter .15s,transform .15s var(--ease)}
+.challenge:hover{filter:brightness(1.05)}
 .challenge:active{transform:scale(.985)}
-.challenge .ct{display:block;font-size:15px;font-weight:700;line-height:1.5;color:#ffe3e1}
-.challenge .ct b{color:#fff;font-weight:850}
-.challenge .ct b.amt{font-size:20px;color:#ffe08a}
-.challenge .cbtn{display:inline-flex;margin-top:14px;background:#fff;color:var(--red-2);font-weight:850;font-size:15px;padding:12px 22px;border-radius:999px}
+.challenge .ct{display:block;font-size:15px;font-weight:700;line-height:1.5;color:#3a2f10}
+.challenge .ct b{color:var(--navy-deep);font-weight:850}
+.challenge .ct b.amt{font-size:20px;color:#5c4300}
+.challenge .cbtn{display:inline-flex;margin-top:14px;background:var(--navy);color:#fff;font-weight:850;font-size:15px;padding:12px 22px;border-radius:999px}
 .subdiv{margin:22px 0 10px;text-align:center;font-size:13px;font-weight:800;color:var(--navy-2)}
 .sumlist{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:#fff}
 .sumr{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-top:1px solid var(--line)}
@@ -340,7 +357,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 /* benefit summary — 3-color content code stripes */
 .bsum{display:grid;gap:11px}
 .bitem{position:relative;display:flex;gap:15px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:16px;overflow:hidden;box-shadow:var(--shadow)}
-.bitem::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--red)}
+.bitem::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold)}
 .bitem:nth-child(2)::before{background:var(--blue)}
 .bitem:nth-child(3)::before{background:var(--teal)}
 .bitem .e{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px;background:var(--bg-2)}
@@ -354,10 +371,10 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .calls{display:grid;gap:9px;max-width:420px;margin:0 auto}
 .callbtn{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:850;font-size:18px;letter-spacing:.01em;padding:16px;border-radius:var(--r-md);transition:transform .15s var(--ease)}
 .callbtn:active{transform:scale(.975)}
-.callbtn.main{background:var(--red);color:#fff;box-shadow:0 10px 26px rgba(0,0,0,.3)}
+.callbtn.main{background:linear-gradient(135deg,#eec95f,#cf9a10);color:var(--navy-deep);box-shadow:0 10px 26px rgba(0,0,0,.3)}
 .callbtn.alt{background:rgba(255,255,255,.09);color:#fff;border:1px solid rgba(255,255,255,.22);font-size:16px;font-weight:750}
 .callbtn .tag{font-size:11px;font-weight:700;color:#d4def2;background:rgba(255,255,255,.14);padding:3px 8px;border-radius:99px}
-.callbtn.main .tag{color:#ffd9d7;background:rgba(0,0,0,.16)}
+.callbtn.main .tag{color:#5c4300;background:rgba(255,255,255,.4)}
 
 /* apply form */
 .applyform{margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:26px 22px;box-shadow:var(--shadow)}
@@ -365,7 +382,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .applyform .fsub{font-size:13px;color:var(--mut);margin-top:5px;margin-bottom:18px}
 .field{margin-bottom:13px}
 .field label{display:block;font-size:12.5px;font-weight:750;color:var(--navy-2);margin-bottom:6px}
-.field label .req{color:var(--red)}
+.field label .req{color:var(--gold-2)}
 .field input,.field select,.field textarea{width:100%;background:var(--bg-2);border:1px solid var(--line-2);border-radius:12px;padding:15px;font-size:16px;color:var(--txt);font-family:inherit;transition:border-color .15s,background .15s}
 .field input::placeholder,.field textarea::placeholder{color:var(--mut-2)}
 .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--navy-2);background:#fff}
@@ -373,8 +390,8 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .field select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23173a6e' d='M6 8 0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 @media(max-width:560px){.frow{grid-template-columns:1fr}}
-.submitbtn{width:100%;margin-top:6px;background:var(--red);color:#fff;font-weight:850;font-size:16px;padding:17px;border:none;border-radius:14px;cursor:pointer;box-shadow:0 10px 24px rgba(229,52,47,.3);transition:transform .15s var(--ease),background .15s}
-.submitbtn:hover{background:var(--red-2)}
+.submitbtn{width:100%;margin-top:6px;background:var(--navy);color:#fff;font-weight:850;font-size:16px;padding:17px;border:none;border-radius:14px;cursor:pointer;box-shadow:0 10px 24px rgba(14,38,71,.26);transition:transform .15s var(--ease),background .15s}
+.submitbtn:hover{background:var(--navy-2)}
 .submitbtn:active{transform:scale(.98)}
 .submitbtn:disabled{opacity:.6}
 .formnote{font-size:11.5px;color:var(--mut);margin-top:12px;line-height:1.6;text-align:center}
@@ -382,8 +399,8 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .formok .ico{font-size:40px}
 .formok h4{margin-top:10px;font-size:18px;font-weight:850;color:var(--navy)}
 .formok p{font-size:14px;color:var(--txt-2);margin-top:8px;line-height:1.6}
-.formok p a{color:var(--red)!important}
-.formerr{display:none;font-size:13px;color:var(--red);font-weight:700;margin-top:10px;text-align:center}
+.formok p a{color:var(--navy)!important;text-decoration:underline}
+.formerr{display:none;font-size:13px;color:var(--err);font-weight:700;margin-top:10px;text-align:center}
 
 /* locations */
 .locs{margin-top:16px;display:grid;gap:10px}
@@ -401,13 +418,52 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 <body>
 
 <!-- Top bar -->
-<div class="topbar">
+<div class="topbar"><div class="wrap">
+  <a class="logo" href="/"><span class="mark">CP</span><span class="nm">CORE PARTNERS<small>코아파트너스</small></span></a>
+  <nav class="gnb">
+    <a class="mn" href="/about">회사소개</a>
+    <a class="mn" href="/#services">서비스</a>
+    <a class="mn" href="/coupang-plus">라이더 모집</a>
+    <a class="mn" href="/center">오토바이센터</a>
+    <a class="cta" href="tel:042-672-0901">📞 대표문의</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="전체 메뉴 열기" aria-expanded="false" type="button"><span></span><span></span><span></span></button>
+  </nav>
+</div></div>
+<div class="drawer" id="drawer">
   <div class="wrap">
-    <div class="logo">
-      <span class="mark">CP</span>
-      <span class="nm">CORE PARTNERS<small>대전 쿠팡이츠플러스 협력사</small></span>
+    <div class="acc">
+      <button class="acc-h" type="button">회사소개 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/about">코아파트너스 소개</a>
+        <a href="/about#contact">회사 정보 · 연락처</a>
+        <a href="/#contact">문의 · 오시는 길</a>
+      </div>
     </div>
-    <a class="top-cta" href="tel:042-672-0901">📞 문의</a>
+    <div class="acc">
+      <button class="acc-h" type="button">서비스 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/coupang-plus">쿠팡이츠플러스 · 모집중</a>
+        <a href="/#services">배민플러스 · 준비중</a>
+        <a href="/#services">바로고 B2B</a>
+        <a href="/#services">꼬르륵 배달대행</a>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h" type="button">라이더 모집 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/coupang-plus">미션 · 수익 안내</a>
+        <a href="/coupang-plus#apply">온라인 지원 신청</a>
+        <a href="tel:042-672-0901">전화 상담 042-672-0901</a>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h" type="button">오토바이센터 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/center">센터 서비스 안내</a>
+        <a href="/center#center">진바이크 · 용전동점</a>
+        <a href="/center#center">코아바이크 · 자양동점</a>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -416,7 +472,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
   <div class="wrap">
     <span class="chip"><span class="dot"></span>라이더 상시 모집 중</span>
     <h1>평일 런치·포스트런치<br><span class="grad">미션</span>으로 <span class="gold">추가수익</span><br>만드는 방법</h1>
-    <p class="sub">쿠팡이츠플러스 공식 협력사 코어파트너스와 함께, 안정적인 라이더 수익을 시작하세요.</p>
+    <p class="sub">쿠팡이츠플러스 공식 협력사 코아파트너스와 함께, 안정적인 라이더 수익을 시작하세요.</p>
     <div class="feat-row">
       <span class="feat">⭐ 주간미션</span>
       <span class="feat">⚡ 추가미션</span>
@@ -544,7 +600,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
         </div>
       </div>
       <a class="challenge" href="#apply">
-        <span class="ct">쿠팡플러스 공식 협력사 <b>코어파트너스</b>에서<br><b class="amt">주 150만원 이상</b> 수입에 지금 바로 도전하세요!</span>
+        <span class="ct">쿠팡플러스 공식 협력사 <b>코아파트너스</b>에서<br><b class="amt">주 150만원 이상</b> 수입에 지금 바로 도전하세요!</span>
         <span class="cbtn">🔥 지금 바로 도전하기 →</span>
       </a>
       <div class="subdiv">미션 보상 상세 · 주간 최대 31만원 +α</div>
@@ -622,7 +678,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
     <div class="sec-head">
       <div class="sec-kicker">How to Start</div>
       <h2>시작은 5단계면 충분합니다</h2>
-      <p>전화 한 통이면 나머지는 코어파트너스가 안내해 드립니다.</p>
+      <p>전화 한 통이면 나머지는 코아파트너스가 안내해 드립니다.</p>
     </div>
     <div class="steps reveal">
       <div class="step"><span class="sn">1</span><h4>상담 신청</h4><p>전화 또는 온라인 지원 신청</p></div>
@@ -639,7 +695,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
   <div class="wrap">
     <div class="apply reveal">
       <h3>주 150만원 이상, 지금 도전하세요!</h3>
-      <p class="slogan">쿠팡플러스 공식 협력사 코어파트너스 · 안전한 라이딩, 편안한 휴식이 함께합니다</p>
+      <p class="slogan">쿠팡플러스 공식 협력사 코아파트너스 · 안전한 라이딩, 편안한 휴식이 함께합니다</p>
       <div class="calls">
         <a class="callbtn main tnum" href="tel:042-672-0901">📞 042-672-0901 <span class="tag">대표</span></a>
         <a class="callbtn alt tnum" href="tel:042-672-0777">📞 042-672-0777</a>
@@ -694,7 +750,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 
 <footer>
   <div class="wrap">
-    <div class="fl"><span class="mark">CP</span> CORE PARTNERS · 코어파트너스</div>
+    <div class="fl"><span class="mark">CP</span> CORE PARTNERS · 코아파트너스</div>
     <p>대전 쿠팡이츠플러스 공식 협력사<br>
     본사 · 대전광역시 동구 동서대로 1623 (홍도동) 4층 401호<br>
     문의 042-672-0901 · 042-672-0777<br>
@@ -743,7 +799,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
               method:'POST',
               headers:{'Content-Type':'application/json','Accept':'application/json'},
               body:JSON.stringify({
-                _subject:'🛵 [코어파트너스] 새 라이더 지원 · '+data.name,
+                _subject:'🛵 [코아파트너스] 새 라이더 지원 · '+data.name,
                 _template:'table',
                 이름:data.name,연락처:data.phone,
                 희망지역:data.area||'-',이륜차:data.bike,
@@ -762,6 +818,19 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
         err.style.display='block';
       });
   });
+})();
+</script>
+<script>
+(function(){
+  var tg=document.getElementById('menuToggle'),dr=document.getElementById('drawer');
+  if(!tg||!dr)return;
+  tg.addEventListener('click',function(){var o=dr.classList.toggle('open');tg.setAttribute('aria-expanded',o?'true':'false');});
+  dr.querySelectorAll('.acc-h').forEach(function(h){h.addEventListener('click',function(){
+    var g=h.parentElement,was=g.classList.contains('open');
+    dr.querySelectorAll('.acc.open').forEach(function(x){x.classList.remove('open')});
+    if(!was)g.classList.add('open');
+  })});
+  dr.querySelectorAll('.acc-b a').forEach(function(a){a.addEventListener('click',function(){dr.classList.remove('open');tg.setAttribute('aria-expanded','false');})});
 })();
 </script>
 </body>

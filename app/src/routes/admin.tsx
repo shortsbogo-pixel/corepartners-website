@@ -79,7 +79,7 @@ export const Route = createFileRoute("/admin")({
           })
           .join("");
         const expHref = `/admin?key=${encodeURIComponent(key)}&type=${type}&export=csv`;
-        const html = `<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>지원·문의 접수 관리 · 코어파트너스</title><style>
+        const html = `<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>지원·문의 접수 관리 · 코아파트너스</title><style>
 body{font-family:system-ui,'Malgun Gothic',sans-serif;background:#0b1a38;color:#eef3fc;margin:0;padding:22px}
 h1{font-size:20px;margin:0 0 4px}
 .c{color:#8b9cbe;font-size:13px;margin:0 0 16px}
