@@ -278,7 +278,7 @@ img.mark{display:block}
     <a class="mn" href="/#services">서비스</a>
     <a class="mn" href="/coupang-plus">라이더 모집</a>
     <a class="mn" href="/center">오토바이센터</a>
-    <a class="cta" href="tel:042-672-0901">📞 대표문의</a>
+    <a class="cta" href="tel:0426720901">📞 대표문의</a>
     <button class="menu-toggle" id="menuToggle" aria-label="전체 메뉴 열기" aria-expanded="false" type="button"><span></span><span></span><span></span></button>
   </nav>
 </div></div>
@@ -306,7 +306,7 @@ img.mark{display:block}
       <div class="acc-b">
         <a href="/coupang-plus">미션 · 수익 안내</a>
         <a href="/coupang-plus#apply">온라인 지원 신청</a>
-        <a href="tel:042-672-0901">전화 상담 042-672-0901</a>
+        <a href="tel:0426720901">전화 상담 042-672-0901</a>
       </div>
     </div>
     <div class="acc">
@@ -325,7 +325,7 @@ img.mark{display:block}
 <h1>오토바이센터<br><span class="grad">직접 운영</span></h1>
 <p class="sub">대전 2개 직영 지점에서 정비·점검부터 매입·판매, 라이더 장비 지원까지.</p>
 <div class="hero-cta">
-<a class="btn btn-primary" href="tel:042-672-0901">📞 센터 문의</a>
+<a class="btn btn-primary" href="tel:0426720901">📞 센터 문의</a>
 <a class="btn btn-ghost" href="/#contact">오시는 길</a>
 </div>
 </div></header>
@@ -385,7 +385,7 @@ img.mark{display:block}
 <a href="/about">회사소개</a> · <a href="/center">오토바이센터</a> · <a href="/coupang-plus">라이더 모집</a> · <a href="https://blog.naver.com/core-coupang" target="_blank" rel="noopener">네이버 블로그</a> · © 2026 CorePartners.</p>
 </div></footer>
 <div class="callbar"><div class="wrap">
-<a class="c1" href="tel:042-672-0901">📞 대표문의</a>
+<a class="c1" href="tel:0426720901">📞 대표문의</a>
 <a class="c2" href="/coupang-plus">🛵 라이더 지원</a>
 </div></div>
 <script>
@@ -404,5 +404,12 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   })});
   dr.querySelectorAll('.acc-b a').forEach(function(a){a.addEventListener('click',function(){dr.classList.remove('open');tg.setAttribute('aria-expanded','false');})});
 })();
+</script>
+<script>
+/* tel: link hardening for mobile / in-app browsers */
+document.addEventListener('click',function(e){
+  var a=e.target&&e.target.closest?e.target.closest('a[href^="tel:"]'):null;
+  if(a){e.preventDefault();window.location.href=a.getAttribute('href');}
+},true);
 </script>
 </body></html>
