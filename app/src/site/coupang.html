@@ -132,6 +132,15 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .acc-b a{display:block;padding:11px 10px;font-size:14px;font-weight:600;color:var(--txt-2);border-radius:9px}
 .acc-b a:hover{background:var(--navy-soft);color:var(--navy)}
 
+/* brand photography */
+.photo-strip{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:640px){.photo-strip{gap:8px;margin-top:20px}}
+.photo-strip img{width:100%;height:100%;aspect-ratio:9/13;object-fit:cover;object-position:center 18%;border-radius:16px;box-shadow:var(--shadow-lg);display:block;border:1px solid var(--line)}
+.pcard{border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--line);background:var(--navy)}
+.pcard img{display:block;width:100%}
+.pcard.narrow{max-width:420px;margin:0 auto 20px}
+.pcap{font-size:12.5px;color:var(--mut);margin-top:10px;text-align:center}
+
 /* wayfinding routes — 3-color content code stripes */
 .finder{padding:30px 0 6px}
 .finder-h{text-align:center;margin-bottom:20px}
@@ -167,7 +176,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .svc.feature{grid-column:1/-1;background:linear-gradient(135deg,var(--acc-soft),#fff 55%)}
 
 /* recruit banner — navy card + gold headline (signature) */
-.recruit{position:relative;border-radius:24px;padding:36px 22px;text-align:center;overflow:hidden;background:linear-gradient(165deg,var(--navy-2),var(--navy) 72%);border:1px solid var(--navy);box-shadow:var(--shadow-lg)}
+.recruit{position:relative;border-radius:24px;padding:36px 22px;text-align:center;overflow:hidden;background:linear-gradient(rgba(17,42,80,.9),rgba(10,28,54,.94)),url('/assets/cut09-rider-stand.webp') center 24%/cover no-repeat,var(--navy);border:1px solid var(--navy);box-shadow:var(--shadow-lg)}
 .recruit .rk{font-size:13px;font-weight:800;color:var(--gold-line)}
 .recruit h3{margin-top:10px;font-size:clamp(25px,6.2vw,34px);font-weight:900;letter-spacing:-.03em;color:#fff;line-height:1.22}
 .recruit h3 b{color:#f5cf6b}
@@ -364,8 +373,8 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .bitem h4{font-size:15px;font-weight:800;letter-spacing:-.015em;color:var(--navy)}
 .bitem p{font-size:12.5px;color:var(--txt-2);margin-top:2px}
 
-/* apply — navy panel + gold headline + red call */
-.apply{position:relative;border-radius:26px;padding:32px 22px;text-align:center;overflow:hidden;background:linear-gradient(165deg,var(--navy-2),var(--navy) 72%);box-shadow:var(--shadow-lg)}
+/* apply — navy panel + gold headline over brand photo */
+.apply{position:relative;border-radius:26px;padding:32px 22px;text-align:center;overflow:hidden;background:linear-gradient(rgba(17,42,80,.88),rgba(10,28,54,.94)),url('/assets/cut01-rider-city.webp') center 20%/cover no-repeat,var(--navy);box-shadow:var(--shadow-lg)}
 .apply h3{font-size:23px;font-weight:900;letter-spacing:-.03em;color:#f5cf6b}
 .apply .slogan{font-size:13.5px;color:#c6d5f2;font-weight:550;margin-top:8px;margin-bottom:22px}
 .calls{display:grid;gap:9px;max-width:420px;margin:0 auto}
@@ -409,6 +418,14 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .loc .nm{font-size:11px;color:var(--teal);font-weight:800;letter-spacing:.08em;text-transform:uppercase}
 .loc .ad{font-size:13.5px;color:var(--txt);font-weight:600;margin-top:2px;letter-spacing:-.01em}
 .loc a.map{margin-left:auto;flex:none;font-size:12.5px;color:#fff;font-weight:750;padding:8px 14px;border-radius:999px;background:var(--teal)}
+
+/* settlement proof */
+.proof{max-width:420px;margin:20px auto 0;text-align:center}
+
+/* welfare split with photo */
+.wsplit{display:grid;grid-template-columns:.78fr 1.22fr;gap:20px;align-items:center}
+@media(max-width:720px){.wsplit{grid-template-columns:1fr}}
+.wimg img{width:100%;border-radius:14px;display:block;border:1px solid rgba(255,255,255,.14)}
 
 .hero .stats{grid-template-columns:repeat(3,1fr)}
 @media(max-width:560px){.hero .stats{grid-template-columns:repeat(3,1fr)}.hero .stat::before{display:block}.hero .stat:first-child::before{display:none}.hero .stat{border-top:none}}
@@ -487,6 +504,11 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
       <div class="stat"><b class="tnum">31만+α</b><span>미션 보상 최대</span></div>
       <div class="stat"><b class="tnum">2개소</b><span>라이더 지원 센터</span></div>
     </div>
+    <div class="photo-strip reveal">
+      <img src="/assets/cut02-riding.webp" alt="도심을 달리는 코아파트너스 라이더">
+      <img src="/assets/cut03-settlement-hand.webp" alt="실제 정산 화면을 보여주는 라이더의 손" loading="lazy">
+      <img src="/assets/cut05-welfare.webp" alt="휴게공간에서 생수를 마시며 쉬는 라이더" loading="lazy">
+    </div>
   </div>
 </header>
 
@@ -499,7 +521,8 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
       <p>시간대별 미션 달성으로 기본 수익에 보너스를 더하세요.</p>
     </div>
 
-    <div class="mcard reveal">
+    <div class="pcard narrow reveal"><img src="/assets/cut04-missions.webp" alt="코아파트너스 8종 미션 안내 포스터 — 주간·평일런치·포스트런치·야간 올빼미·게릴라·친구추천·웰컴·오일 패드 무상지원" loading="lazy"></div>
+<div class="mcard reveal">
       <div class="mtop">
         <span class="mnum">1</span>
         <div><div class="mtitle">평일런치 미션</div><span class="mtime">☀️ 월~금 10:55~12:59</span></div>
@@ -603,6 +626,11 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
         <span class="ct">쿠팡플러스 공식 협력사 <b>코아파트너스</b>에서<br><b class="amt">주 150만원 이상</b> 수입에 지금 바로 도전하세요!</span>
         <span class="cbtn">🔥 지금 바로 도전하기 →</span>
       </a>
+      
+      <div class="proof reveal">
+        <div class="pcard"><img src="/assets/settlement-screen.webp" alt="실제 정산 상세 내역 화면 — 최종 입금액과 지급, 공제 내역" loading="lazy"></div>
+        <p class="pcap">실제 정산 화면을 투명하게 공개합니다 — 최종 입금액과 지급·공제 내역을 한눈에.</p>
+      </div>
       <div class="subdiv">미션 보상 상세 · 주간 최대 31만원 +α</div>
       <div class="sumlist">
         <div class="sumr"><span class="k">평일런치 미션<small>주 5일 × 1만원</small></span><span class="v tnum">50,000</span></div>
@@ -640,7 +668,9 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
       <div class="sec-kicker">Rider Care</div>
       <h2>라이더 휴식 · 복지 지원</h2>
     </div>
-    <div class="welfare reveal">
+    <div class="welfare reveal"><div class="wsplit">
+      <div class="wimg"><img src="/assets/cut05-welfare.webp" alt="코아파트너스 휴게공간에서 얼린 생수를 마시는 라이더" loading="lazy"></div>
+      <div>
       <div class="wt">코어바이크 · 진바이크 센터 지원</div>
       <div class="ws">라이더 휴식을 위한 든든한 지원</div>
       <div class="wgrid">
@@ -653,7 +683,8 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
         <span class="e">💧</span>
         <div><b>여름엔 얼린 생수, 쉬어갈 휴게공간까지</b><span>현장을 아는 파트너가 라이더의 하루를 챙깁니다</span></div>
       </div>
-    </div>
+      </div>
+    </div></div>
   </div>
 </section>
 

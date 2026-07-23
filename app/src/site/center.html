@@ -132,6 +132,15 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .acc-b a{display:block;padding:11px 10px;font-size:14px;font-weight:600;color:var(--txt-2);border-radius:9px}
 .acc-b a:hover{background:var(--navy-soft);color:var(--navy)}
 
+/* brand photography */
+.photo-strip{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:640px){.photo-strip{gap:8px;margin-top:20px}}
+.photo-strip img{width:100%;height:100%;aspect-ratio:9/13;object-fit:cover;object-position:center 18%;border-radius:16px;box-shadow:var(--shadow-lg);display:block;border:1px solid var(--line)}
+.pcard{border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--line);background:var(--navy)}
+.pcard img{display:block;width:100%}
+.pcard.narrow{max-width:420px;margin:0 auto 20px}
+.pcap{font-size:12.5px;color:var(--mut);margin-top:10px;text-align:center}
+
 /* wayfinding routes — 3-color content code stripes */
 .finder{padding:30px 0 6px}
 .finder-h{text-align:center;margin-bottom:20px}
@@ -167,7 +176,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .svc.feature{grid-column:1/-1;background:linear-gradient(135deg,var(--acc-soft),#fff 55%)}
 
 /* recruit banner — navy card + gold headline (signature) */
-.recruit{position:relative;border-radius:24px;padding:36px 22px;text-align:center;overflow:hidden;background:linear-gradient(165deg,var(--navy-2),var(--navy) 72%);border:1px solid var(--navy);box-shadow:var(--shadow-lg)}
+.recruit{position:relative;border-radius:24px;padding:36px 22px;text-align:center;overflow:hidden;background:linear-gradient(rgba(17,42,80,.9),rgba(10,28,54,.94)),url('/assets/cut09-rider-stand.webp') center 24%/cover no-repeat,var(--navy);border:1px solid var(--navy);box-shadow:var(--shadow-lg)}
 .recruit .rk{font-size:13px;font-weight:800;color:var(--gold-line)}
 .recruit h3{margin-top:10px;font-size:clamp(25px,6.2vw,34px);font-weight:900;letter-spacing:-.03em;color:#fff;line-height:1.22}
 .recruit h3 b{color:#f5cf6b}
@@ -295,6 +304,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 <section><div class="wrap">
 <div class="sec-head"><div class="sec-kicker">Services</div><h2>센터 서비스</h2>
 <p>이륜차 관련 모든 것을 한 곳에서 — 라이더도, 일반 고객도 환영합니다.</p></div>
+<div class="pcard narrow reveal"><img src="/assets/cut06-mechanic.webp" alt="직영 오토바이센터에서 스쿠터를 점검하는 코아파트너스 정비사"></div>
 <div class="svc-grid">
 <div class="svc t-center reveal"><div class="top"><span class="ic">🔧</span><h3>정비 · 점검</h3></div><p>일반 정비·안전 점검·소모품 교체까지 전문 정비.</p></div>
 <div class="svc t-center reveal"><div class="top"><span class="ic">🛞</span><h3>소모품 · 타이어</h3></div><p>오일·타이어·부품 등 소모품 교체 및 공급.</p></div>
