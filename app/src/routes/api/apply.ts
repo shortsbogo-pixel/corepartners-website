@@ -21,6 +21,7 @@ export const Route = createFileRoute("/api/apply")({
         const bike = s(data.bike, 20);
         const message = s(data.message, 1000);
         const source = s(data.source, 40);
+        const createdAt = new Date().toISOString();
         const db = bindings().DB;
         if (!db) return Response.json({ ok: false, code: "no_db" }, { status: 500 });
         try {
@@ -28,20 +29,36 @@ export const Route = createFileRoute("/api/apply")({
             .prepare(
               "INSERT INTO applications (id, name, phone, area, bike, message, source, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
             )
-            .bind(
-              crypto.randomUUID(),
-              name,
-              phone,
-              area,
-              bike,
-              message,
-              source,
-              new Date().toISOString(),
-            )
+            .bind(crypto.randomUUID(), name, phone, area, bike, message, source, createdAt)
             .run();
         } catch {
           return Response.json({ ok: false, code: "db_error" }, { status: 500 });
         }
+
+        // Best-effort instant email notification (never blocks the submission).
+        try {
+          await fetch("https://formsubmit.co/ajax/shortsbogo@gmail.com", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify({
+              _subject: `🛵 [코어파트너스] 새 라이더 지원 · ${name}`,
+              _template: "table",
+              이름: name,
+              연락처: phone,
+              희망지역: area || "-",
+              이륜차: bike || "-",
+              메시지: message || "-",
+              출처: source || "-",
+              접수일시: createdAt,
+            }),
+          });
+        } catch {
+          // email failed — the application is still safely stored in the DB
+        }
+
         return Response.json({ ok: true });
       },
     },
