@@ -242,6 +242,19 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .iformok p a{color:var(--navy)!important;text-decoration:underline}
 .iformerr{display:none;font-size:13px;color:var(--err);font-weight:700;margin-top:10px;text-align:center}
 
+/* center storefront photos */
+.center .cphoto{margin:-20px -20px 14px}
+.center .cphoto img{width:100%;display:block;border-bottom:1px solid var(--line)}
+
+/* EV rent */
+.rgrid{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:11px}
+@media(max-width:640px){.rgrid{grid-template-columns:1fr}}
+.rc{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow)}
+.rc .rn{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-weight:850;font-size:13px}
+.rc p{font-size:13.5px;color:var(--txt);font-weight:650;line-height:1.55;margin-top:5px}
+.rnote{margin-top:14px;text-align:center;font-size:13px;color:var(--mut)}
+.rnote b{color:var(--gold-2)}
+
 </style>
 </head><body>
 <div class="topbar"><div class="wrap">
@@ -286,6 +299,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
       <button class="acc-h" type="button">오토바이센터 <i>▾</i></button>
       <div class="acc-b">
         <a href="/center">센터 서비스 안내</a>
+        <a href="/center#rent">EV 렌트 · 일 9,500원~</a>
         <a href="/center#center">진바이크 · 용전동점</a>
         <a href="/center#center">코아바이크 · 자양동점</a>
       </div>
@@ -325,6 +339,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 <div class="svc t-rider reveal"><div class="top"><span class="ic">🏪</span><h3>배민플러스</h3><span class="tag tag-soon">준비중</span></div><p>배민플러스 배달대행 협력. 모집 페이지 준비 중.</p></div>
 <div class="svc t-store reveal"><div class="top"><span class="ic">💼</span><h3>바로고 B2B</h3></div><p>바로고 배달대행 B2B 운영 — 상점·가맹점 대상 안정적 배달.</p></div>
 <div class="svc t-store reveal"><div class="top"><span class="ic">🛵</span><h3>꼬르륵 배달대행</h3></div><p>지역 상권 밀착 배달대행 운영.</p></div>
+<a class="svc t-center reveal" href="/center#rent"><div class="top"><span class="ic">🔋</span><h3>EV 바이크 렌트</h3><span class="tag tag-live">일 9,500원~</span></div><p>유류비 걱정 없는 전기 스쿠터 렌트 — 상시반납·점검·보험 포함.</p><span class="go">렌트 안내 보기 →</span></a>
 <a class="svc feature t-center reveal" href="/center"><div class="top"><span class="ic">🔧</span><h3>오토바이센터 직접운영</h3><span class="tag tag-live">2개 지점</span></div><p>진바이크(용전동)·코아바이크(자양동) 직영 — 정비·매입·라이더 장비 지원.</p><span class="go">센터 자세히 보기 →</span></a>
 </div>
 </div></section>

@@ -242,6 +242,19 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .iformok p a{color:var(--navy)!important;text-decoration:underline}
 .iformerr{display:none;font-size:13px;color:var(--err);font-weight:700;margin-top:10px;text-align:center}
 
+/* center storefront photos */
+.center .cphoto{margin:-20px -20px 14px}
+.center .cphoto img{width:100%;display:block;border-bottom:1px solid var(--line)}
+
+/* EV rent */
+.rgrid{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:11px}
+@media(max-width:640px){.rgrid{grid-template-columns:1fr}}
+.rc{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow)}
+.rc .rn{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-weight:850;font-size:13px}
+.rc p{font-size:13.5px;color:var(--txt);font-weight:650;line-height:1.55;margin-top:5px}
+.rnote{margin-top:14px;text-align:center;font-size:13px;color:var(--mut)}
+.rnote b{color:var(--gold-2)}
+
 /* top bar variant */
 /* hero */
 .chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:750;color:var(--navy);background:#fff;border:1px solid var(--line-2);padding:7px 14px;border-radius:999px;letter-spacing:.2px;box-shadow:var(--shadow)}
@@ -477,6 +490,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
       <button class="acc-h" type="button">오토바이센터 <i>▾</i></button>
       <div class="acc-b">
         <a href="/center">센터 서비스 안내</a>
+        <a href="/center#rent">EV 렌트 · 일 9,500원~</a>
         <a href="/center#center">진바이크 · 용전동점</a>
         <a href="/center#center">코아바이크 · 자양동점</a>
       </div>

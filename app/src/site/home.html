@@ -242,6 +242,19 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .iformok p a{color:var(--navy)!important;text-decoration:underline}
 .iformerr{display:none;font-size:13px;color:var(--err);font-weight:700;margin-top:10px;text-align:center}
 
+/* center storefront photos */
+.center .cphoto{margin:-20px -20px 14px}
+.center .cphoto img{width:100%;display:block;border-bottom:1px solid var(--line)}
+
+/* EV rent */
+.rgrid{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:11px}
+@media(max-width:640px){.rgrid{grid-template-columns:1fr}}
+.rc{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow)}
+.rc .rn{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-weight:850;font-size:13px}
+.rc p{font-size:13.5px;color:var(--txt);font-weight:650;line-height:1.55;margin-top:5px}
+.rnote{margin-top:14px;text-align:center;font-size:13px;color:var(--mut)}
+.rnote b{color:var(--gold-2)}
+
 </style>
 </head>
 <body>
@@ -289,6 +302,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
       <button class="acc-h" type="button">오토바이센터 <i>▾</i></button>
       <div class="acc-b">
         <a href="/center">센터 서비스 안내</a>
+        <a href="/center#rent">EV 렌트 · 일 9,500원~</a>
         <a href="/center#center">진바이크 · 용전동점</a>
         <a href="/center#center">코아바이크 · 자양동점</a>
       </div>
@@ -360,6 +374,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
     <div class="svc t-rider reveal"><div class="top"><span class="ic">🏪</span><h3>배민플러스</h3><span class="tag tag-soon">준비중</span></div><p>배민플러스 배달대행 협력사. 라이더 모집·운영 페이지를 준비 중입니다.</p></div>
     <div class="svc t-store reveal"><div class="top"><span class="ic">💼</span><h3>바로고 B2B</h3></div><p>바로고 배달대행 B2B 운영. 상점·가맹점 대상 안정적인 배달 대행 서비스를 제공합니다.</p></div>
     <div class="svc t-store reveal"><div class="top"><span class="ic">🛵</span><h3>꼬르륵 배달대행</h3></div><p>꼬르륵 배달대행 운영. 지역 상권에 밀착한 신속·정확 배달로 매장과 고객을 잇습니다.</p></div>
+    <a class="svc t-center reveal" href="/center#rent"><div class="top"><span class="ic">🔋</span><h3>EV 바이크 렌트</h3><span class="tag tag-live">일 9,500원~</span></div><p>유류비 걱정 없는 전기 스쿠터 렌트. 상시반납·소모품 0원, 점검·보험·액세서리까지 함께 제공합니다.</p><span class="go">렌트 안내 보기 →</span></a>
     <a class="svc feature t-center reveal" href="/center"><div class="top"><span class="ic">🔧</span><h3>오토바이센터 직접운영</h3><span class="tag tag-live">2개 지점</span></div><p>대전 용전동 <b>진바이크</b>, 자양동 <b>코아바이크</b>를 직접 운영합니다. 정비·점검부터 매입·판매, 라이더 장비 지원까지.</p><span class="go">센터 자세히 보기 →</span></a>
   </div>
 </div></section>
@@ -383,12 +398,14 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
   </div>
   <div class="centers">
     <div class="center reveal">
-      <div class="cn"><span class="b">🔧</span><div><h4>진바이크</h4><small>JIN BIKE · 용전동점</small></div></div>
+      <div class="cphoto"><img src="/assets/center-jinbike.webp" alt="진바이크 용전동점 매장 외관" loading="lazy"></div>
+<div class="cn"><span class="b">🔧</span><div><h4>진바이크</h4><small>JIN BIKE · 용전동점</small></div></div>
       <div class="ad">📍 대전광역시 동구 용전동 80-19</div>
       <a class="map" href="https://map.naver.com/p/search/대전 동구 용전동 80-19" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>
     </div>
     <div class="center reveal">
-      <div class="cn"><span class="b">🔧</span><div><h4>코아바이크</h4><small>CORE BIKE · 자양동점</small></div></div>
+      <div class="cphoto"><img src="/assets/center-corebike.webp" alt="코아바이크 자양동점 매장 외관" loading="lazy"></div>
+<div class="cn"><span class="b">🔧</span><div><h4>코아바이크</h4><small>CORE BIKE · 자양동점</small></div></div>
       <div class="ad">📍 대전광역시 동구 백룡로22번길 3 (자양동)</div>
       <a class="map" href="https://map.naver.com/p/search/대전 동구 백룡로22번길 3" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>
     </div>

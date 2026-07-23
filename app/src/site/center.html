@@ -242,6 +242,19 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .iformok p a{color:var(--navy)!important;text-decoration:underline}
 .iformerr{display:none;font-size:13px;color:var(--err);font-weight:700;margin-top:10px;text-align:center}
 
+/* center storefront photos */
+.center .cphoto{margin:-20px -20px 14px}
+.center .cphoto img{width:100%;display:block;border-bottom:1px solid var(--line)}
+
+/* EV rent */
+.rgrid{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:11px}
+@media(max-width:640px){.rgrid{grid-template-columns:1fr}}
+.rc{display:flex;gap:13px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow)}
+.rc .rn{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-weight:850;font-size:13px}
+.rc p{font-size:13.5px;color:var(--txt);font-weight:650;line-height:1.55;margin-top:5px}
+.rnote{margin-top:14px;text-align:center;font-size:13px;color:var(--mut)}
+.rnote b{color:var(--gold-2)}
+
 </style>
 </head><body>
 <div class="topbar"><div class="wrap">
@@ -286,6 +299,7 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
       <button class="acc-h" type="button">오토바이센터 <i>▾</i></button>
       <div class="acc-b">
         <a href="/center">센터 서비스 안내</a>
+        <a href="/center#rent">EV 렌트 · 일 9,500원~</a>
         <a href="/center#center">진바이크 · 용전동점</a>
         <a href="/center#center">코아바이크 · 자양동점</a>
       </div>
@@ -312,15 +326,29 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 <div class="svc t-center reveal"><div class="top"><span class="ic">🎁</span><h3>라이더 장비 지원</h3><span class="tag tag-live">라이더</span></div><p>소속 라이더 대상 오일·패드 등 정비 지원 혜택.</p></div>
 </div>
 </div></section>
+<section id="rent"><div class="wrap">
+<div class="sec-head"><div class="sec-kicker">EV Rental</div><h2>유류비 걱정 없는 EV 렌트</h2>
+<p>상시반납 · 소모품 0원 · 헬멧·충전요금 포함 — 하루 9,500원부터 부담 없이 시작하세요.</p></div>
+<div class="pcard reveal" style="background:#fff"><img src="/assets/ev-models.webp" alt="EV 렌트 모델별 일 렌트료 — EV-C1 11,500원, GOGORO S2 10,500원, GOGORO 2PLUS 9,500원, GOGORO 2 Utility 9,500원" loading="lazy"></div>
+<div class="rgrid">
+<div class="rc reveal"><span class="rn">01</span><p>월 1회 정기 점검 쿠폰 지급</p></div>
+<div class="rc reveal"><span class="rn">02</span><p>휴대폰 거치대 · 리어캐리어 · 배달박스 등 액세서리 제공</p></div>
+<div class="rc reveal"><span class="rn">03</span><p>대인 무한 · 대물 3천만원 범위 종합보험 안내</p></div>
+<div class="rc reveal"><span class="rn">04</span><p>가까운 배터리 교환 스테이션 검색·접근 가능</p></div>
+</div>
+<div class="rnote">EV 렌트는 차량만 빌리는 것이 아니라 <b>점검·보장·운행 편의</b>까지 함께 제공됩니다 · 상담 <b>042-672-0901</b></div>
+</div></section>
 <section id="center"><div class="wrap">
 <div class="sec-head"><div class="sec-kicker">Locations</div><h2>대전 2개 직영 지점</h2></div>
 <div class="centers">
 <div class="center reveal">
+<div class="cphoto"><img src="/assets/center-jinbike.webp" alt="진바이크 용전동점 매장 외관" loading="lazy"></div>
 <div class="cn"><span class="b">🔧</span><div><h4>진바이크</h4><small>JIN BIKE · 용전동점</small></div></div>
 <div class="ad">📍 대전광역시 동구 용전동 80-19</div>
 <a class="map" href="https://map.naver.com/p/search/대전 동구 용전동 80-19" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>
 </div>
 <div class="center reveal">
+<div class="cphoto"><img src="/assets/center-corebike.webp" alt="코아바이크 자양동점 매장 외관" loading="lazy"></div>
 <div class="cn"><span class="b">🔧</span><div><h4>코아바이크</h4><small>CORE BIKE · 자양동점</small></div></div>
 <div class="ad">📍 대전광역시 동구 백룡로22번길 3 (자양동)</div>
 <a class="map" href="https://map.naver.com/p/search/대전 동구 백룡로22번길 3" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>
