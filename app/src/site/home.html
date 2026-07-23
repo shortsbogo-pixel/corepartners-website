@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#070d1f">
+<meta name="theme-color" content="#060c1c">
 <title>코어파트너스 · 대전 배달 인프라 종합기업 | 쿠팡·배민 협력사, 배달대행, 오토바이센터</title>
 <meta name="description" content="코어파트너스 — 대전 쿠팡이츠플러스·배민플러스 공식 협력사. 바로고 B2B·꼬르륵 배달대행, 진바이크·코아바이크 오토바이센터 직접운영. 라이더 모집·배달 운영·정산 관리·오토바이 지원. 대표문의 042-672-0901.">
 <meta property="og:title" content="코어파트너스 · 배달 플랫폼부터 라이더 인프라까지">
@@ -16,370 +16,388 @@
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
 <style>
 :root{
-  --bg:#070d1f; --surface:rgba(255,255,255,.045); --surface-2:rgba(255,255,255,.07);
-  --stroke:rgba(148,180,255,.14); --stroke-hi:rgba(148,180,255,.28);
-  --blue:#3b82f6; --blue-2:#2563eb; --sky:#7db4ff; --sky-2:#a9cbff;
-  --gold:#fbbf24; --gold-2:#f59e0b; --green:#34d399;
-  --txt:#eef3fc; --mut:#8b9cbe; --mut-2:#5f7093;
-  --r-lg:22px; --r-md:16px; --r-sm:12px; --maxw:1080px;
+  --bg:#060c1c; --bg-2:#0a1330;
+  --surface:rgba(255,255,255,.05); --surface-2:rgba(255,255,255,.08);
+  --stroke:rgba(150,182,255,.16); --stroke-hi:rgba(150,182,255,.32);
+  --txt:#f2f6fd; --txt-2:#cdd8ef; --mut:#94a6c8; --mut-2:#67789c;
+  --blue:#4f8dff; --blue-2:#2563eb; --sky:#9cc4ff; --gold:#fbbf24; --gold-2:#f59e0b;
+  /* semantic accents (per content) */
+  --acc:#4f8dff; --acc-2:#9cc4ff; --acc-soft:rgba(79,141,255,.14);
+  --r-lg:20px; --r-md:15px; --r-sm:11px; --maxw:1080px;
   --ease:cubic-bezier(.22,.68,0,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-::selection{background:rgba(59,130,246,.4)}
-body{font-family:'Pretendard Variable',Pretendard,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--txt);line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:78px;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(52rem 30rem at 85% -8%,rgba(37,99,235,.28),transparent 62%),radial-gradient(40rem 26rem at -12% 12%,rgba(56,120,255,.14),transparent 60%),radial-gradient(46rem 34rem at 50% 120%,rgba(30,64,175,.2),transparent 60%)}
+::selection{background:rgba(79,141,255,.4)}
+body{font-family:'Pretendard Variable',Pretendard,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--txt);line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;padding-bottom:82px;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(54rem 32rem at 84% -10%,rgba(37,99,235,.3),transparent 60%),radial-gradient(40rem 26rem at -12% 10%,rgba(56,120,255,.12),transparent 60%),radial-gradient(48rem 34rem at 50% 124%,rgba(20,50,150,.22),transparent 60%)}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
 a{color:inherit;text-decoration:none}
 .tnum{font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 
+/* theme scopes — swap the accent per content block */
+.t-rider{--acc:#4f8dff;--acc-2:#9cc4ff;--acc-soft:rgba(79,141,255,.14)}
+.t-store{--acc:#38bdf8;--acc-2:#8fd6fb;--acc-soft:rgba(56,189,248,.13)}
+.t-center{--acc:#2dd4bf;--acc-2:#7defd6;--acc-soft:rgba(45,212,191,.13)}
+.t-brand{--acc:#fbbf24;--acc-2:#fde68a;--acc-soft:rgba(251,191,36,.13)}
+
 /* top bar */
-.topbar{position:sticky;top:0;z-index:40;background:rgba(7,13,31,.72);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--stroke)}
-.topbar .wrap{display:flex;align-items:center;height:62px}
+.topbar{position:sticky;top:0;z-index:40;background:rgba(6,12,28,.8);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--stroke)}
+.topbar .wrap{display:flex;align-items:center;height:60px}
 .logo{display:flex;align-items:center;gap:10px}
-.logo .mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#4f8dff,#2563eb);box-shadow:0 4px 14px rgba(37,99,235,.45),inset 0 1px 0 rgba(255,255,255,.25)}
-.logo .nm{font-weight:800;font-size:15px;letter-spacing:.4px;line-height:1.15}
-.logo .nm small{display:block;font-size:10.5px;color:var(--mut);font-weight:600;letter-spacing:.6px}
-.gnb{margin-left:auto;display:flex;align-items:center;gap:26px}
-.gnb a.mn{font-size:14px;font-weight:600;color:var(--mut);transition:color .15s}
+.logo .mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#5b9bff,#2563eb);box-shadow:0 4px 14px rgba(37,99,235,.5),inset 0 1px 0 rgba(255,255,255,.28)}
+.logo .nm{font-weight:800;font-size:15px;letter-spacing:.3px;line-height:1.12}
+.logo .nm small{display:block;font-size:10.5px;color:var(--mut);font-weight:600;letter-spacing:.5px}
+.gnb{margin-left:auto;display:flex;align-items:center;gap:24px}
+.gnb a.mn{font-size:14px;font-weight:650;color:var(--txt-2);transition:color .15s}
 .gnb a.mn:hover{color:#fff}
-.gnb .cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#4f8dff,#2563eb);padding:9px 16px;border-radius:999px;box-shadow:0 4px 16px rgba(37,99,235,.4)}
+.gnb .cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#5b9bff,#2563eb);padding:9px 16px;border-radius:999px;box-shadow:0 4px 16px rgba(37,99,235,.45)}
 @media(max-width:720px){.gnb a.mn{display:none}}
 
-/* hero */
-.hero{position:relative;padding:64px 0 46px;text-align:center}
-.eyebrow{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--sky-2);background:rgba(59,130,246,.1);border:1px solid var(--stroke-hi);padding:8px 15px;border-radius:999px}
-.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80}
-.hero h1{margin-top:22px;font-size:clamp(32px,7vw,52px);font-weight:850;line-height:1.18;letter-spacing:-.04em;color:#fff}
-.hero h1 .grad{background:linear-gradient(92deg,#7db4ff 0%,#3b82f6 50%,#a9cbff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .sub{margin:18px auto 0;color:var(--mut);font-size:clamp(15px,3.6vw,18px);font-weight:500;max-width:40ch}
-.hero-cta{margin-top:30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:800;border-radius:var(--r-md);padding:16px 26px;font-size:15.5px;letter-spacing:-.01em;transition:transform .15s var(--ease),box-shadow .15s}
-.btn:active{transform:scale(.975)}
-.btn-primary{background:linear-gradient(135deg,#4f8dff,#2563eb);color:#fff;box-shadow:0 10px 28px rgba(37,99,235,.45),inset 0 1px 0 rgba(255,255,255,.22)}
-.btn-ghost{background:var(--surface);color:var(--txt);border:1px solid var(--stroke-hi);backdrop-filter:blur(8px)}
-.kw{margin-top:30px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.kw span{font-size:13px;font-weight:650;color:var(--txt);background:var(--surface);border:1px solid var(--stroke);padding:8px 14px;border-radius:999px}
-.kw span b{color:var(--sky);font-weight:800}
+/* hero — trust first */
+.hero{position:relative;padding:56px 0 20px;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--sky);background:rgba(79,141,255,.12);border:1px solid var(--stroke-hi);padding:8px 16px;border-radius:999px}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;animation:p 2s infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{margin-top:22px;font-size:clamp(33px,8vw,54px);font-weight:850;line-height:1.16;letter-spacing:-.04em;color:#fff}
+.hero h1 .grad{background:linear-gradient(96deg,#9cc4ff,#4f8dff 55%,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{margin:18px auto 0;color:var(--txt-2);font-size:clamp(15.5px,3.8vw,18px);font-weight:500;max-width:38ch;line-height:1.6}
+/* trust badges */
+.trust{margin-top:24px;display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+.trust .b{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:750;color:var(--txt);background:var(--surface);border:1px solid var(--stroke);padding:9px 14px;border-radius:999px;backdrop-filter:blur(6px)}
+.trust .b .ck{color:#4ade80;font-weight:900}
+
+/* wayfinding — help visitor find their path */
+.finder{padding:30px 0 6px}
+.finder-h{text-align:center;margin-bottom:20px}
+.finder-h .k{font-size:12px;font-weight:800;letter-spacing:.14em;color:var(--sky);text-transform:uppercase}
+.finder-h h2{margin-top:8px;font-size:clamp(22px,5.4vw,28px);font-weight:850;letter-spacing:-.03em;color:#fff}
+.finder-h p{margin-top:8px;font-size:14px;color:var(--mut)}
+.routes{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+@media(max-width:720px){.routes{grid-template-columns:1fr}}
+.route{position:relative;display:flex;flex-direction:column;background:linear-gradient(180deg,var(--acc-soft),rgba(255,255,255,.02));border:1px solid var(--stroke);border-radius:var(--r-lg);padding:22px 20px;transition:transform .2s var(--ease),border-color .2s;overflow:hidden}
+.route::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--acc),transparent)}
+.route:hover{transform:translateY(-4px);border-color:var(--acc)}
+.route .ic{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;font-size:26px;background:var(--acc-soft);border:1px solid var(--stroke-hi);margin-bottom:14px}
+.route h3{font-size:19px;font-weight:850;color:#fff;letter-spacing:-.02em}
+.route p{font-size:13.5px;color:var(--txt-2);margin-top:7px;line-height:1.55;flex:1}
+.route .go{margin-top:16px;display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:850;color:var(--acc-2)}
+.route .hl{color:var(--acc-2);font-weight:800}
 
 /* stats */
-.stats{margin-top:38px;display:grid;grid-template-columns:repeat(4,1fr);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--stroke);background:var(--surface);backdrop-filter:blur(10px)}
-.stat{padding:20px 8px;text-align:center;position:relative}
+.stats{margin-top:22px;display:grid;grid-template-columns:repeat(4,1fr);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--stroke);background:var(--surface);backdrop-filter:blur(10px)}
+.stat{padding:19px 8px;text-align:center;position:relative}
 .stat+.stat::before{content:"";position:absolute;left:0;top:24%;bottom:24%;width:1px;background:var(--stroke)}
 .stat b{display:block;font-size:22px;font-weight:850;letter-spacing:-.03em;color:#fff}
 .stat b em{font-style:normal;background:linear-gradient(92deg,#fde68a,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent}
-.stat span{display:block;font-size:11.5px;color:var(--mut);font-weight:600;margin-top:4px}
-@media(max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}.stat:nth-child(3)::before,.stat:nth-child(1)::before{display:none}.stat:nth-child(3),.stat:nth-child(4){border-top:1px solid var(--stroke)}}
+.stat span{display:block;font-size:11.5px;color:var(--mut);font-weight:650;margin-top:4px}
+@media(max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}.stat:nth-child(1)::before,.stat:nth-child(3)::before{display:none}.stat:nth-child(3),.stat:nth-child(4){border-top:1px solid var(--stroke)}}
 
 /* sections */
-section{padding:46px 0 4px}
-.sec-head{text-align:center;margin-bottom:26px}
-.sec-kicker{font-size:12px;font-weight:800;letter-spacing:.16em;color:var(--blue);text-transform:uppercase}
-.sec-head h2{margin-top:8px;font-size:clamp(24px,5.4vw,32px);font-weight:850;letter-spacing:-.03em;color:#fff}
-.sec-head p{margin-top:10px;font-size:14.5px;color:var(--mut);max-width:46ch;margin-left:auto;margin-right:auto}
+section{padding:44px 0 4px}
+.sec-head{text-align:center;margin-bottom:24px}
+.sec-kicker{font-size:12px;font-weight:800;letter-spacing:.16em;color:var(--acc);text-transform:uppercase}
+.sec-head h2{margin-top:8px;font-size:clamp(24px,5.6vw,32px);font-weight:850;letter-spacing:-.03em;color:#fff}
+.sec-head p{margin-top:10px;font-size:14.5px;color:var(--txt-2);max-width:46ch;margin-left:auto;margin-right:auto;line-height:1.6}
 
 /* service cards */
-.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
 @media(max-width:640px){.svc-grid{grid-template-columns:1fr}}
-.svc{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-lg);padding:24px;backdrop-filter:blur(10px);overflow:hidden;transition:border-color .2s,transform .2s var(--ease)}
-.svc:hover{border-color:var(--stroke-hi);transform:translateY(-3px)}
-.svc::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(148,180,255,.5),transparent)}
-.svc .top{display:flex;align-items:center;gap:13px;margin-bottom:14px}
-.svc .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:24px;background:rgba(59,130,246,.13);border:1px solid var(--stroke)}
-.svc h3{font-size:19px;font-weight:850;letter-spacing:-.02em;color:#fff}
+.svc{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-lg);padding:22px;backdrop-filter:blur(10px);overflow:hidden;transition:border-color .2s,transform .2s var(--ease)}
+.svc:hover{border-color:var(--acc);transform:translateY(-3px)}
+.svc .top{display:flex;align-items:center;gap:12px;margin-bottom:13px}
+.svc .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:23px;background:var(--acc-soft);border:1px solid var(--stroke)}
+.svc h3{font-size:18px;font-weight:850;letter-spacing:-.02em;color:#fff}
 .svc .tag{font-size:11px;font-weight:800;padding:4px 9px;border-radius:7px;margin-left:auto;white-space:nowrap}
-.tag-live{background:rgba(52,211,153,.14);color:#5ff0b0;border:1px solid rgba(52,211,153,.3)}
-.tag-soon{background:rgba(148,180,255,.1);color:var(--sky-2);border:1px solid var(--stroke-hi)}
-.svc p{font-size:13.5px;color:var(--mut);line-height:1.6;flex:1}
-.svc .go{margin-top:16px;display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:800;color:var(--sky)}
-.svc.feature{grid-column:1/-1;background:linear-gradient(135deg,rgba(37,99,235,.16),rgba(7,13,31,.1))}
+.tag-live{background:rgba(52,211,153,.16);color:#5ff0b0;border:1px solid rgba(52,211,153,.32)}
+.tag-soon{background:rgba(150,182,255,.12);color:var(--sky);border:1px solid var(--stroke-hi)}
+.svc p{font-size:13.5px;color:var(--txt-2);line-height:1.6;flex:1}
+.svc .go{margin-top:15px;display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:850;color:var(--acc-2)}
+.svc.feature{grid-column:1/-1;background:linear-gradient(135deg,var(--acc-soft),rgba(6,12,28,.15))}
 
 /* recruit banner */
-.recruit{position:relative;border-radius:26px;padding:34px 24px;text-align:center;overflow:hidden;background:radial-gradient(30rem 16rem at 50% -20%,rgba(79,141,255,.4),transparent 65%),linear-gradient(165deg,#12336a,#0a1a3e 72%);border:1px solid rgba(125,180,255,.4);box-shadow:0 24px 60px rgba(10,26,62,.6)}
-.recruit .rk{font-size:13px;font-weight:800;letter-spacing:.02em;color:var(--gold)}
-.recruit h3{margin-top:10px;font-size:clamp(24px,6vw,34px);font-weight:900;letter-spacing:-.03em;color:#fff;line-height:1.2}
+.recruit{position:relative;border-radius:24px;padding:34px 22px;text-align:center;overflow:hidden;background:radial-gradient(30rem 16rem at 50% -20%,rgba(79,141,255,.42),transparent 64%),linear-gradient(165deg,#12336a,#0a1a3e 72%);border:1px solid rgba(130,180,255,.4);box-shadow:0 24px 56px rgba(8,20,50,.6)}
+.recruit .rk{font-size:13px;font-weight:800;color:var(--gold)}
+.recruit h3{margin-top:10px;font-size:clamp(25px,6.2vw,34px);font-weight:900;letter-spacing:-.03em;color:#fff;line-height:1.22}
 .recruit h3 b{background:linear-gradient(92deg,#fde68a,#fbbf24 60%,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent}
-.recruit p{margin-top:12px;font-size:14.5px;color:var(--sky-2)}
+.recruit p{margin-top:12px;font-size:14.5px;color:var(--sky)}
 .recruit .btn{margin-top:22px}
 
-/* center cards */
-.centers{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+/* centers */
+.centers{display:grid;grid-template-columns:1fr 1fr;gap:13px}
 @media(max-width:640px){.centers{grid-template-columns:1fr}}
-.center{background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-lg);padding:22px;backdrop-filter:blur(10px)}
+.center{background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-lg);padding:20px;backdrop-filter:blur(10px)}
 .center .cn{display:flex;align-items:center;gap:10px}
-.center .cn .b{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:rgba(59,130,246,.13);border:1px solid var(--stroke)}
+.center .cn .b{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:var(--acc-soft);border:1px solid var(--stroke)}
 .center .cn h4{font-size:18px;font-weight:850;color:#fff}
-.center .cn small{display:block;font-size:11.5px;color:var(--sky);font-weight:700;margin-top:1px}
-.center .ad{margin-top:14px;font-size:13.5px;color:var(--mut);display:flex;gap:8px;align-items:flex-start}
-.center a.map{margin-top:14px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:750;color:var(--sky-2);border:1px solid var(--stroke-hi);padding:9px 14px;border-radius:999px;background:rgba(59,130,246,.08)}
+.center .cn small{display:block;font-size:11.5px;color:var(--acc-2);font-weight:750;margin-top:1px}
+.center .ad{margin-top:13px;font-size:13.5px;color:var(--txt-2)}
+.center a.map{margin-top:13px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--acc-2);border:1px solid var(--stroke-hi);padding:9px 14px;border-radius:999px;background:var(--acc-soft)}
 .svc-note{margin-top:14px;text-align:center;font-size:13px;color:var(--mut)}
-.svc-note b{color:var(--sky-2)}
+.svc-note b{color:var(--acc-2)}
 
 /* why */
-.why{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
+.why{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 @media(max-width:640px){.why{grid-template-columns:1fr}}
-.wc{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-md);padding:19px;backdrop-filter:blur(8px)}
-.wc .e{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px;background:rgba(59,130,246,.13);border:1px solid var(--stroke)}
+.wc{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-md);padding:18px;backdrop-filter:blur(8px)}
+.wc .e{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px;background:var(--acc-soft);border:1px solid var(--stroke)}
 .wc h4{font-size:15.5px;font-weight:850;color:#fff;letter-spacing:-.01em}
-.wc p{font-size:13px;color:var(--mut);margin-top:4px;line-height:1.55}
+.wc p{font-size:13px;color:var(--txt-2);margin-top:4px;line-height:1.55}
 
-/* contact */
-.contact{background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-lg);padding:26px;backdrop-filter:blur(10px)}
-.contact .cgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:24px}
-@media(max-width:640px){.contact .cgrid{grid-template-columns:1fr;gap:18px}}
-.contact h4{font-size:13px;font-weight:800;color:var(--blue);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
-.cline{display:flex;align-items:center;gap:12px;margin-bottom:11px}
-.cline .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:16px;background:rgba(59,130,246,.13);border:1px solid var(--stroke);flex:none}
+/* contact + form */
+.contact{background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-lg);padding:24px;backdrop-filter:blur(10px)}
+.contact .cgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:22px}
+@media(max-width:640px){.contact .cgrid{grid-template-columns:1fr;gap:16px}}
+.contact h4{font-size:13px;font-weight:800;color:var(--acc);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.cline{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.cline .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:16px;background:var(--acc-soft);border:1px solid var(--stroke);flex:none}
 .cline .k{font-size:11.5px;color:var(--mut)}
 .cline .v{font-size:17px;font-weight:850;color:#fff}
 .cline .v.sm{font-size:14px;font-weight:700}
-.addr-line{font-size:13.5px;color:var(--txt);line-height:1.7}
-.addr-line b{color:var(--sky-2)}
+.addr-line{font-size:13.5px;color:var(--txt-2);line-height:1.75}
+.addr-line b{color:var(--acc-2)}
 
-/* footer */
-footer{margin-top:44px;border-top:1px solid var(--stroke);padding:30px 0 36px;text-align:center}
-footer .fl{display:flex;align-items:center;gap:9px;justify-content:center;font-weight:800;font-size:14px;color:#fff;margin-bottom:10px}
-footer .fl .mark{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:10px;font-weight:800;color:#fff;background:linear-gradient(135deg,#4f8dff,#2563eb)}
-footer p{font-size:11.5px;color:var(--mut-2);line-height:1.9}
-footer a{color:var(--sky-2)}
-
-/* sticky */
-.callbar{position:fixed;bottom:0;left:0;right:0;z-index:50;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(7,13,31,.78);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-top:1px solid var(--stroke)}
-.callbar .wrap{display:flex;gap:10px;max-width:520px}
-.callbar a{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:15px;padding:15px;border-radius:14px;letter-spacing:-.01em}
-.callbar .c1{background:linear-gradient(135deg,#4f8dff,#2563eb);color:#fff;box-shadow:0 8px 22px rgba(37,99,235,.45)}
-.callbar .c2{background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--stroke-hi)}
-@media(min-width:721px){.callbar{display:none}body{padding-bottom:0}}
-
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
-.reveal.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
-/* inquiry form */
 .iform{margin-top:16px;background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-lg);padding:26px 22px;backdrop-filter:blur(10px)}
 .iform h4{font-size:18px;font-weight:850;color:#fff;letter-spacing:-.02em}
 .iform .fsub{font-size:13px;color:var(--mut);margin-top:5px;margin-bottom:18px}
 .ifield{margin-bottom:13px}
-.ifield label{display:block;font-size:12.5px;font-weight:700;color:var(--sky-2);margin-bottom:6px}
-.ifield label .req{color:#ff8f8f}
-.ifield input,.ifield select,.ifield textarea{width:100%;background:rgba(7,13,31,.5);border:1px solid var(--stroke);border-radius:12px;padding:14px 15px;font-size:15px;color:#fff;font-family:inherit;transition:border-color .15s}
+.ifield label{display:block;font-size:12.5px;font-weight:700;color:var(--sky);margin-bottom:6px}
+.ifield label .req{color:#ff9090}
+.ifield input,.ifield select,.ifield textarea{width:100%;background:rgba(6,12,28,.55);border:1px solid var(--stroke);border-radius:12px;padding:15px;font-size:16px;color:#fff;font-family:inherit;transition:border-color .15s}
 .ifield input::placeholder,.ifield textarea::placeholder{color:var(--mut-2)}
 .ifield input:focus,.ifield select:focus,.ifield textarea:focus{outline:none;border-color:var(--blue)}
-.ifield textarea{resize:vertical;min-height:80px}
-.ifield select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237db4ff' d='M6 8 0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+.ifield textarea{resize:vertical;min-height:82px}
+.ifield select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%239cc4ff' d='M6 8 0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
 .ifrow{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 @media(max-width:560px){.ifrow{grid-template-columns:1fr}}
-.isubmit{width:100%;margin-top:6px;background:linear-gradient(135deg,#4f8dff,#2563eb);color:#fff;font-weight:850;font-size:16px;padding:16px;border:none;border-radius:14px;cursor:pointer;box-shadow:0 10px 26px rgba(37,99,235,.4);transition:transform .15s var(--ease)}
+.isubmit{width:100%;margin-top:6px;background:linear-gradient(135deg,#5b9bff,#2563eb);color:#fff;font-weight:850;font-size:16px;padding:17px;border:none;border-radius:14px;cursor:pointer;box-shadow:0 10px 26px rgba(37,99,235,.45);transition:transform .15s var(--ease)}
 .isubmit:active{transform:scale(.98)}
 .isubmit:disabled{opacity:.6}
 .iformnote{font-size:11.5px;color:var(--mut-2);margin-top:12px;line-height:1.6;text-align:center}
 .iformok{display:none;text-align:center;padding:26px 10px}
 .iformok .ico{font-size:40px}
 .iformok h4{margin-top:10px}
-.iformok p{font-size:14px;color:var(--sky-2);margin-top:8px;line-height:1.6}
-.iformerr{display:none;font-size:13px;color:#ff8f8f;font-weight:700;margin-top:10px;text-align:center}
+.iformok p{font-size:14px;color:var(--sky);margin-top:8px;line-height:1.6}
+.iformerr{display:none;font-size:13px;color:#ff9090;font-weight:700;margin-top:10px;text-align:center}
+
+/* footer */
+footer{margin-top:44px;border-top:1px solid var(--stroke);padding:30px 0 36px;text-align:center}
+footer .fl{display:flex;align-items:center;gap:9px;justify-content:center;font-weight:800;font-size:14px;color:#fff;margin-bottom:10px}
+footer .fl .mark{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:10px;font-weight:800;color:#fff;background:linear-gradient(135deg,#5b9bff,#2563eb)}
+footer p{font-size:11.5px;color:var(--mut-2);line-height:1.9}
+footer a{color:var(--sky)}
+
+/* shared button */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:850;border-radius:var(--r-md);padding:16px 26px;font-size:15.5px;letter-spacing:-.01em;transition:transform .15s var(--ease),box-shadow .15s}
+.btn:active{transform:scale(.975)}
+.btn-primary{background:linear-gradient(135deg,#5b9bff,#2563eb);color:#fff;box-shadow:0 10px 28px rgba(37,99,235,.5),inset 0 1px 0 rgba(255,255,255,.22)}
+.btn-ghost{background:var(--surface);color:var(--txt);border:1px solid var(--stroke-hi);backdrop-filter:blur(8px)}
+.hero-cta{margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* sticky */
+.callbar{position:fixed;bottom:0;left:0;right:0;z-index:50;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(6,12,28,.82);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-top:1px solid var(--stroke)}
+.callbar .wrap{display:flex;gap:10px;max-width:520px}
+.callbar a{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:850;font-size:15px;padding:15px;border-radius:14px}
+.callbar .c1{background:linear-gradient(135deg,#5b9bff,#2563eb);color:#fff;box-shadow:0 8px 22px rgba(37,99,235,.5)}
+.callbar .c2{background:rgba(255,255,255,.09);color:#fff;border:1px solid var(--stroke-hi)}
+@media(min-width:721px){.callbar{display:none}body{padding-bottom:0}}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 </style>
 </head>
 <body>
 
 <!-- Top bar -->
-<div class="topbar">
-  <div class="wrap">
-    <div class="logo"><span class="mark">CP</span><span class="nm">CORE PARTNERS<small>코어파트너스</small></span></div>
-    <nav class="gnb">
-      <a class="mn" href="/about">회사소개</a>
-      <a class="mn" href="#services">서비스</a>
-      <a class="mn" href="/coupang-plus">라이더 모집</a>
-      <a class="mn" href="/center">오토바이센터</a>
-      <a class="mn" href="#contact">문의</a>
-      <a class="cta" href="tel:042-672-0901">📞 대표문의</a>
-    </nav>
-  </div>
-</div>
+<div class="topbar"><div class="wrap">
+  <a class="logo" href="/"><span class="mark">CP</span><span class="nm">CORE PARTNERS<small>코어파트너스</small></span></a>
+  <nav class="gnb">
+    <a class="mn" href="/about">회사소개</a>
+    <a class="mn" href="#services">서비스</a>
+    <a class="mn" href="/coupang-plus">라이더 모집</a>
+    <a class="mn" href="/center">오토바이센터</a>
+    <a class="mn" href="#contact">문의</a>
+    <a class="cta" href="tel:042-672-0901">📞 대표문의</a>
+  </nav>
+</div></div>
 
-<!-- Hero -->
-<header class="hero">
-  <div class="wrap">
-    <span class="eyebrow"><span class="dot"></span>대전 배달 인프라 종합기업</span>
-    <h1>배달 플랫폼부터<br><span class="grad">라이더 인프라</span>까지</h1>
-    <p class="sub">라이더와 플랫폼, 현장을 연결합니다. 쿠팡·배민 공식 협력사부터 배달대행·오토바이센터까지 한 곳에서.</p>
-    <div class="hero-cta">
-      <a class="btn btn-primary" href="/coupang-plus">🛵 라이더 지원하기</a>
-      <a class="btn btn-ghost" href="tel:042-672-0901">📞 대표문의</a>
-    </div>
-    <div class="kw">
-      <span><b>라이더 모집</b></span><span><b>배달 운영</b></span><span><b>정산 관리</b></span><span><b>오토바이 지원</b></span>
-    </div>
-    <div class="stats reveal">
-      <div class="stat"><b><em>2</em></b><span>공식 협력 플랫폼</span></div>
-      <div class="stat"><b><em>4+</em></b><span>배달 서비스</span></div>
-      <div class="stat"><b><em>2</em></b><span>오토바이센터 직영</span></div>
-      <div class="stat"><b><em>대전</em></b><span>전역 운영</span></div>
-    </div>
+<!-- Hero: trust first -->
+<header class="hero"><div class="wrap">
+  <span class="eyebrow"><span class="dot"></span>대전 배달 인프라 종합기업</span>
+  <h1>배달 플랫폼부터<br><span class="grad">라이더 인프라</span>까지</h1>
+  <p class="sub">쿠팡·배민 공식 협력사부터 배달대행·오토바이센터까지, 대전의 배달을 한 곳에서 책임집니다.</p>
+  <div class="trust">
+    <span class="b"><span class="ck">✔</span> 쿠팡이츠플러스 공식 협력사</span>
+    <span class="b"><span class="ck">✔</span> 배민플러스 협력사</span>
+    <span class="b"><span class="ck">✔</span> 오토바이센터 2개 직영</span>
   </div>
-</header>
+</div></header>
 
-<!-- Services hub -->
-<section id="services">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-kicker">Services</div>
-      <h2>우리가 하는 일</h2>
-      <p>배달 플랫폼 협력부터 배달대행 운영, 오토바이 정비까지 — 배달에 필요한 모든 것을 직접 운영합니다.</p>
-    </div>
-    <div class="svc-grid">
-      <a class="svc reveal" href="/coupang-plus">
-        <div class="top"><span class="ic">📱</span><h3>쿠팡이츠플러스</h3><span class="tag tag-live">● 모집중</span></div>
-        <p>쿠팡이츠플러스 공식 협력사. 평일런치·포스트런치·올빼미 미션으로 라이더 추가수익을 지원합니다.</p>
-        <span class="go">라이더 모집 페이지 보기 →</span>
-      </a>
-      <div class="svc reveal">
-        <div class="top"><span class="ic">🏪</span><h3>배민플러스</h3><span class="tag tag-soon">준비중</span></div>
-        <p>배민플러스 배달대행 협력사. 배민 라이더 모집·운영 페이지를 준비 중입니다.</p>
-        <span class="go" style="color:var(--mut)">준비 중</span>
-      </div>
-      <div class="svc reveal">
-        <div class="top"><span class="ic">💼</span><h3>바로고 B2B</h3></div>
-        <p>바로고 배달대행 B2B 운영. 상점·가맹점 대상 안정적인 배달 대행 서비스를 제공합니다.</p>
-      </div>
-      <div class="svc reveal">
-        <div class="top"><span class="ic">🛵</span><h3>꼬르륵 배달대행</h3></div>
-        <p>꼬르륵 배달대행 운영. 지역 상권에 밀착한 신속·정확 배달로 매장과 고객을 잇습니다.</p>
-      </div>
-      <a class="svc feature reveal" href="/center">
-        <div class="top"><span class="ic">🔧</span><h3>오토바이센터 직접운영</h3><span class="tag tag-live">2개 지점</span></div>
-        <p>대전 용전동 <b style="color:#fff">진바이크</b>, 자양동 <b style="color:#fff">코아바이크</b>를 직접 운영합니다. 정비·점검부터 매입·판매, 라이더 장비 지원까지.</p>
-        <span class="go">센터 자세히 보기 →</span>
-      </a>
-    </div>
+<!-- Wayfinding -->
+<section class="finder"><div class="wrap">
+  <div class="finder-h">
+    <div class="k">Find your way</div>
+    <h2>무엇을 찾고 계신가요?</h2>
+    <p>필요하신 것을 골라주세요. 바로 안내해 드립니다.</p>
   </div>
-</section>
+  <div class="routes">
+    <a class="route t-rider reveal" href="/coupang-plus">
+      <span class="ic">🛵</span>
+      <h3>라이더로 일하고 싶어요</h3>
+      <p>쿠팡플러스 라이더 모집 중. <span class="hl">콜비 + 미션 주 150만원 이상</span> 도전, 복지·정비 지원까지.</p>
+      <span class="go">모집·지원 보기 →</span>
+    </a>
+    <a class="route t-store reveal" href="#contact">
+      <span class="ic">🏪</span>
+      <h3>가게 배달을 맡기고 싶어요</h3>
+      <p>바로고 B2B·꼬르륵으로 <span class="hl">안정적인 배달대행</span>. 가맹점·입점 상담 환영합니다.</p>
+      <span class="go">가맹 문의하기 →</span>
+    </a>
+    <a class="route t-center reveal" href="/center">
+      <span class="ic">🔧</span>
+      <h3>오토바이 정비·매입</h3>
+      <p><span class="hl">진바이크·코아바이크</span> 직영 센터. 정비·점검·소모품·매입/판매까지.</p>
+      <span class="go">센터 보기 →</span>
+    </a>
+  </div>
+  <div class="stats reveal">
+    <div class="stat"><b><em>2</em></b><span>공식 협력 플랫폼</span></div>
+    <div class="stat"><b><em>4+</em></b><span>배달 서비스</span></div>
+    <div class="stat"><b><em>2</em></b><span>오토바이센터 직영</span></div>
+    <div class="stat"><b><em>대전</em></b><span>전역 운영</span></div>
+  </div>
+</div></section>
+
+<!-- Services -->
+<section id="services" class="t-brand"><div class="wrap">
+  <div class="sec-head">
+    <div class="sec-kicker">Services</div>
+    <h2>우리가 하는 일</h2>
+    <p>배달 플랫폼 협력부터 배달대행 운영, 오토바이 정비까지 — 직접 운영합니다.</p>
+  </div>
+  <div class="svc-grid">
+    <a class="svc t-rider reveal" href="/coupang-plus"><div class="top"><span class="ic">📱</span><h3>쿠팡이츠플러스</h3><span class="tag tag-live">● 모집중</span></div><p>쿠팡이츠플러스 공식 협력사. 평일런치·포스트런치·올빼미 미션으로 라이더 추가수익을 지원합니다.</p><span class="go">라이더 모집 보기 →</span></a>
+    <div class="svc t-rider reveal"><div class="top"><span class="ic">🏪</span><h3>배민플러스</h3><span class="tag tag-soon">준비중</span></div><p>배민플러스 배달대행 협력사. 라이더 모집·운영 페이지를 준비 중입니다.</p></div>
+    <div class="svc t-store reveal"><div class="top"><span class="ic">💼</span><h3>바로고 B2B</h3></div><p>바로고 배달대행 B2B 운영. 상점·가맹점 대상 안정적인 배달 대행 서비스를 제공합니다.</p></div>
+    <div class="svc t-store reveal"><div class="top"><span class="ic">🛵</span><h3>꼬르륵 배달대행</h3></div><p>꼬르륵 배달대행 운영. 지역 상권에 밀착한 신속·정확 배달로 매장과 고객을 잇습니다.</p></div>
+    <a class="svc feature t-center reveal" href="/center"><div class="top"><span class="ic">🔧</span><h3>오토바이센터 직접운영</h3><span class="tag tag-live">2개 지점</span></div><p>대전 용전동 <b style="color:#fff">진바이크</b>, 자양동 <b style="color:#fff">코아바이크</b>를 직접 운영합니다. 정비·점검부터 매입·판매, 라이더 장비 지원까지.</p><span class="go">센터 자세히 보기 →</span></a>
+  </div>
+</div></section>
 
 <!-- Recruit banner -->
-<section id="recruit">
-  <div class="wrap">
-    <div class="recruit reveal">
-      <div class="rk">🛵 지금 라이더 모집 중</div>
-      <h3>쿠팡플러스 라이더,<br>주 <b>150만원 이상</b>에 도전하세요!</h3>
-      <p>콜비 정산 + 미션 보상(주간 최대 31만원+α) · 여름철 얼린 생수·휴게공간 지원</p>
-      <a class="btn btn-primary" href="/coupang-plus">🔥 라이더 모집 자세히 보기 →</a>
-    </div>
+<section id="recruit" class="t-rider"><div class="wrap">
+  <div class="recruit reveal">
+    <div class="rk">🛵 지금 라이더 모집 중</div>
+    <h3>쿠팡플러스 라이더,<br>주 <b>150만원 이상</b>에 도전하세요!</h3>
+    <p>콜비 정산 + 미션 보상(주간 최대 31만원+α) · 여름철 얼린 생수·휴게공간 지원</p>
+    <a class="btn btn-primary" href="/coupang-plus">🔥 라이더 모집 자세히 보기 →</a>
   </div>
-</section>
+</div></section>
 
 <!-- Center -->
-<section id="center">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-kicker">Motorcycle Center</div>
-      <h2>오토바이센터 직접 운영</h2>
-      <p>대전 2개 지점을 직접 운영합니다. 정비·점검, 소모품·타이어, 매입·판매까지.</p>
-    </div>
-    <div class="centers">
-      <div class="center reveal">
-        <div class="cn"><span class="b">🔧</span><div><h4>진바이크</h4><small>JIN BIKE · 용전동점</small></div></div>
-        <div class="ad">📍 대전광역시 동구 용전동 80-19</div>
-        <a class="map" href="https://map.naver.com/p/search/대전 동구 용전동 80-19" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>
-      </div>
-      <div class="center reveal">
-        <div class="cn"><span class="b">🔧</span><div><h4>코아바이크</h4><small>CORE BIKE · 자양동점</small></div></div>
-        <div class="ad">📍 대전광역시 동구 백룡로22번길 3 (자양동)</div>
-        <a class="map" href="https://map.naver.com/p/search/대전 동구 백룡로22번길 3" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>
-      </div>
-    </div>
-    <div class="svc-note">정비·점검 · 소모품/타이어 · <b>매입·판매</b> · 라이더 장비(오일·패드) 지원</div>
+<section id="center" class="t-center"><div class="wrap">
+  <div class="sec-head">
+    <div class="sec-kicker">Motorcycle Center</div>
+    <h2>오토바이센터 직접 운영</h2>
+    <p>대전 2개 지점을 직접 운영합니다. 정비·점검, 소모품·타이어, 매입·판매까지.</p>
   </div>
-</section>
+  <div class="centers">
+    <div class="center reveal">
+      <div class="cn"><span class="b">🔧</span><div><h4>진바이크</h4><small>JIN BIKE · 용전동점</small></div></div>
+      <div class="ad">📍 대전광역시 동구 용전동 80-19</div>
+      <a class="map" href="https://map.naver.com/p/search/대전 동구 용전동 80-19" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>
+    </div>
+    <div class="center reveal">
+      <div class="cn"><span class="b">🔧</span><div><h4>코아바이크</h4><small>CORE BIKE · 자양동점</small></div></div>
+      <div class="ad">📍 대전광역시 동구 백룡로22번길 3 (자양동)</div>
+      <a class="map" href="https://map.naver.com/p/search/대전 동구 백룡로22번길 3" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>
+    </div>
+  </div>
+  <div class="svc-note">정비·점검 · 소모품/타이어 · <b>매입·판매</b> · 라이더 장비(오일·패드) 지원</div>
+</div></section>
 
 <!-- Why -->
-<section>
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-kicker">Why CorePartners</div>
-      <h2>왜 코아파트너스인가</h2>
-    </div>
-    <div class="why">
-      <div class="wc reveal"><span class="e">✅</span><div><h4>공식 협력사</h4><p>쿠팡이츠플러스·배민플러스 공식 협력사로 안정적인 물량과 신뢰를 보장합니다.</p></div></div>
-      <div class="wc reveal"><span class="e">💙</span><div><h4>라이더 복지</h4><p>휴게공간·냉방·여름철 얼린 생수, 오토바이센터 정비 지원까지 라이더를 챙깁니다.</p></div></div>
-      <div class="wc reveal"><span class="e">📊</span><div><h4>배달 운영·정산 관리</h4><p>플랫폼 운영과 정산을 체계적으로 관리해 라이더와 가맹점 모두 편하게.</p></div></div>
-      <div class="wc reveal"><span class="e">📍</span><div><h4>대전 지역 밀착</h4><p>대전 전역을 기반으로, 오토바이센터 2개 지점까지 직접 운영하는 지역 인프라.</p></div></div>
-    </div>
+<section class="t-brand"><div class="wrap">
+  <div class="sec-head">
+    <div class="sec-kicker">Why CorePartners</div>
+    <h2>왜 코아파트너스인가</h2>
   </div>
-</section>
+  <div class="why">
+    <div class="wc reveal"><span class="e">✅</span><div><h4>공식 협력사</h4><p>쿠팡이츠플러스·배민플러스 공식 협력사로 안정적인 물량과 신뢰를 보장합니다.</p></div></div>
+    <div class="wc reveal"><span class="e">💙</span><div><h4>라이더 복지</h4><p>휴게공간·냉방·여름철 얼린 생수, 오토바이센터 정비 지원까지 라이더를 챙깁니다.</p></div></div>
+    <div class="wc reveal"><span class="e">📊</span><div><h4>배달 운영·정산 관리</h4><p>플랫폼 운영과 정산을 체계적으로 관리해 라이더와 가맹점 모두 편하게.</p></div></div>
+    <div class="wc reveal"><span class="e">📍</span><div><h4>대전 지역 밀착</h4><p>대전 전역을 기반으로, 오토바이센터 2개 지점까지 직접 운영하는 지역 인프라.</p></div></div>
+  </div>
+</div></section>
 
-<!-- Contact -->
-<section id="contact">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="sec-kicker">Contact</div>
-      <h2>문의 · 오시는 길</h2>
-    </div>
-    <div class="contact reveal">
-      <div class="cgrid">
-        <div>
-          <h4>연락처</h4>
-          <a class="cline" href="tel:042-672-0901"><span class="ic">📞</span><div><div class="k">대표문의</div><div class="v tnum">042-672-0901</div></div></a>
-          <a class="cline" href="tel:042-672-0777"><span class="ic">📞</span><div><div class="k">문의</div><div class="v sm tnum">042-672-0777</div></div></a>
-          <a class="cline" href="tel:010-3433-0901"><span class="ic">📱</span><div><div class="k">휴대폰</div><div class="v sm tnum">010-3433-0901</div></div></a>
-        </div>
-        <div>
-          <h4>오시는 길</h4>
-          <div class="addr-line">
-            <b>본사</b> · 대전광역시 동구 동서대로 1623<br>(홍도동) 4층 401호<br><br>
-            <b>진바이크</b> · 대전 동구 용전동 80-19<br>
-            <b>코아바이크</b> · 대전 동구 백룡로22번길 3
-          </div>
+<!-- Contact + inquiry -->
+<section id="contact" class="t-store"><div class="wrap">
+  <div class="sec-head">
+    <div class="sec-kicker">Contact</div>
+    <h2>문의 · 오시는 길</h2>
+  </div>
+  <div class="contact reveal">
+    <div class="cgrid">
+      <div>
+        <h4>연락처</h4>
+        <a class="cline" href="tel:042-672-0901"><span class="ic">📞</span><div><div class="k">대표문의</div><div class="v tnum">042-672-0901</div></div></a>
+        <a class="cline" href="tel:042-672-0777"><span class="ic">📞</span><div><div class="k">문의</div><div class="v sm tnum">042-672-0777</div></div></a>
+        <a class="cline" href="tel:010-3433-0901"><span class="ic">📱</span><div><div class="k">휴대폰</div><div class="v sm tnum">010-3433-0901</div></div></a>
+      </div>
+      <div>
+        <h4>오시는 길</h4>
+        <div class="addr-line">
+          <b>본사</b> · 대전광역시 동구 동서대로 1623<br>(홍도동) 4층 401호<br><br>
+          <b>진바이크</b> · 대전 동구 용전동 80-19<br>
+          <b>코아바이크</b> · 대전 동구 백룡로22번길 3
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="iform reveal" id="inquiry">
-      <div id="iform-body">
-        <h4>📮 문의 · 상담 신청</h4>
-        <p class="fsub">가맹점 입점, 라이더 지원, 오토바이센터 등 무엇이든 남겨주시면 빠르게 연락드립니다.</p>
-        <form id="inqForm" autocomplete="on">
-          <div class="ifrow">
-            <div class="ifield"><label>이름/상호 <span class="req">*</span></label><input name="name" type="text" placeholder="홍길동 / OO식당" required maxlength="40"></div>
-            <div class="ifield"><label>연락처 <span class="req">*</span></label><input name="phone" type="tel" inputmode="tel" placeholder="010-0000-0000" required maxlength="20"></div>
-          </div>
-          <div class="ifield"><label>문의 유형</label>
-            <select name="type">
-              <option value="가맹점·입점 문의">가맹점·입점 문의 (배달대행 맡기기)</option>
-              <option value="라이더 지원 문의">라이더 지원 문의</option>
-              <option value="오토바이센터">오토바이센터 (정비·매입)</option>
-              <option value="기타 문의">기타 문의</option>
-            </select>
-          </div>
-          <div class="ifield"><label>내용 (선택)</label><textarea name="message" placeholder="문의하실 내용을 적어주세요" maxlength="500"></textarea></div>
-          <button type="submit" class="isubmit" id="inqBtn">문의 남기기</button>
-          <div class="iformerr" id="inqErr">전송에 실패했습니다. 잠시 후 다시 시도하거나 전화로 문의해 주세요.</div>
-          <div class="iformnote">남겨주신 정보(이름·연락처)는 문의 응대 목적으로만 이용됩니다.</div>
-        </form>
-      </div>
-      <div class="iformok" id="inqOk">
-        <div class="ico">✅</div>
-        <h4>문의가 접수되었습니다!</h4>
-        <p>담당자가 확인 후 빠르게 연락드리겠습니다.<br>급하시면 대표 <a href="tel:042-672-0901" style="color:#fff;font-weight:800">042-672-0901</a>로 전화 주세요.</p>
-      </div>
+  <div class="iform reveal" id="inquiry">
+    <div id="iform-body">
+      <h4>📮 문의 · 상담 신청</h4>
+      <p class="fsub">가맹점 입점, 라이더 지원, 오토바이센터 등 무엇이든 남겨주시면 빠르게 연락드립니다.</p>
+      <form id="inqForm" autocomplete="on">
+        <div class="ifrow">
+          <div class="ifield"><label>이름/상호 <span class="req">*</span></label><input name="name" type="text" placeholder="홍길동 / OO식당" required maxlength="40"></div>
+          <div class="ifield"><label>연락처 <span class="req">*</span></label><input name="phone" type="tel" inputmode="tel" placeholder="010-0000-0000" required maxlength="20"></div>
+        </div>
+        <div class="ifield"><label>문의 유형</label>
+          <select name="type">
+            <option value="가맹점·입점 문의">가맹점·입점 문의 (배달대행 맡기기)</option>
+            <option value="라이더 지원 문의">라이더 지원 문의</option>
+            <option value="오토바이센터">오토바이센터 (정비·매입)</option>
+            <option value="기타 문의">기타 문의</option>
+          </select>
+        </div>
+        <div class="ifield"><label>내용 (선택)</label><textarea name="message" placeholder="문의하실 내용을 적어주세요" maxlength="500"></textarea></div>
+        <button type="submit" class="isubmit" id="inqBtn">문의 남기기</button>
+        <div class="iformerr" id="inqErr">전송에 실패했습니다. 잠시 후 다시 시도하거나 전화로 문의해 주세요.</div>
+        <div class="iformnote">남겨주신 정보(이름·연락처)는 문의 응대 목적으로만 이용됩니다.</div>
+      </form>
+    </div>
+    <div class="iformok" id="inqOk">
+      <div class="ico">✅</div>
+      <h4>문의가 접수되었습니다!</h4>
+      <p>담당자가 확인 후 빠르게 연락드리겠습니다.<br>급하시면 대표 <a href="tel:042-672-0901" style="color:#fff;font-weight:800">042-672-0901</a>로 전화 주세요.</p>
     </div>
   </div>
-</section>
+</div></section>
 
-<footer>
-  <div class="wrap">
-    <div class="fl"><span class="mark">CP</span> CORE PARTNERS · 코아파트너스</div>
-    <p>대전 쿠팡이츠플러스 · 배민플러스 공식 협력사 | 바로고 B2B · 꼬르륵 배달대행 | 진바이크 · 코아바이크<br>
-    본사 · 대전광역시 동구 동서대로 1623 (홍도동) 4층 401호 · 대표문의 042-672-0901<br>
-    <a href="/about">회사소개</a> · <a href="/center">오토바이센터</a> · <a href="https://blog.naver.com/core-coupang" target="_blank" rel="noopener">네이버 블로그</a> · © 2026 CorePartners.</p>
-  </div>
-</footer>
+<footer><div class="wrap">
+  <div class="fl"><span class="mark">CP</span> CORE PARTNERS · 코아파트너스</div>
+  <p>대전 쿠팡이츠플러스 · 배민플러스 공식 협력사 | 바로고 B2B · 꼬르륵 배달대행 | 진바이크 · 코아바이크<br>
+  본사 · 대전광역시 동구 동서대로 1623 (홍도동) 4층 401호 · 대표문의 042-672-0901<br>
+  <a href="/about">회사소개</a> · <a href="/center">오토바이센터</a> · <a href="/coupang-plus">라이더 모집</a> · <a href="https://blog.naver.com/core-coupang" target="_blank" rel="noopener">네이버 블로그</a> · © 2026 CorePartners.</p>
+</div></footer>
 
-<!-- Sticky -->
-<div class="callbar">
-  <div class="wrap">
-    <a class="c1" href="tel:042-672-0901">📞 대표문의</a>
-    <a class="c2" href="/coupang-plus">🛵 라이더 지원</a>
-  </div>
-</div>
+<div class="callbar"><div class="wrap">
+  <a class="c1" href="tel:042-672-0901">📞 대표문의</a>
+  <a class="c2" href="/coupang-plus">🛵 라이더 지원</a>
+</div></div>
 
 <script>
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
@@ -394,14 +412,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     var btn=document.getElementById('inqBtn');
     var err=document.getElementById('inqErr');
     err.style.display='none';
-    var data={
-      name:form.name.value.trim(),
-      phone:form.phone.value.trim(),
-      area:form.type.value,
-      bike:'-',
-      message:form.message.value.trim(),
-      source:'홈-문의'
-    };
+    var data={name:form.name.value.trim(),phone:form.phone.value.trim(),area:form.type.value,bike:'-',message:form.message.value.trim(),source:'홈-문의'};
     if(!data.name||!data.phone){err.textContent='이름과 연락처를 입력해 주세요.';err.style.display='block';return;}
     btn.disabled=true;btn.textContent='전송 중…';
     fetch('/api/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
@@ -409,27 +420,14 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       .then(function(res){
         if(res&&res.ok){
           try{
-            fetch('https://formsubmit.co/ajax/shortsbogo@gmail.com',{
-              method:'POST',
-              headers:{'Content-Type':'application/json','Accept':'application/json'},
-              body:JSON.stringify({
-                _subject:'📮 [코어파트너스] 홈페이지 문의 · '+data.name,
-                _template:'table',
-                '이름/상호':data.name,연락처:data.phone,
-                문의유형:data.area,내용:data.message||'-',출처:'홈-문의'
-              })
-            }).catch(function(){});
+            fetch('https://formsubmit.co/ajax/shortsbogo@gmail.com',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({_subject:'📮 [코어파트너스] 홈페이지 문의 · '+data.name,_template:'table','이름/상호':data.name,연락처:data.phone,문의유형:data.area,내용:data.message||'-',출처:'홈-문의'})}).catch(function(){});
           }catch(e){}
           document.getElementById('iform-body').style.display='none';
           document.getElementById('inqOk').style.display='block';
           document.getElementById('inquiry').scrollIntoView({behavior:'smooth',block:'center'});
         }else{throw new Error('fail')}
       })
-      .catch(function(){
-        btn.disabled=false;btn.textContent='문의 남기기';
-        err.textContent='전송에 실패했습니다. 잠시 후 다시 시도하거나 전화로 문의해 주세요.';
-        err.style.display='block';
-      });
+      .catch(function(){btn.disabled=false;btn.textContent='문의 남기기';err.textContent='전송에 실패했습니다. 잠시 후 다시 시도하거나 전화로 문의해 주세요.';err.style.display='block';});
   });
 })();
 </script>
