@@ -46,11 +46,11 @@ a{color:inherit;text-decoration:none}
 
 /* top bar — navy backbone */
 .topbar{position:sticky;top:0;z-index:40;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.08);box-shadow:0 2px 12px rgba(10,28,54,.18)}
-.topbar .wrap{display:flex;align-items:center;height:60px}
+.topbar .wrap{display:flex;align-items:center;height:64px;gap:2px}
 .logo{display:flex;align-items:center;gap:10px}
-.logo .mark{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--navy);background:#fff;box-shadow:inset 0 0 0 2px rgba(14,38,71,.08)}
-.logo .nm{font-weight:800;font-size:15px;letter-spacing:.3px;line-height:1.12;color:#fff}
-.logo .nm small{display:block;font-size:10.5px;color:#aebedd;font-weight:600;letter-spacing:.5px}
+.logo .mark{width:46px;height:46px;border-radius:11px;display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--navy);background:#fff;box-shadow:inset 0 0 0 2px rgba(14,38,71,.08)}
+.logo .nm{font-weight:800;font-size:16px;letter-spacing:.3px;line-height:1.12;color:#fff}
+.logo .nm small{display:block;font-size:11px;color:#aebedd;font-weight:600;letter-spacing:.5px}
 .gnb{margin-left:auto;display:flex;align-items:center;gap:24px}
 .gnb a.mn{font-size:14px;font-weight:650;color:#cfdaf0;transition:color .15s}
 .gnb a.mn:hover{color:#fff}
@@ -97,7 +97,7 @@ section{padding:44px 0 4px}
 /* footer — navy backbone */
 footer{margin-top:44px;background:var(--navy);padding:32px 0 38px;text-align:center;color:#c6d2ea}
 footer .fl{display:flex;align-items:center;gap:9px;justify-content:center;font-weight:800;font-size:14px;color:#fff;margin-bottom:10px}
-footer .fl .mark{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-size:10px;font-weight:800;color:var(--navy);background:#fff}
+footer .fl .mark{width:38px;height:38px;border-radius:9px;display:grid;place-items:center;font-size:10px;font-weight:800;color:var(--navy);background:#fff}
 footer p{font-size:11.5px;color:#9fb0d1;line-height:1.9}
 footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 
@@ -119,8 +119,8 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .menu-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
 .menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
 .menu-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-.drawer{position:fixed;top:60px;left:0;right:0;z-index:39;background:#fff;border-bottom:1px solid var(--line);box-shadow:var(--shadow-lg);max-height:0;overflow:hidden;transition:max-height .32s var(--ease)}
-.drawer.open{max-height:calc(100vh - 60px);overflow:auto}
+.drawer{position:fixed;top:64px;left:0;right:0;z-index:39;background:#fff;border-bottom:1px solid var(--line);box-shadow:var(--shadow-lg);max-height:0;overflow:hidden;transition:max-height .32s var(--ease)}
+.drawer.open{max-height:calc(100vh - 64px);overflow:auto}
 .drawer .wrap{padding:8px 20px 16px}
 .acc{border-bottom:1px solid var(--line)}
 .acc:last-child{border-bottom:none}
@@ -359,7 +359,7 @@ img.mark{display:block}
 </div></section>
 <section id="contact"><div class="wrap">
 <div class="sec-head"><div class="sec-kicker">Company</div><h2>회사 정보</h2></div>
-<div class="pcard narrow reveal" style="background:#fff;max-width:340px"><img src="/assets/logo-full.webp" alt="코아파트너스 공식 로고 — CP 엠블럼과 CORE PARTNERS" loading="lazy"></div>
+<div class="pcard narrow reveal" style="background:#fff;max-width:460px"><img src="/assets/logo-full.webp" alt="코아파트너스 공식 로고 — CP 엠블럼과 CORE PARTNERS" loading="lazy"></div>
 <div class="contact reveal"><div class="cgrid">
 <div><h4>연락처</h4>
 <a class="cline" href="tel:042-672-0901"><span class="ic">📞</span><div><div class="k">대표문의</div><div class="v tnum">042-672-0901</div></div></a>
