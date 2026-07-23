@@ -16,8 +16,8 @@ export function applySecurityHeaders(response: Response): Response {
     'Content-Security-Policy',
     "default-src 'self'; " +
       "script-src 'self' 'unsafe-inline'; " +
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-      "font-src 'self' https://fonts.gstatic.com; " +
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; " +
+      "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; " +
       "img-src 'self' data: https:; media-src 'self' https:; " +
       "connect-src 'self' https:; " +
       "base-uri 'self'; form-action 'self'",

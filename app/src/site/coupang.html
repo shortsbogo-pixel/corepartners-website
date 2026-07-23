@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#070d1f">
+<title>대전 쿠팡이츠플러스 · 코어파트너스 라이더 모집</title>
+<meta name="description" content="대전 쿠팡이츠플러스 코어파트너스 라이더 모집 — 콜비 정산 + 미션 보상으로 주 150만원 이상 가능. 미션 보상 주간 최대 31만원+α, 여름철 얼린 생수·휴게공간 지원. 문의 042-672-0901.">
+<meta property="og:title" content="대전 쿠팡이츠플러스 · 코어파트너스 라이더 모집">
+<meta property="og:description" content="콜비 정산 + 미션 보상 합산 주 150만원 이상 가능. 미션 보상 주간 최대 31만원+α + 라이더 복지 지원.">
+<meta property="og:type" content="website">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
+<style>
+:root{
+  --bg:#070d1f;
+  --surface:rgba(255,255,255,.045);
+  --surface-2:rgba(255,255,255,.07);
+  --stroke:rgba(148,180,255,.14);
+  --stroke-hi:rgba(148,180,255,.28);
+  --blue:#3b82f6; --blue-2:#2563eb; --sky:#7db4ff; --sky-2:#a9cbff;
+  --gold:#fbbf24; --gold-2:#f59e0b;
+  --txt:#eef3fc; --mut:#8b9cbe; --mut-2:#5f7093;
+  --r-lg:22px; --r-md:16px; --r-sm:12px;
+  --maxw:520px;
+  --ease:cubic-bezier(.22,.68,0,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+::selection{background:rgba(59,130,246,.4)}
+body{
+  font-family:'Pretendard Variable',Pretendard,system-ui,-apple-system,sans-serif;
+  background:var(--bg); color:var(--txt); line-height:1.6;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  padding-bottom:86px; overflow-x:hidden;
+}
+body::before{ /* ambient mesh */
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:
+    radial-gradient(52rem 30rem at 85% -8%, rgba(37,99,235,.28), transparent 62%),
+    radial-gradient(40rem 26rem at -12% 12%, rgba(56,120,255,.14), transparent 60%),
+    radial-gradient(46rem 34rem at 50% 118%, rgba(30,64,175,.22), transparent 60%);
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+a{color:inherit;text-decoration:none}
+.tnum{font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:40;background:rgba(7,13,31,.72);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--stroke)}
+.topbar .wrap{display:flex;align-items:center;height:60px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo .mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#4f8dff,#2563eb);box-shadow:0 4px 14px rgba(37,99,235,.45), inset 0 1px 0 rgba(255,255,255,.25)}
+.logo .nm{font-weight:800;font-size:14.5px;letter-spacing:.4px;line-height:1.15}
+.logo .nm small{display:block;font-size:10.5px;color:var(--mut);font-weight:600;letter-spacing:.8px}
+.top-cta{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:#fff;background:linear-gradient(135deg,#4f8dff,#2563eb);padding:9px 15px;border-radius:999px;box-shadow:0 4px 16px rgba(37,99,235,.4)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:52px 0 44px;text-align:left}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--sky-2);background:rgba(59,130,246,.1);border:1px solid var(--stroke-hi);padding:7px 14px;border-radius:999px;letter-spacing:.2px}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px #4ade80;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hero h1{margin-top:20px;font-size:clamp(30px,8.6vw,38px);font-weight:850;line-height:1.22;letter-spacing:-.035em;color:#fff}
+.hero h1 .grad{background:linear-gradient(92deg,#7db4ff 0%,#3b82f6 45%,#a9cbff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 .gold{background:linear-gradient(92deg,#fde68a,#fbbf24 55%,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{margin-top:16px;color:var(--mut);font-size:15px;font-weight:500;max-width:34ch}
+.feat-row{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}
+.feat{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:650;color:var(--txt);background:var(--surface);border:1px solid var(--stroke);padding:8px 13px;border-radius:999px;backdrop-filter:blur(6px)}
+.hero-cta{margin-top:28px;display:flex;gap:10px}
+.btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:800;border-radius:var(--r-md);padding:16px 20px;font-size:15.5px;letter-spacing:-.01em;transition:transform .15s var(--ease),box-shadow .15s}
+.btn:active{transform:scale(.975)}
+.btn-primary{background:linear-gradient(135deg,#4f8dff,#2563eb);color:#fff;box-shadow:0 10px 28px rgba(37,99,235,.45), inset 0 1px 0 rgba(255,255,255,.22)}
+.btn-ghost{background:var(--surface);color:var(--txt);border:1px solid var(--stroke-hi);backdrop-filter:blur(8px)}
+
+/* stats strip */
+.stats{margin-top:34px;display:grid;grid-template-columns:repeat(3,1fr);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--stroke);background:var(--surface);backdrop-filter:blur(10px)}
+.stat{padding:16px 8px;text-align:center;position:relative}
+.stat+.stat::before{content:"";position:absolute;left:0;top:22%;bottom:22%;width:1px;background:var(--stroke)}
+.stat b{display:block;font-size:19px;font-weight:850;letter-spacing:-.03em;color:#fff}
+.stat b em{font-style:normal;background:linear-gradient(92deg,#fde68a,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{display:block;font-size:11px;color:var(--mut);font-weight:600;margin-top:3px;letter-spacing:.2px}
+
+/* ---------- sections ---------- */
+section{padding:34px 0 2px}
+.sec-head{margin-bottom:18px}
+.sec-kicker{font-size:11.5px;font-weight:800;letter-spacing:.14em;color:var(--blue);text-transform:uppercase}
+.sec-head h2{margin-top:6px;font-size:22px;font-weight:850;letter-spacing:-.03em;color:#fff}
+.sec-head p{margin-top:6px;font-size:13.5px;color:var(--mut)}
+
+/* mission cards */
+.mcard{position:relative;background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-lg);padding:22px 20px;margin-bottom:14px;backdrop-filter:blur(10px);overflow:hidden}
+.mcard::before{content:"";position:absolute;inset:0 0 auto 0;height:1px;background:linear-gradient(90deg,transparent,rgba(148,180,255,.5),transparent)}
+.mtop{display:flex;align-items:center;gap:13px;margin-bottom:16px}
+.mnum{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:850;font-size:15px;color:#0a1730;background:linear-gradient(135deg,#fde68a,#fbbf24);box-shadow:0 4px 14px rgba(251,191,36,.3), inset 0 1px 0 rgba(255,255,255,.5)}
+.mtitle{font-size:17.5px;font-weight:800;letter-spacing:-.02em;color:#fff}
+.mtime{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--sky);font-weight:650;margin-top:3px;background:rgba(59,130,246,.1);border:1px solid var(--stroke);padding:3px 9px;border-radius:999px}
+.rows{border:1px solid var(--stroke);border-radius:var(--r-md);overflow:hidden;background:rgba(7,13,31,.35)}
+.grp-label{color:var(--sky);font-weight:750;font-size:12px;letter-spacing:.04em;padding:8px 15px;background:rgba(59,130,246,.09);border-top:1px solid var(--stroke)}
+.rows>.grp-label:first-child{border-top:none}
+.row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-top:1px solid rgba(148,180,255,.08)}
+.rows>.row:first-child{border-top:none}
+.row .cond{font-size:14.5px;color:var(--txt);font-weight:550}
+.row .cond b{color:#fff;font-weight:800}
+.row .amt{font-size:17px;font-weight:850;letter-spacing:-.02em;background:linear-gradient(92deg,#fde68a,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+
+/* extra missions */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.xcard{background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-md);padding:18px 16px;backdrop-filter:blur(8px);transition:border-color .2s}
+.xcard .ic{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:18px;background:rgba(59,130,246,.13);border:1px solid var(--stroke);margin-bottom:12px}
+.xcard h4{font-size:14.5px;font-weight:800;letter-spacing:-.01em;color:#fff;margin-bottom:5px}
+.xcard p{font-size:12.5px;color:var(--mut);line-height:1.55}
+.xcard p b{color:var(--gold);font-weight:750}
+
+/* reward ladder */
+.ladder{background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-lg);padding:22px 20px;backdrop-filter:blur(10px)}
+.ladder-note{display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:800;color:var(--gold);margin-bottom:16px;letter-spacing:.02em}
+.tierlist{display:flex;flex-direction:column;gap:9px}
+.tier{display:flex;align-items:center;gap:14px;background:rgba(7,13,31,.4);border:1px solid var(--stroke);border-radius:var(--r-md);padding:14px 16px;position:relative;overflow:hidden}
+.tier .fill{position:absolute;inset:0;background:linear-gradient(90deg,rgba(59,130,246,.16),transparent);width:var(--w,0%)}
+.tier .cnt{position:relative;font-size:15.5px;font-weight:800;letter-spacing:-.02em;color:#fff;min-width:86px}
+.tier .bar{position:relative;flex:1;height:6px;border-radius:99px;background:rgba(148,180,255,.12);overflow:hidden}
+.tier .bar i{position:absolute;inset:0;width:var(--w,0%);border-radius:99px;background:linear-gradient(90deg,#3b82f6,#7db4ff)}
+.tier .plus{position:relative;font-size:15.5px;font-weight:850;color:var(--sky-2);white-space:nowrap}
+.tier.max{border-color:rgba(251,191,36,.4)}
+.tier.max .bar i{background:linear-gradient(90deg,#f59e0b,#fde68a)}
+.tier.max .plus{background:linear-gradient(92deg,#fde68a,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent}
+.jackpot{margin-top:14px;position:relative;text-align:center;border-radius:var(--r-md);padding:24px 18px;background:
+  radial-gradient(24rem 10rem at 50% -30%, rgba(251,191,36,.16), transparent 70%),
+  linear-gradient(160deg, rgba(37,99,235,.22), rgba(7,13,31,.2));
+  border:1px solid rgba(251,191,36,.35); overflow:hidden}
+.jackpot .trophy{font-size:34px;filter:drop-shadow(0 4px 12px rgba(251,191,36,.5))}
+.jackpot h3{font-size:19px;font-weight:800;color:#fff;margin-top:8px;line-height:1.4;letter-spacing:-.02em}
+.jackpot h3 b{font-size:27px;font-weight:900;background:linear-gradient(92deg,#fde68a,#fbbf24 60%,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.jackpot p{font-size:12px;color:var(--mut);margin-top:8px}
+
+/* welfare */
+.welfare{background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-lg);padding:22px 20px;backdrop-filter:blur(10px)}
+.welfare .wt{font-size:17px;font-weight:800;letter-spacing:-.02em;color:#fff}
+.welfare .ws{font-size:13px;color:var(--mut);margin-top:3px;margin-bottom:16px}
+.wgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;text-align:center}
+.wgrid .wi{background:rgba(7,13,31,.4);border:1px solid var(--stroke);border-radius:var(--r-sm);padding:14px 4px 12px}
+.wgrid .wi .e{font-size:21px}
+.wgrid .wi span{display:block;font-size:11px;color:var(--mut);font-weight:650;margin-top:7px;letter-spacing:-.01em}
+.water{margin-top:13px;display:flex;align-items:center;gap:14px;border-radius:var(--r-md);padding:16px;background:linear-gradient(135deg,rgba(56,152,255,.18),rgba(37,99,235,.08));border:1px solid rgba(125,180,255,.3)}
+.water .e{font-size:26px;filter:drop-shadow(0 2px 8px rgba(125,180,255,.6))}
+.water b{color:#fff;font-size:15px;font-weight:800;letter-spacing:-.01em}
+.water span{display:block;font-size:12.5px;color:var(--sky);margin-top:2px}
+
+/* benefits */
+.bsum{display:grid;gap:11px}
+.bitem{display:flex;gap:15px;align-items:center;background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-md);padding:16px;backdrop-filter:blur(8px)}
+.bitem .e{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:20px;background:rgba(59,130,246,.13);border:1px solid var(--stroke)}
+.bitem h4{font-size:15px;font-weight:800;letter-spacing:-.015em;color:#fff}
+.bitem p{font-size:12.5px;color:var(--mut);margin-top:2px}
+
+/* apply */
+.apply{position:relative;border-radius:26px;padding:30px 22px;text-align:center;overflow:hidden;
+  background:
+    radial-gradient(30rem 16rem at 50% -20%, rgba(79,141,255,.35), transparent 65%),
+    linear-gradient(165deg,#122c63,#0a1a3e 70%);
+  border:1px solid rgba(125,180,255,.35);
+  box-shadow:0 24px 60px rgba(10,26,62,.6)}
+.apply h3{font-size:22px;font-weight:850;letter-spacing:-.03em;color:#fff}
+.apply .slogan{font-size:13.5px;color:var(--sky-2);font-weight:550;margin-top:8px;margin-bottom:22px}
+.calls{display:grid;gap:10px}
+.callbtn{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:850;font-size:18px;letter-spacing:.01em;padding:16px;border-radius:var(--r-md);transition:transform .15s var(--ease)}
+.callbtn:active{transform:scale(.975)}
+.callbtn.main{background:#fff;color:#0a1730;box-shadow:0 10px 26px rgba(0,0,0,.35), inset 0 -2px 0 rgba(10,23,48,.08)}
+.callbtn.alt{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(148,180,255,.25);font-size:16px;font-weight:750}
+.callbtn .tag{font-size:11px;font-weight:700;color:var(--mut);background:rgba(148,180,255,.12);padding:3px 8px;border-radius:99px}
+.callbtn.main .tag{color:#4b5f85;background:rgba(10,23,48,.08)}
+
+/* locations */
+.locs{margin-top:16px;display:grid;gap:10px}
+.loc{display:flex;gap:13px;align-items:center;background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-md);padding:15px 16px;backdrop-filter:blur(8px)}
+.loc .pin{flex:none;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:16px;background:rgba(59,130,246,.13);border:1px solid var(--stroke)}
+.loc .nm{font-size:11px;color:var(--blue);font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.loc .ad{font-size:13.5px;color:var(--txt);font-weight:600;margin-top:2px;letter-spacing:-.01em}
+.loc a.map{margin-left:auto;flex:none;font-size:12.5px;color:var(--sky-2);font-weight:750;border:1px solid var(--stroke-hi);padding:8px 14px;border-radius:999px;background:rgba(59,130,246,.08)}
+
+/* footer */
+footer{margin-top:36px;border-top:1px solid var(--stroke);padding:28px 0 34px;text-align:center}
+footer .fl{display:flex;align-items:center;gap:9px;justify-content:center;font-weight:800;font-size:13.5px;color:#fff;margin-bottom:10px}
+footer .fl .mark{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:10px;font-weight:800;color:#fff;background:linear-gradient(135deg,#4f8dff,#2563eb)}
+footer p{font-size:11.5px;color:var(--mut-2);line-height:1.8}
+
+/* sticky bar */
+.callbar{position:fixed;bottom:0;left:0;right:0;z-index:50;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(7,13,31,.78);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border-top:1px solid var(--stroke)}
+.callbar .wrap{display:flex;gap:10px;padding:0 4px}
+.callbar a{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:15px;padding:15px;border-radius:14px;letter-spacing:-.01em}
+.callbar .c1{background:linear-gradient(135deg,#4f8dff,#2563eb);color:#fff;box-shadow:0 8px 22px rgba(37,99,235,.45)}
+.callbar .c2{background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--stroke-hi)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* weekly income */
+.income{background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-lg);padding:22px 20px;backdrop-filter:blur(10px)}
+.income-top{position:relative;text-align:center;border-radius:var(--r-md);padding:22px 16px;margin-bottom:18px;overflow:hidden;background:radial-gradient(24rem 10rem at 50% -30%,rgba(251,191,36,.18),transparent 70%),linear-gradient(160deg,rgba(37,99,235,.22),rgba(7,13,31,.2));border:1px solid rgba(251,191,36,.38)}
+.income-top .lab{font-size:12.5px;font-weight:700;color:var(--sky-2);letter-spacing:.02em}
+.income-top .amt{margin-top:8px;font-size:clamp(32px,10vw,40px);font-weight:900;letter-spacing:-.03em;line-height:1.05}
+.income-top .amt .num{background:linear-gradient(92deg,#fde68a,#fbbf24 60%,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.income-top .amt .a{color:#fff}
+.income-top .amt .a em{font-style:normal;background:linear-gradient(92deg,#7db4ff,#3b82f6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.income-top .cap{font-size:11.5px;color:var(--mut);margin-top:10px;line-height:1.5}
+.sumlist{display:flex;flex-direction:column;gap:8px}
+.sumr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 15px;border-radius:var(--r-sm);background:rgba(7,13,31,.4);border:1px solid var(--stroke)}
+.sumr .k{font-size:14px;color:var(--txt);font-weight:650;letter-spacing:-.01em}
+.sumr .k small{display:block;font-size:11px;color:var(--mut);font-weight:500;margin-top:2px}
+.sumr .v{font-size:16px;font-weight:850;color:#fff;white-space:nowrap}
+.sumr.total{background:rgba(59,130,246,.14);border-color:var(--stroke-hi)}
+.sumr.total .v{background:linear-gradient(92deg,#fde68a,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent;font-size:19px}
+.sumr.alpha{border-style:dashed}
+.sumr.alpha .v{background:linear-gradient(92deg,#7db4ff,#3b82f6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.daywrap{margin-top:18px}
+.daycap{font-size:12px;color:var(--sky);font-weight:700;margin-bottom:9px;display:flex;justify-content:space-between;align-items:baseline}
+.daycap span:last-child{color:var(--mut-2);font-weight:500;font-size:11px}
+.daytable{width:100%;border-collapse:collapse;border:1px solid var(--stroke);border-radius:var(--r-md);overflow:hidden;font-variant-numeric:tabular-nums}
+.daytable th,.daytable td{padding:10px 4px;text-align:center;font-size:12px;border-bottom:1px solid rgba(148,180,255,.08)}
+.daytable thead th{background:rgba(59,130,246,.12);color:var(--sky-2);font-weight:750;font-size:11.5px}
+.daytable td:first-child,.daytable th:first-child{font-weight:800;color:#fff}
+.daytable tbody td{color:var(--mut)}
+.daytable td.st{color:#fff;font-weight:800}
+.daytable tfoot td{background:rgba(7,13,31,.55);color:var(--txt);font-weight:800;border-top:1px solid var(--stroke-hi);border-bottom:none}
+.daytable tfoot td.st{background:linear-gradient(92deg,#fde68a,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent}
+.incnote{font-size:11px;color:var(--mut-2);margin-top:12px;line-height:1.7}
+/* income combo (콜비 + 미션) */
+.combo{margin-bottom:6px;display:flex;flex-direction:column;gap:10px}
+.crow{display:flex;gap:13px;align-items:center;background:rgba(7,13,31,.4);border:1px solid var(--stroke);border-radius:var(--r-md);padding:15px 16px}
+.crow .ci{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:19px;background:rgba(59,130,246,.13);border:1px solid var(--stroke)}
+.crow .ck b{font-size:14.5px;font-weight:800;color:#fff;letter-spacing:-.01em}
+.crow .ck b em{font-style:normal;background:linear-gradient(92deg,#fde68a,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent}
+.crow .ck small{display:block;font-size:12px;color:var(--mut);margin-top:3px;line-height:1.45}
+.cop{text-align:center;font-size:17px;font-weight:800;color:var(--sky-2);line-height:.6;margin:-2px 0}
+.cequal{text-align:center;border-radius:var(--r-md);padding:18px 14px;margin-top:2px;background:radial-gradient(22rem 9rem at 50% -20%,rgba(251,191,36,.14),transparent 70%),linear-gradient(160deg,rgba(37,99,235,.24),rgba(7,13,31,.2));border:1px solid rgba(125,180,255,.4)}
+.cequal .cl{font-size:12.5px;color:var(--sky-2);font-weight:700}
+.cequal .cv{margin-top:4px;font-size:clamp(24px,7vw,30px);font-weight:900;letter-spacing:-.03em;color:#fff;line-height:1.1}
+.cequal .cv b{background:linear-gradient(92deg,#fde68a,#fbbf24 60%,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.subdiv{display:flex;align-items:center;gap:12px;margin:22px 0 14px;color:var(--sky);font-size:12px;font-weight:800;letter-spacing:.02em}
+.subdiv::before,.subdiv::after{content:"";flex:1;height:1px;background:var(--stroke)}
+/* challenge CTA */
+.challenge{display:block;margin-top:14px;text-align:center;border-radius:var(--r-md);padding:22px 18px;position:relative;overflow:hidden;background:linear-gradient(135deg,#4f8dff,#2563eb);box-shadow:0 14px 32px rgba(37,99,235,.5),inset 0 1px 0 rgba(255,255,255,.22);transition:transform .15s var(--ease)}
+.challenge::before{content:"";position:absolute;inset:0;background:radial-gradient(20rem 8rem at 50% -30%,rgba(255,255,255,.28),transparent 70%);pointer-events:none}
+.challenge:active{transform:scale(.985)}
+.challenge .ct{position:relative;display:block;font-size:16px;font-weight:700;color:#eaf2ff;line-height:1.55;letter-spacing:-.015em}
+.challenge .ct b{color:#fff;font-weight:900}
+.challenge .ct .amt{color:#fde68a}
+.challenge .cbtn{position:relative;display:inline-flex;align-items:center;gap:7px;margin-top:16px;font-size:15.5px;font-weight:850;color:#173a86;background:#fff;padding:13px 24px;border-radius:999px;box-shadow:0 8px 20px rgba(0,0,0,.28);letter-spacing:-.01em}
+/* application form */
+.applyform{margin-top:16px;background:var(--surface);border:1px solid var(--stroke);border-radius:var(--r-lg);padding:24px 20px;backdrop-filter:blur(10px)}
+.applyform h4{font-size:18px;font-weight:850;color:#fff;letter-spacing:-.02em}
+.applyform .fsub{font-size:13px;color:var(--mut);margin-top:5px;margin-bottom:18px}
+.field{margin-bottom:13px}
+.field label{display:block;font-size:12.5px;font-weight:700;color:var(--sky-2);margin-bottom:6px}
+.field label .req{color:#ff8f8f}
+.field input,.field select,.field textarea{width:100%;background:rgba(7,13,31,.5);border:1px solid var(--stroke);border-radius:12px;padding:14px 15px;font-size:15px;color:#fff;font-family:inherit;transition:border-color .15s}
+.field input::placeholder,.field textarea::placeholder{color:var(--mut-2)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue)}
+.field textarea{resize:vertical;min-height:74px}
+.field select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237db4ff' d='M6 8 0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.submitbtn{width:100%;margin-top:6px;background:linear-gradient(135deg,#4f8dff,#2563eb);color:#fff;font-weight:850;font-size:16px;padding:16px;border:none;border-radius:14px;cursor:pointer;box-shadow:0 10px 26px rgba(37,99,235,.4);transition:transform .15s var(--ease)}
+.submitbtn:active{transform:scale(.98)}
+.submitbtn:disabled{opacity:.6;cursor:default}
+.formnote{font-size:11.5px;color:var(--mut-2);margin-top:12px;line-height:1.6;text-align:center}
+.formok{display:none;text-align:center;padding:22px 10px}
+.formok .ico{font-size:40px}
+.formok h4{margin-top:10px}
+.formok p{font-size:14px;color:var(--sky-2);margin-top:8px;line-height:1.6}
+.formerr{display:none;font-size:13px;color:#ff8f8f;font-weight:700;margin-top:10px;text-align:center}
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="logo">
+      <span class="mark">CP</span>
+      <span class="nm">CORE PARTNERS<small>대전 쿠팡이츠플러스 협력사</small></span>
+    </div>
+    <a class="top-cta" href="tel:042-672-0901">📞 문의</a>
+  </div>
+</div>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="wrap">
+    <span class="chip"><span class="dot"></span>라이더 상시 모집 중</span>
+    <h1>평일 런치·포스트런치<br><span class="grad">미션</span>으로 <span class="gold">추가수익</span><br>만드는 방법</h1>
+    <p class="sub">쿠팡이츠플러스 공식 협력사 코어파트너스와 함께, 안정적인 라이더 수익을 시작하세요.</p>
+    <div class="feat-row">
+      <span class="feat">⭐ 주간미션</span>
+      <span class="feat">⚡ 추가미션</span>
+      <span class="feat">💧 여름철 얼린 생수 지원</span>
+    </div>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="tel:042-672-0901">📞 전화 문의</a>
+      <a class="btn btn-ghost" href="#apply">지원 안내</a>
+    </div>
+    <div class="stats reveal">
+      <div class="stat"><b class="tnum"><em>150만+</em></b><span>주 수익 가능 (콜비+미션)</span></div>
+      <div class="stat"><b class="tnum">31만+α</b><span>미션 보상 최대</span></div>
+      <div class="stat"><b class="tnum">2개소</b><span>라이더 지원 센터</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- Missions -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">Daily Missions</div>
+      <h2>평일 런치 · 포스트런치 · 추가미션</h2>
+      <p>시간대별 미션 달성으로 기본 수익에 보너스를 더하세요.</p>
+    </div>
+
+    <div class="mcard reveal">
+      <div class="mtop">
+        <span class="mnum">1</span>
+        <div><div class="mtitle">평일런치 미션</div><span class="mtime">☀️ 월~금 10:55~12:59</span></div>
+      </div>
+      <div class="rows">
+        <div class="row"><span class="cond"><b>10건</b> 이상 완료</span><span class="amt tnum">7,000원</span></div>
+        <div class="row"><span class="cond"><b>13건</b> 이상 완료</span><span class="amt tnum">10,000원</span></div>
+      </div>
+    </div>
+
+    <div class="mcard reveal">
+      <div class="mtop">
+        <span class="mnum">2</span>
+        <div><div class="mtitle">포스트런치 미션</div></div>
+      </div>
+      <div class="rows">
+        <div class="grp-label">월 · 화 · 수 · 목 · 금</div>
+        <div class="row"><span class="cond"><b>15건</b> 이상 완료</span><span class="amt tnum">8,000원</span></div>
+        <div class="row"><span class="cond"><b>20건</b> 이상 완료</span><span class="amt tnum">10,000원</span></div>
+        <div class="grp-label">토 · 일</div>
+        <div class="row"><span class="cond"><b>12건</b> 이상 완료</span><span class="amt tnum">8,000원</span></div>
+        <div class="row"><span class="cond"><b>15건</b> 이상 완료</span><span class="amt tnum">10,000원</span></div>
+      </div>
+    </div>
+
+    <div class="mcard reveal">
+      <div class="mtop">
+        <span class="mnum">3</span>
+        <div><div class="mtitle">여름철 올빼미 미션</div><span class="mtime">🌙 21:30~23:59</span></div>
+      </div>
+      <div class="rows">
+        <div class="row"><span class="cond">월·화 · <b>21건</b></span><span class="amt tnum">10,000원</span></div>
+        <div class="row"><span class="cond">수·목 · <b>22건</b></span><span class="amt tnum">10,000원</span></div>
+        <div class="row"><span class="cond">금·토·일 · <b>33건</b></span><span class="amt tnum">20,000원</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Extra missions -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">Bonus</div>
+      <h2>추가 지원 미션</h2>
+    </div>
+    <div class="grid2">
+      <div class="xcard reveal"><span class="ic">🤝</span><h4>친구추천 미션</h4><p>추천인 보상 <b>5만원</b> 지급</p></div>
+      <div class="xcard reveal"><span class="ic">🎁</span><h4>웰컴 미션</h4><p>신입기사 최초 150건 이상 달성 시 <b>3만원</b> 지급</p></div>
+      <div class="xcard reveal"><span class="ic">🔧</span><h4>장비지원 미션</h4><p>100건 이상 완료 시 오일·필터 <b>무상지원</b></p></div>
+      <div class="xcard reveal"><span class="ic">⚡</span><h4>비정기 게릴라미션</h4><p>상황별 추가 공지 / 비정기적 운영</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Weekly ladder -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">Weekly Reward</div>
+      <h2>주간미션, 더 달성하고 더 큰 보상</h2>
+      <p>달성 구간마다 보상이 차곡차곡 쌓입니다.</p>
+    </div>
+    <div class="ladder reveal">
+      <div class="ladder-note">⭐ 달성 구간마다 누적 지급</div>
+      <div class="tierlist">
+        <div class="tier" style="--w:35%"><span class="fill"></span><span class="cnt tnum">180건~</span><span class="bar"><i></i></span><span class="plus tnum">+1만원</span></div>
+        <div class="tier" style="--w:48%"><span class="fill"></span><span class="cnt tnum">200건~</span><span class="bar"><i></i></span><span class="plus tnum">+1만원</span></div>
+        <div class="tier" style="--w:64%"><span class="fill"></span><span class="cnt tnum">250건~</span><span class="bar"><i></i></span><span class="plus tnum">+2만원</span></div>
+        <div class="tier" style="--w:80%"><span class="fill"></span><span class="cnt tnum">300건~</span><span class="bar"><i></i></span><span class="plus tnum">+2만원</span></div>
+        <div class="tier max" style="--w:100%"><span class="fill"></span><span class="cnt tnum">350건~</span><span class="bar"><i></i></span><span class="plus tnum">+3만원</span></div>
+      </div>
+      <div class="jackpot">
+        <div class="trophy">🏆</div>
+        <h3>350건 달성 시<br>주간 총 <b class="tnum">9만원</b> 지급!</h3>
+        <p>180건~350건 구간별 순차 달성 시 누적 지급</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Weekly income -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">Weekly Income</div>
+      <h2>라이더 실수익, 이만큼 가능해요</h2>
+      <p>내가 수행한 배달료(콜비)에 미션 보상까지 더한 실제 수익입니다.</p>
+    </div>
+    <div class="income reveal">
+      <div class="combo">
+        <div class="crow"><span class="ci">🛵</span><div class="ck"><b>① 기본 배달 수익 (콜비)</b><small>내가 수행한 배달 콜비 전액 정산 — 수행 건수만큼</small></div></div>
+        <div class="cop">＋</div>
+        <div class="crow"><span class="ci">🎯</span><div class="ck"><b>② 미션 보상 <em>주간 최대 31만원 +α</em></b><small>평일런치·포스트런치·올빼미·누적보상 (아래 상세)</small></div></div>
+        <div class="cequal">
+          <div class="cl">＝ 성실 수행 라이더 기준 · 통계상</div>
+          <div class="cv">주 <b>150만원 이상</b> 가능</div>
+        </div>
+      </div>
+      <a class="challenge" href="#apply">
+        <span class="ct">쿠팡플러스 공식 협력사 <b>코어파트너스</b>에서<br><b class="amt">주 150만원 이상</b> 수입에 지금 바로 도전하세요!</span>
+        <span class="cbtn">🔥 지금 바로 도전하기 →</span>
+      </a>
+      <div class="subdiv">미션 보상 상세 · 주간 최대 31만원 +α</div>
+      <div class="sumlist">
+        <div class="sumr"><span class="k">평일런치 미션<small>주 5일 × 1만원</small></span><span class="v tnum">50,000</span></div>
+        <div class="sumr"><span class="k">포스트런치 미션<small>주 7일 × 1만원</small></span><span class="v tnum">70,000</span></div>
+        <div class="sumr"><span class="k">여름철 올빼미 미션<small>요일별 1~2만원</small></span><span class="v tnum">100,000</span></div>
+        <div class="sumr"><span class="k">주간 누적보상<small>350건 달성 시</small></span><span class="v tnum">90,000</span></div>
+        <div class="sumr total"><span class="k">주간 합계</span><span class="v tnum">310,000원</span></div>
+        <div class="sumr alpha"><span class="k">쿠팡 본사 단체미션<small>비정기 운영</small></span><span class="v">+α</span></div>
+      </div>
+      <div class="daywrap">
+        <div class="daycap"><span>요일별 상세 · 수 → 다음 주 화</span><span>단위: 원</span></div>
+        <table class="daytable">
+          <thead><tr><th>요일</th><th>런치</th><th>포런치</th><th>올빼미</th><th>소계</th></tr></thead>
+          <tbody>
+            <tr><td>수</td><td>10,000</td><td>10,000</td><td>10,000</td><td class="st">30,000</td></tr>
+            <tr><td>목</td><td>10,000</td><td>10,000</td><td>10,000</td><td class="st">30,000</td></tr>
+            <tr><td>금</td><td>10,000</td><td>10,000</td><td>20,000</td><td class="st">40,000</td></tr>
+            <tr><td>토</td><td>—</td><td>10,000</td><td>20,000</td><td class="st">30,000</td></tr>
+            <tr><td>일</td><td>—</td><td>10,000</td><td>20,000</td><td class="st">30,000</td></tr>
+            <tr><td>월</td><td>10,000</td><td>10,000</td><td>10,000</td><td class="st">30,000</td></tr>
+            <tr><td>화</td><td>10,000</td><td>10,000</td><td>10,000</td><td class="st">30,000</td></tr>
+          </tbody>
+          <tfoot><tr><td>일일합계</td><td>50,000</td><td>70,000</td><td>100,000</td><td class="st">220,000</td></tr></tfoot>
+        </table>
+        <p class="incnote">※ 위 표는 <b style="color:var(--sky-2)">미션 보상</b>만 계산한 금액입니다(일일미션 220,000원 + 주간 누적보상 90,000원 = 310,000원). 실제 정산 시 여기에 <b style="color:var(--sky-2)">본인이 수행한 배달 콜비</b>가 전액 더해지며, 성실 수행 라이더 기준 주 150만원 이상도 가능합니다(통계 기준·수행 건수/시간대에 따라 상이). 미션은 각 최고 구간 및 주간 350건 달성 기준이고, 신입 웰컴(3만원)·친구추천(5만원)은 별도, 쿠팡 본사 단체미션은 비정기로 운영됩니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Welfare -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">Rider Care</div>
+      <h2>라이더 휴식 · 복지 지원</h2>
+    </div>
+    <div class="welfare reveal">
+      <div class="wt">코어바이크 · 진바이크 센터 지원</div>
+      <div class="ws">라이더 휴식을 위한 든든한 지원</div>
+      <div class="wgrid">
+        <div class="wi"><span class="e">🛋️</span><span>휴식공간</span></div>
+        <div class="wi"><span class="e">🔧</span><span>정비·물품구매</span></div>
+        <div class="wi"><span class="e">❄️</span><span>냉방지원</span></div>
+        <div class="wi"><span class="e">💙</span><span>편의지원</span></div>
+      </div>
+      <div class="water">
+        <span class="e">💧</span>
+        <div><b>여름철 얼린 생수 지원</b><span>시원한 휴식공간 운영 중!</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benefits -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="sec-kicker">Summary</div>
+      <h2>라이더 혜택 요약</h2>
+    </div>
+    <div class="bsum">
+      <div class="bitem reveal"><span class="e">💰</span><div><h4>평일 점심시간 추가수익</h4><p>런치·포스트런치 미션으로 수익 극대화</p></div></div>
+      <div class="bitem reveal"><span class="e">📈</span><div><h4>포스트런치 시간대 효율 향상</h4><p>미션 달성으로 더 많은 수익</p></div></div>
+      <div class="bitem reveal"><span class="e">💧</span><div><h4>시원한 생수·휴게공간 지원</h4><p>라이더의 체력 회복을 돕는 운영 환경</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Apply -->
+<section id="apply">
+  <div class="wrap">
+    <div class="apply reveal">
+      <h3>주 150만원 이상, 지금 도전하세요!</h3>
+      <p class="slogan">쿠팡플러스 공식 협력사 코어파트너스 · 안전한 라이딩, 편안한 휴식이 함께합니다</p>
+      <div class="calls">
+        <a class="callbtn main tnum" href="tel:042-672-0901">📞 042-672-0901 <span class="tag">대표</span></a>
+        <a class="callbtn alt tnum" href="tel:042-672-0777">📞 042-672-0777</a>
+        <a class="callbtn alt tnum" href="tel:010-3433-0901">📱 010-3433-0901</a>
+      </div>
+    </div>
+
+    <div class="applyform reveal" id="apply-form">
+      <div id="form-body">
+        <h4>🛵 온라인 지원 신청</h4>
+        <p class="fsub">간단히 남겨주시면 담당자가 빠르게 연락드립니다.</p>
+        <form id="riderForm" autocomplete="on">
+          <div class="frow">
+            <div class="field"><label>이름 <span class="req">*</span></label><input name="name" type="text" placeholder="홍길동" required maxlength="30"></div>
+            <div class="field"><label>연락처 <span class="req">*</span></label><input name="phone" type="tel" inputmode="tel" placeholder="010-0000-0000" required maxlength="20"></div>
+          </div>
+          <div class="field"><label>희망 근무 지역</label><input name="area" type="text" placeholder="예) 대전 동구 · 중구" maxlength="40"></div>
+          <div class="field"><label>이륜차 보유</label>
+            <select name="bike">
+              <option value="보유">보유 중</option>
+              <option value="렌탈희망">렌탈 희망</option>
+              <option value="없음">없음 / 상담 필요</option>
+            </select>
+          </div>
+          <div class="field"><label>남기실 말씀 (선택)</label><textarea name="message" placeholder="문의 사항이나 희망 근무 시간대를 적어주세요" maxlength="500"></textarea></div>
+          <button type="submit" class="submitbtn" id="submitBtn">지원 신청하기</button>
+          <div class="formerr" id="formErr">전송에 실패했습니다. 잠시 후 다시 시도하거나 전화로 문의해 주세요.</div>
+          <div class="formnote">제출 시 개인정보(이름·연락처)는 라이더 모집 상담 목적으로만 이용됩니다.</div>
+        </form>
+      </div>
+      <div class="formok" id="formOk">
+        <div class="ico">✅</div>
+        <h4>지원이 접수되었습니다!</h4>
+        <p>담당자가 확인 후 빠르게 연락드리겠습니다.<br>급하시면 대표 <a href="tel:042-672-0901" style="color:#fff;font-weight:800">042-672-0901</a>로 전화 주세요.</p>
+      </div>
+    </div>
+
+    <div class="locs">
+      <div class="loc reveal">
+        <span class="pin">📍</span>
+        <div><div class="nm">Location 1</div><div class="ad">대전광역시 동구 용전동 80-19</div></div>
+        <a class="map" href="https://map.naver.com/p/search/대전 동구 용전동 80-19" target="_blank" rel="noopener">지도</a>
+      </div>
+      <div class="loc reveal">
+        <span class="pin">📍</span>
+        <div><div class="nm">Location 2</div><div class="ad">대전광역시 동구 백룡로22번길 3 (자양동)</div></div>
+        <a class="map" href="https://map.naver.com/p/search/대전 동구 백룡로22번길 3" target="_blank" rel="noopener">지도</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fl"><span class="mark">CP</span> CORE PARTNERS · 코어파트너스</div>
+    <p>대전 쿠팡이츠플러스 공식 협력사<br>
+    본사 · 대전광역시 동구 동서대로 1623 (홍도동) 4층 401호<br>
+    문의 042-672-0901 · 042-672-0777<br>
+    © 2026 CorePartners. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Sticky call bar -->
+<div class="callbar">
+  <div class="wrap">
+    <a class="c1" href="tel:042-672-0901">📞 전화 문의</a>
+    <a class="c2" href="#apply">🛵 라이더 신청</a>
+  </div>
+</div>
+
+<script>
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// application form submit
+(function(){
+  var form=document.getElementById('riderForm');
+  if(!form)return;
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=document.getElementById('submitBtn');
+    var err=document.getElementById('formErr');
+    err.style.display='none';
+    var data={
+      name:form.name.value.trim(),
+      phone:form.phone.value.trim(),
+      area:form.area.value.trim(),
+      bike:form.bike.value,
+      message:form.message.value.trim(),
+      source:'coupang-plus'
+    };
+    if(!data.name||!data.phone){err.textContent='이름과 연락처를 입력해 주세요.';err.style.display='block';return;}
+    btn.disabled=true;btn.textContent='전송 중…';
+    fetch('/api/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+      .then(function(r){return r.json().catch(function(){return{ok:false}})})
+      .then(function(res){
+        if(res&&res.ok){
+          document.getElementById('form-body').style.display='none';
+          document.getElementById('formOk').style.display='block';
+          document.getElementById('apply-form').scrollIntoView({behavior:'smooth',block:'center'});
+        }else{throw new Error('fail')}
+      })
+      .catch(function(){
+        btn.disabled=false;btn.textContent='지원 신청하기';
+        err.textContent='전송에 실패했습니다. 잠시 후 다시 시도하거나 전화로 문의해 주세요.';
+        err.style.display='block';
+      });
+  });
+})();
+</script>
+</body>
+</html>

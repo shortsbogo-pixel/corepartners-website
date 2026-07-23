@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import homeHtml from "../site/home.html?raw";
+import coupangHtml from "../site/coupang.html?raw";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/coupang-plus")({
   server: {
     handlers: {
       GET: async () =>
-        new Response(homeHtml, {
+        new Response(coupangHtml, {
           headers: { "Content-Type": "text/html; charset=utf-8" },
         }),
     },
