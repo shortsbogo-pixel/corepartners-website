@@ -34,31 +34,8 @@ export const Route = createFileRoute("/api/apply")({
         } catch {
           return Response.json({ ok: false, code: "db_error" }, { status: 500 });
         }
-
-        // Best-effort instant email notification (never blocks the submission).
-        try {
-          await fetch("https://formsubmit.co/ajax/shortsbogo@gmail.com", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify({
-              _subject: `🛵 [코어파트너스] 새 라이더 지원 · ${name}`,
-              _template: "table",
-              이름: name,
-              연락처: phone,
-              희망지역: area || "-",
-              이륜차: bike || "-",
-              메시지: message || "-",
-              출처: source || "-",
-              접수일시: createdAt,
-            }),
-          });
-        } catch {
-          // email failed — the application is still safely stored in the DB
-        }
-
+        // Email notification is sent client-side (browser → FormSubmit) for
+        // reliability; the application is always safely stored above.
         return Response.json({ ok: true });
       },
     },

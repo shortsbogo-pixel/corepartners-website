@@ -595,6 +595,20 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       .then(function(r){return r.json().catch(function(){return{ok:false}})})
       .then(function(res){
         if(res&&res.ok){
+          // instant email notification (browser -> FormSubmit), fire-and-forget
+          try{
+            fetch('https://formsubmit.co/ajax/shortsbogo@gmail.com',{
+              method:'POST',
+              headers:{'Content-Type':'application/json','Accept':'application/json'},
+              body:JSON.stringify({
+                _subject:'🛵 [코어파트너스] 새 라이더 지원 · '+data.name,
+                _template:'table',
+                이름:data.name,연락처:data.phone,
+                희망지역:data.area||'-',이륜차:data.bike,
+                메시지:data.message||'-',출처:data.source
+              })
+            }).catch(function(){});
+          }catch(e){}
           document.getElementById('form-body').style.display='none';
           document.getElementById('formOk').style.display='block';
           document.getElementById('apply-form').scrollIntoView({behavior:'smooth',block:'center'});
