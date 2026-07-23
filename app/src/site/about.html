@@ -51,8 +51,10 @@ a{color:inherit;text-decoration:none}
 .logo .mark{width:46px;height:46px;border-radius:11px;display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--navy);background:#fff;box-shadow:inset 0 0 0 2px rgba(14,38,71,.08)}
 .logo .nm{font-weight:800;font-size:16px;letter-spacing:.3px;line-height:1.12;color:#fff}
 .logo .nm small{display:block;font-size:11px;color:#aebedd;font-weight:600;letter-spacing:.5px}
-.gnb{margin-left:auto;display:flex;align-items:center;gap:24px}
-.gnb a.mn{font-size:14px;font-weight:650;color:#cfdaf0;transition:color .15s}
+.gnb{margin-left:auto;display:flex;align-items:center;gap:17px}
+.gnb a.mn{font-size:13.5px;font-weight:650;color:#cfdaf0;transition:color .15s;white-space:nowrap}
+.gnb a.mn-strong{color:#f5cf6b;font-weight:800}
+.gnb a.mn-strong:hover{color:#ffe08a}
 .gnb a.mn:hover{color:#fff}
 .gnb .cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--navy-deep);background:linear-gradient(135deg,#eec95f,#cf9a10);padding:9px 16px;border-radius:999px;box-shadow:0 4px 14px rgba(184,134,11,.35);transition:filter .15s}
 .gnb .cta:hover{filter:brightness(1.06)}
@@ -197,6 +199,7 @@ footer{margin-top:32px;padding:26px 0 32px}
 @media(max-width:820px){.subm{display:none}}
 
 section[id]{scroll-margin-top:74px}
+#apply-form,.applyform{scroll-margin-top:82px}
 .guide[id]{scroll-margin-top:82px}
 
 /* wayfinding routes — 3-color content code stripes */
@@ -348,6 +351,8 @@ section[id]{scroll-margin-top:74px}
         <a href="/center#center">진바이크 · 코아바이크</a>
       </span>
     </span>
+    <a class="mn" href="/coupang-plus#promo">이번주 쿠팡플러스미션</a>
+    <a class="mn mn-strong" href="/coupang-plus#apply-form">라이더 등록</a>
     <a class="cta" href="tel:0426720901">📞 대표문의</a>
     <button class="menu-toggle" id="menuToggle" aria-label="전체 메뉴 열기" aria-expanded="false" type="button"><span></span><span></span><span></span></button>
   </nav>
@@ -368,6 +373,21 @@ section[id]{scroll-margin-top:74px}
         <a href="/coupang-plus#start">5단계 시작 절차</a>
         <a href="/coupang-plus#startGuide">준비 서류 · 상세 안내</a>
         <a href="/coupang-plus#apply">온라인 지원 신청</a>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h" type="button">라이더 등록 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/coupang-plus#apply-form">온라인 지원 신청 (라이더 등록)</a>
+        <a href="/coupang-plus#startGuide">준비 서류 안내</a>
+        <a href="tel:0426720901">전화로 등록 042-672-0901</a>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h" type="button">이번주 쿠팡플러스미션 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/coupang-plus#promo">이번 주 프로모션 배너 보기</a>
+        <a href="/coupang-plus#benefits">미션 · 수익 안내</a>
       </div>
     </div>
     <div class="acc">
@@ -441,7 +461,6 @@ section[id]{scroll-margin-top:74px}
 <div class="contact reveal"><div class="cgrid">
 <div><h4>연락처</h4>
 <a class="cline" href="tel:0426720901"><span class="ic">📞</span><div><div class="k">대표문의</div><div class="v tnum">042-672-0901</div></div></a>
-<a class="cline" href="tel:0426720777"><span class="ic">📞</span><div><div class="k">문의</div><div class="v sm tnum">042-672-0777</div></div></a>
 </div>
 <div><h4>기본 정보</h4><div class="addr-line">
 <b>상호</b> · 코아파트너스<br>
@@ -469,7 +488,6 @@ section[id]{scroll-margin-top:74px}
     </div>
     <div class="fcol"><h5>문의</h5>
       <a href="tel:0426720901">대표 042-672-0901</a>
-      <a href="tel:0426720777">042-672-0777</a>
       <a href="https://blog.naver.com/core-coupang" target="_blank" rel="noopener">네이버 블로그</a>
     </div>
   </div>

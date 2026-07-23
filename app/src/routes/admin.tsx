@@ -97,9 +97,25 @@ td.dt{white-space:nowrap;color:#9fb2d4;font-variant-numeric:tabular-nums}
 .pill{font-size:11px;font-weight:800;padding:3px 9px;border-radius:6px;white-space:nowrap}
 .pill.rider{background:rgba(52,211,153,.16);color:#5ff0b0}
 .pill.inq{background:rgba(125,180,255,.16);color:#a9cbff}
+.promo-box{background:#152a4e;border:1px solid #26436f;border-radius:12px;padding:16px 18px;margin:0 0 18px}
+.promo-box h2{font-size:15px;margin:0 0 6px}
+.promo-box form{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0 12px}
+.promo-box input[type=file]{font-size:13px;color:#c5d5ef}
+.promo-box button{font-size:13px;font-weight:800;color:#0a1730;background:linear-gradient(135deg,#fde68a,#fbbf24);border:none;padding:10px 16px;border-radius:9px;cursor:pointer}
+.promo-prev{max-width:260px;border-radius:9px;border:1px solid #26436f;display:block}
 </style></head><body>
 <h1>🛵 지원·문의 접수 관리</h1>
 <p class="c">최근순 · 최대 1,000건 · 자동 새로고침 없음</p>
+<div class="promo-box">
+<h2>📢 이번주 쿠팡플러스미션 배너 교체</h2>
+<p class="c">${url.searchParams.get("promo") === "ok" ? '<b style="color:#5ff0b0">✔ 배너가 교체되었습니다. 사이트에 즉시 반영됩니다.</b>' : "webp / png / jpg · 최대 5MB · 업로드 즉시 모집 페이지의 배너가 바뀝니다."}</p>
+<form method="post" enctype="multipart/form-data" action="/api/promo-upload?key=${encodeURIComponent(key)}">
+<input type="file" name="banner" accept="image/webp,image/png,image/jpeg" required>
+<button type="submit">배너 업로드</button>
+</form>
+<p class="c">현재 배너 미리보기:</p>
+<img class="promo-prev" src="/promo-banner?t=${Date.now()}" alt="현재 프로모션 배너">
+</div>
 <div class="bar">
 ${tab("all", "전체", cAll)}
 ${tab("rider", "라이더지원", cRider)}
