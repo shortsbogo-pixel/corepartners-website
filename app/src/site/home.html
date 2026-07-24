@@ -206,6 +206,30 @@ section[id]{scroll-margin-top:74px}
 .pcard.compact{max-width:340px;margin:0 auto}
 @media(max-width:640px){.pcard.compact{max-width:270px}}
 
+/* brand film — vertical player */
+.film{display:grid;grid-template-columns:1fr 1.25fr;gap:34px;align-items:center;max-width:900px;margin:6px auto 0}
+@media(max-width:820px){.film{grid-template-columns:1fr;gap:20px;max-width:420px}}
+.film-stage{position:relative;background:var(--navy-deep);border-radius:22px;padding:10px;box-shadow:var(--shadow-lg);border:1px solid var(--line)}
+.film-stage video{display:block;width:100%;border-radius:14px;background:#000}
+.film-sound{position:absolute;right:20px;bottom:20px;display:inline-flex;align-items:center;gap:6px;border:none;cursor:pointer;font-family:inherit;font-size:12px;font-weight:800;color:var(--navy-deep);background:rgba(255,255,255,.92);padding:8px 13px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.28)}
+.film-copy h3{font-size:clamp(20px,4.4vw,26px);font-weight:850;letter-spacing:-.03em;color:var(--navy);line-height:1.3}
+.film-copy p{margin-top:12px;font-size:14px;color:var(--txt-2);line-height:1.72}
+.film-meta{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+.film-meta span{font-size:11.5px;font-weight:750;color:var(--navy);background:#fff;border:1px solid var(--line-2);padding:7px 12px;border-radius:999px;box-shadow:var(--shadow)}
+.film-cta{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}
+
+/* home teaser entry */
+.film-teaser{max-width:300px;margin:0 auto;display:block;position:relative;border-radius:18px;overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--line)}
+.film-teaser img{display:block;width:100%}
+.film-teaser .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,28,54,.05),rgba(10,28,54,.72))}
+.film-teaser .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.94);display:grid;place-items:center;font-size:19px;color:var(--navy);box-shadow:0 8px 22px rgba(0,0,0,.3)}
+.film-teaser .lab{position:absolute;left:0;right:0;bottom:0;padding:14px;color:#fff}
+.film-teaser .lab b{display:block;font-size:14.5px;font-weight:850;letter-spacing:-.02em}
+.film-teaser .lab small{display:block;font-size:11.5px;color:#c6d5f2;margin-top:3px}
+.dual{display:flex;gap:20px;justify-content:center;align-items:flex-start;flex-wrap:wrap}
+.dual>*{flex:0 1 300px;margin:0!important}
+@media(max-width:640px){.dual{gap:14px}.dual>*{flex:0 1 250px}}
+
 /* wayfinding routes — 3-color content code stripes */
 .finder{padding:30px 0 6px}
 .finder-h{text-align:center;margin-bottom:20px}
@@ -344,6 +368,7 @@ section[id]{scroll-margin-top:74px}
     </span>
     <span class="has-sub"><a class="mn" href="/coupang-plus#benefits">혜택</a>
       <span class="subm">
+        <a href="/coupang-plus#film">브랜드 영상 보기</a>
         <a href="/coupang-plus#benefits">미션 · 수익 안내</a>
         <a href="/coupang-plus#weekly">주간 누적 보상</a>
         <a href="/coupang-plus#promo">이번 주 프로모션</a>
@@ -394,12 +419,162 @@ section[id]{scroll-margin-top:74px}
       <button class="acc-h" type="button">이번주 쿠팡플러스미션 <i>▾</i></button>
       <div class="acc-b">
         <a href="/coupang-plus#promo">이번 주 프로모션 배너 보기</a>
+        <a href="/coupang-plus#film">브랜드 영상 보기</a>
         <a href="/coupang-plus#benefits">미션 · 수익 안내</a>
       </div>
     </div>
     <div class="acc">
       <button class="acc-h" type="button">혜택 <i>▾</i></button>
       <div class="acc-b">
+        <a href="/coupang-plus#film">브랜드 영상 보기</a>
+        <a href="/coupang-plus#benefits">미션 · 수익 안내</a>
+        <a href="/coupang-plus#weekly">주간 누적 보상</a>
+        <a href="/coupang-plus#promo">이번 주 프로모션</a>
+        <a href="/coupang-plus#welfare">라이더 복지</a>
+        <a href="/coupang-plus#faq">자주 묻는 질문</a>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h" type="button">센터 · 렌트 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/center">오토바이센터 서비스</a>
+        <a href="/center#rent">EV 렌트 · 일 9,500원~</a>
+        <a href="/center#center">진바이크 · 코아바이크</a>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h" type="button">서비스 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/coupang-plus">쿠팡이츠플러스 · 모집중</a>
+        <a href="/#services">배민플러스 · 준비중</a>
+        <a href="/#services">바로고 B2B · 꼬르륵 배달대행</a>
+      </div>
+    </div>
+  </div>
+</div>
+<header class="hero"><div class="wrap">
+  <span class="eyebrow"><span class="dot"></span>대전 배달 인프라 종합기업</span>
+  <h1>배달 플랫폼부터<br><span class="grad">라이더 인프라</span>까지</h1>
+  <p class="sub">쿠팡·배민 공식 협력사부터 배달대행·오토바이센터까지, 대전의 배달을 한 곳에서 책임집니다.</p>
+  <div class="trust">
+    <span class="b"><span class="ck">✔</span> 쿠팡이츠플러스 공식 협력사</span>
+    <span class="b"><span class="ck">✔</span> 배민플러스 협력사</span>
+    <span class="b"><span class="ck">✔</span> 오토바이센터 2개 직영</span>
+  </div>
+</div></header>
+
+<!-- Wayfinding -->
+<section class="finder"><div class="wrap">
+  <div class="finder-h">
+    <div class="k">Find your way</div>
+    <h2>무엇을 찾고 계신가요?</h2>
+    <p>필요하신 것을 골라주세요. 바로 안내해 드립니다.</p>
+  </div>
+  <div class="routes">
+    <a class="route t-rider reveal" href="/coupang-plus">
+      <span class="ic">🛵</span>
+      <h3>라이더로 일하고 싶어요</h3>
+      <p>쿠팡플러스 라이더 모집 중. <span class="hl">콜비 + 미션 주 150만원 이상</span> 도전, 복지·정비 지원까지.</p>
+      <span class="go">모집·지원 보기 →</span>
+    </a>
+    <a class="route t-store reveal" href="#contact">
+      <span class="ic">🏪</span>
+      <h3>가게 배달을 맡기고 싶어요</h3>
+      <p>바로고 B2B·꼬르륵으로 <span class="hl">안정적인 배달대행</span>. 가맹점·입점 상담 환영합니다.</p>
+      <span class="go">가맹 문의하기 →</span>
+    </a>
+    <a class="route t-center reveal" href="/center">
+      <span class="ic">🔧</span>
+      <h3>오토바이 정비·매입</h3>
+      <p><span class="hl">진바이크·코아바이크</span> 직영 센터. 정비·점검·소모품·매입/판매까지.</p>
+      <span class="go">센터 보기 →</span>
+    </a>
+  </div>
+  <div class="stats reveal">
+    <div class="stat"><b><em>2</em></b><span>공식 협력 플랫폼</span></div>
+    <div class="stat"><b><em>4+</em></b><span>배달 서비스</span></div>
+    <div class="stat"><b><em>2</em></b><span>오토바이센터 직영</span></div>
+    <div class="stat"><b><em>대전</em></b><span>전역 운영</span></div>
+  </div>
+  <div class="dual">
+
+  </div>
+  <nav class="gnb">
+    <span class="has-sub"><a class="mn" href="/about">소개</a>
+      <span class="subm">
+        <a href="/about">코아파트너스 소개</a>
+        <a href="/about#contact">회사 정보</a>
+        <a href="/#contact">문의 · 오시는 길</a>
+      </span>
+    </span>
+    <span class="has-sub"><a class="mn" href="/coupang-plus#start">시작 가이드</a>
+      <span class="subm">
+        <a href="/coupang-plus#start">5단계 시작 절차</a>
+        <a href="/coupang-plus#startGuide">준비 서류 · 상세 안내</a>
+        <a href="/coupang-plus#apply">온라인 지원 신청</a>
+      </span>
+    </span>
+    <span class="has-sub"><a class="mn" href="/coupang-plus#benefits">혜택</a>
+      <span class="subm">
+        <a href="/coupang-plus#film">브랜드 영상 보기</a>
+        <a href="/coupang-plus#benefits">미션 · 수익 안내</a>
+        <a href="/coupang-plus#weekly">주간 누적 보상</a>
+        <a href="/coupang-plus#promo">이번 주 프로모션</a>
+        <a href="/coupang-plus#welfare">라이더 복지</a>
+        <a href="/coupang-plus#faq">자주 묻는 질문</a>
+      </span>
+    </span>
+    <span class="has-sub"><a class="mn" href="/center">센터 · 렌트</a>
+      <span class="subm">
+        <a href="/center">오토바이센터 서비스</a>
+        <a href="/center#rent">EV 렌트 · 일 9,500원~</a>
+        <a href="/center#center">진바이크 · 코아바이크</a>
+      </span>
+    </span>
+    <a class="mn" href="/coupang-plus#promo">이번주 쿠팡플러스미션</a>
+    <a class="mn mn-strong" href="/coupang-plus#apply-form">라이더 등록</a>
+    <a class="cta" href="tel:0426720901">📞 대표문의</a>
+    <button class="menu-toggle" id="menuToggle" aria-label="전체 메뉴 열기" aria-expanded="false" type="button"><span></span><span></span><span></span></button>
+  </nav>
+</div></div>
+<div class="drawer" id="drawer">
+  <div class="wrap">
+    <div class="acc">
+      <button class="acc-h" type="button">소개 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/about">코아파트너스 소개</a>
+        <a href="/about#contact">회사 정보</a>
+        <a href="/#contact">문의 · 오시는 길</a>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h" type="button">시작 가이드 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/coupang-plus#start">5단계 시작 절차</a>
+        <a href="/coupang-plus#startGuide">준비 서류 · 상세 안내</a>
+        <a href="/coupang-plus#apply">온라인 지원 신청</a>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h" type="button">라이더 등록 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/coupang-plus#apply-form">온라인 지원 신청 (라이더 등록)</a>
+        <a href="/coupang-plus#startGuide">준비 서류 안내</a>
+        <a href="tel:0426720901">전화로 등록 042-672-0901</a>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h" type="button">이번주 쿠팡플러스미션 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/coupang-plus#promo">이번 주 프로모션 배너 보기</a>
+        <a href="/coupang-plus#film">브랜드 영상 보기</a>
+        <a href="/coupang-plus#benefits">미션 · 수익 안내</a>
+      </div>
+    </div>
+    <div class="acc">
+      <button class="acc-h" type="button">혜택 <i>▾</i></button>
+      <div class="acc-b">
+        <a href="/coupang-plus#film">브랜드 영상 보기</a>
         <a href="/coupang-plus#benefits">미션 · 수익 안내</a>
         <a href="/coupang-plus#weekly">주간 누적 보상</a>
         <a href="/coupang-plus#promo">이번 주 프로모션</a>
@@ -470,6 +645,11 @@ section[id]{scroll-margin-top:74px}
     <div class="stat"><b><em>대전</em></b><span>전역 운영</span></div>
   </div>
   <div class="pcard compact reveal"><img src="/assets/infra-compact.webp" alt="배달 플랫폼부터 라이더 인프라까지 — 코아파트너스 사업 연결 다이어그램" loading="lazy"></div>
+  <a class="film-teaser reveal" href="/coupang-plus#film">
+    <img src="/assets/promo-video-poster.webp" alt="코아파트너스 홍보영상 미리보기" loading="lazy">
+    <span class="veil"></span><span class="play">▶</span>
+    <span class="lab"><b>36초 브랜드 영상 보기</b><small>운행 · 정산 · 복지 · 정비센터</small></span>
+  </a>
 </div></section>
 
 <!-- Services -->
