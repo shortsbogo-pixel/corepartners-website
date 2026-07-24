@@ -679,5 +679,85 @@ document.addEventListener('click',function(e){
   if(a){e.preventDefault();window.location.href=a.getAttribute('href');}
 },true);
 </script>
+<!-- 코아 AI 상담 위젯 -->
+<style>
+.cw-fab{position:fixed;right:16px;bottom:20px;z-index:70;display:none;align-items:center;gap:8px;background:linear-gradient(135deg,#173a6e,#0e2647);color:#fff;border:none;border-radius:999px;padding:13px 18px;font:800 14px/1 'Pretendard Variable',Pretendard,sans-serif;box-shadow:0 10px 26px rgba(14,38,71,.35);cursor:pointer}
+.cw-fab .e{font-size:17px}
+@media(max-width:720px){.cw-fab{bottom:86px;right:12px;padding:12px 15px}}
+.cw-panel{position:fixed;right:16px;bottom:20px;z-index:71;width:min(94vw,370px);height:min(74vh,540px);background:#fff;border:1px solid #e7edee;border-radius:18px;box-shadow:0 24px 60px rgba(14,38,71,.28);display:none;flex-direction:column;overflow:hidden;font-family:'Pretendard Variable',Pretendard,sans-serif}
+@media(max-width:720px){.cw-panel{right:8px;left:8px;width:auto;bottom:8px;height:min(80vh,560px)}}
+.cw-h{background:#0e2647;color:#fff;padding:13px 16px;display:flex;align-items:center;gap:9px}
+.cw-h b{font-size:14.5px}
+.cw-h small{display:block;font-size:10.5px;color:#aebedd;font-weight:600}
+.cw-x{margin-left:auto;background:rgba(255,255,255,.12);border:none;color:#fff;width:28px;height:28px;border-radius:8px;font-size:14px;cursor:pointer}
+.cw-m{flex:1;overflow-y:auto;padding:14px;background:#f5f9f9;display:flex;flex-direction:column;gap:9px}
+.cw-b{max-width:84%;padding:10px 13px;border-radius:14px;font-size:13.5px;line-height:1.6;word-break:keep-all;white-space:pre-wrap}
+.cw-b.bot{background:#fff;border:1px solid #e7edee;color:#1d2434;align-self:flex-start;border-bottom-left-radius:5px}
+.cw-b.me{background:#173a6e;color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+.cw-apply{display:inline-block;margin-top:8px;background:linear-gradient(135deg,#eec95f,#cf9a10);color:#0a1c36;font-weight:850;font-size:13px;padding:9px 15px;border-radius:999px;text-decoration:none}
+.cw-chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 8px;background:#f5f9f9}
+.cw-chips button{background:#fff;border:1px solid #d6dee0;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700;color:#173a6e;cursor:pointer}
+.cw-in{display:flex;gap:8px;padding:10px;border-top:1px solid #e7edee;background:#fff}
+.cw-in input{flex:1;border:1px solid #d6dee0;border-radius:11px;padding:11px 12px;font-size:16px;font-family:inherit}
+.cw-in input:focus{outline:none;border-color:#173a6e}
+.cw-in button{background:#0e2647;color:#fff;border:none;border-radius:11px;padding:0 16px;font-weight:800;font-size:14px;cursor:pointer}
+.cw-in button:disabled{opacity:.5}
+.cw-note{font-size:10px;color:#7b8499;text-align:center;padding:0 10px 8px;background:#fff}
+.cw-typing i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#a4abbc;margin:0 1.5px;animation:cwt 1s infinite}
+.cw-typing i:nth-child(2){animation-delay:.15s}.cw-typing i:nth-child(3){animation-delay:.3s}
+@keyframes cwt{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
+</style>
+<button class="cw-fab" id="cwFab" type="button"><span class="e">💬</span> AI 상담</button>
+<div class="cw-panel" id="cwPanel">
+  <div class="cw-h"><span style="font-size:19px">🛵</span><div><b>코아 AI 상담</b><small>미션·수익·렌트·지원 절차, 무엇이든 물어보세요</small></div><button class="cw-x" id="cwClose" type="button">✕</button></div>
+  <div class="cw-m" id="cwMsgs"></div>
+  <div class="cw-chips" id="cwChips">
+    <button type="button">수익이 궁금해요</button>
+    <button type="button">오토바이가 없어요</button>
+    <button type="button">준비 서류는?</button>
+    <button type="button">지원하고 싶어요</button>
+  </div>
+  <div class="cw-in"><input id="cwInput" type="text" maxlength="500" placeholder="궁금한 점을 입력하세요" autocomplete="off"><button id="cwSend" type="button">전송</button></div>
+  <div class="cw-note">AI 안내는 참고용입니다 · 이번 주 조건·개인 사안은 042-672-0901</div>
+</div>
+<script>
+(function(){
+  var fab=document.getElementById('cwFab'),panel=document.getElementById('cwPanel'),msgs=document.getElementById('cwMsgs'),
+      input=document.getElementById('cwInput'),send=document.getElementById('cwSend'),chips=document.getElementById('cwChips');
+  if(!fab)return;
+  var hist=[],busy=false;
+  fetch('/api/chat').then(function(r){return r.json()}).then(function(d){if(d&&d.enabled){fab.style.display='inline-flex';}}).catch(function(){});
+  function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+  function add(role,text){
+    var b=document.createElement('div');b.className='cw-b '+(role==='me'?'me':'bot');
+    var t=esc(text);
+    if(role==='bot'){t=t.replace(/\{\{APPLY\}\}/g,'');}
+    b.innerHTML=t;
+    if(role==='bot'&&text.indexOf('{{APPLY}}')>-1){
+      var a=document.createElement('a');a.className='cw-apply';a.href='/coupang-plus#apply-form';a.textContent='📝 온라인 지원 신청 바로가기';b.appendChild(document.createElement('br'));b.appendChild(a);
+    }
+    msgs.appendChild(b);msgs.scrollTop=msgs.scrollHeight;return b;
+  }
+  function typing(){var b=document.createElement('div');b.className='cw-b bot cw-typing';b.innerHTML='<i></i><i></i><i></i>';msgs.appendChild(b);msgs.scrollTop=msgs.scrollHeight;return b;}
+  function ask(q){
+    if(busy||!q)return;busy=true;send.disabled=true;
+    add('me',q);hist.push({role:'user',content:q});input.value='';
+    var tp=typing();
+    fetch('/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({messages:hist.slice(-12)})})
+      .then(function(r){return r.json()})
+      .then(function(d){tp.remove();var rep=(d&&d.reply)||'죄송해요, 다시 시도해 주세요.';add('bot',rep);hist.push({role:'assistant',content:rep.replace(/\{\{APPLY\}\}/g,'')});})
+      .catch(function(){tp.remove();add('bot','연결이 원활하지 않아요. 042-672-0901로 전화 주세요.');})
+      .finally(function(){busy=false;send.disabled=false;});
+  }
+  fab.addEventListener('click',function(){panel.style.display='flex';fab.style.display='none';
+    if(!msgs.children.length){add('bot','안녕하세요! 코아파트너스 AI 상담입니다 🛵\n미션·수익·EV 렌트·지원 절차까지 무엇이든 물어보세요.');}
+    input.focus();});
+  document.getElementById('cwClose').addEventListener('click',function(){panel.style.display='none';fab.style.display='inline-flex';});
+  send.addEventListener('click',function(){ask(input.value.trim());});
+  input.addEventListener('keydown',function(e){if(e.key==='Enter'){ask(input.value.trim());}});
+  chips.addEventListener('click',function(e){if(e.target.tagName==='BUTTON'){ask(e.target.textContent);}});
+})();
+</script>
+
 </body>
 </html>

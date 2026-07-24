@@ -19,6 +19,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as PromoBannerRouteImport } from './routes/promo-banner'
 import { Route as ApiApplyRouteImport } from './routes/api/apply'
 import { Route as ApiPromoUploadRouteImport } from './routes/api/promo-upload'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -70,6 +71,11 @@ const ApiPromoUploadRoute = ApiPromoUploadRouteImport.update({
   path: '/api/promo-upload',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/api/apply': typeof ApiApplyRoute
   '/promo-banner': typeof PromoBannerRoute
   '/api/promo-upload': typeof ApiPromoUploadRoute
+  '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/api/apply': typeof ApiApplyRoute
   '/promo-banner': typeof PromoBannerRoute
   '/api/promo-upload': typeof ApiPromoUploadRoute
+  '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/api/apply': typeof ApiApplyRoute
   '/promo-banner': typeof PromoBannerRoute
   '/api/promo-upload': typeof ApiPromoUploadRoute
+  '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/api/apply'
     | '/promo-banner'
     | '/api/promo-upload'
+    | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/api/apply'
     | '/promo-banner'
     | '/api/promo-upload'
+    | '/api/chat'
   id:
     | '__root__'
     | '/'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/api/apply'
     | '/promo-banner'
     | '/api/promo-upload'
+    | '/api/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,6 +170,7 @@ export interface RootRouteChildren {
   ApiApplyRoute: typeof ApiApplyRoute
   PromoBannerRoute: typeof PromoBannerRoute
   ApiPromoUploadRoute: typeof ApiPromoUploadRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -232,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPromoUploadRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -246,6 +266,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiApplyRoute: ApiApplyRoute,
   PromoBannerRoute: PromoBannerRoute,
   ApiPromoUploadRoute: ApiPromoUploadRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
