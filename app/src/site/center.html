@@ -296,6 +296,19 @@ section[id]{scroll-margin-top:74px}
 .insc.help li::before{background:var(--gold)}
 .disc{max-width:900px;margin:16px auto 0;font-size:11.5px;color:var(--mut);line-height:1.6;background:var(--tint);border:1px solid var(--line);border-radius:12px;padding:13px 16px}
 
+/* center one-stop pillar strip (center page only) */
+.onestop{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:860px;margin:26px auto 0}
+@media(max-width:680px){.onestop{grid-template-columns:1fr}}
+.osp{display:block;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px 18px;text-align:center;box-shadow:var(--shadow);text-decoration:none;transition:.18s;position:relative;overflow:hidden}
+.osp::before{content:"";position:absolute;left:0;top:0;right:0;height:4px;background:var(--navy)}
+.osp:nth-child(2)::before{background:var(--teal)}
+.osp:nth-child(3)::before{background:var(--gold)}
+.osp:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.osp .oi{font-size:28px;display:block;margin-bottom:8px}
+.osp h3{font-size:15.5px;color:var(--navy);font-weight:850;letter-spacing:-.02em}
+.osp p{font-size:12px;color:var(--txt-2);margin-top:5px;line-height:1.55}
+.osp .go{display:inline-block;margin-top:10px;font-size:12px;font-weight:800;color:var(--teal)}
+
 /* wayfinding routes — 3-color content code stripes */
 .finder{padding:30px 0 6px}
 .finder-h{text-align:center;margin-bottom:20px}
@@ -443,11 +456,8 @@ section[id]{scroll-margin-top:74px}
       <span class="subm">
         <a href="/center">오토바이센터 서비스</a>
         <a href="/center#rent">차량 렌트 · 리스</a>
-        <a href="/center#rent-ev">— EV 전기 오토바이</a>
-        <a href="/center#rent-gas">— 내연기관 오토바이</a>
-        <a href="/center#rent-guide">— 렌트·리스 / 연령대 안내</a>
         <a href="/center#accident">사고 · 보험 지원</a>
-        <a href="/center#center">진바이크 · 코아바이크 (지점)</a>
+        <a href="/center#center">진바이크 · 코아바이크</a>
       </span>
     </span>
     <a class="mn" href="/coupang-plus#promo">이번주 쿠팡플러스미션</a>
@@ -506,11 +516,8 @@ section[id]{scroll-margin-top:74px}
       <div class="acc-b">
         <a href="/center">오토바이센터 서비스</a>
         <a href="/center#rent">차량 렌트 · 리스</a>
-        <a href="/center#rent-ev">— EV 전기 오토바이</a>
-        <a href="/center#rent-gas">— 내연기관 오토바이</a>
-        <a href="/center#rent-guide">— 렌트·리스 / 연령대 안내</a>
         <a href="/center#accident">사고 · 보험 지원</a>
-        <a href="/center#center">진바이크 · 코아바이크 (지점)</a>
+        <a href="/center#center">진바이크 · 코아바이크</a>
       </div>
     </div>
     <div class="acc">
@@ -524,15 +531,20 @@ section[id]{scroll-margin-top:74px}
   </div>
 </div>
 <header class="hero"><div class="wrap">
-<span class="eyebrow"><span class="dot"></span>오토바이센터 직영</span>
-<h1>오토바이센터<br><span class="grad">직접 운영</span></h1>
-<p class="sub">대전 2개 직영 지점에서 정비·점검부터 매입·판매, 라이더 장비 지원까지.</p>
+<span class="eyebrow"><span class="dot"></span>대전 2개 지점 직영 운영</span>
+<h1>수리부터 렌트·사고처리까지<br><span class="grad">직영 센터 원스톱</span></h1>
+<p class="sub">내연기관·전기 오토바이의 수리와 렌트·리스, 대물 보험사고 처리까지 — 직영이라서 한 곳에서 끝납니다.</p>
 <div class="hero-cta">
 <a class="btn btn-primary" href="tel:0426720901">📞 센터 문의</a>
 <a class="btn btn-ghost" href="/#contact">오시는 길</a>
 </div>
+<div class="onestop">
+  <a class="osp reveal" href="#center-service"><span class="oi">🔧</span><h3>수리 · 정비</h3><p>내연기관·전기 오토바이<br>전문 정비와 소모품 관리</p><span class="go">서비스 보기 →</span></a>
+  <a class="osp reveal" href="#rent"><span class="oi">🔑</span><h3>렌트 · 리스</h3><p>EV부터 유상운송용 내연기관까지<br>연령대별 상담 가능</p><span class="go">차량 보기 →</span></a>
+  <a class="osp reveal" href="#accident"><span class="oi">🛡</span><h3>사고 · 보험 지원</h3><p>대물 수리 연계와 처리 절차<br>초기 대응부터 동행</p><span class="go">지원 안내 →</span></a>
+</div>
 </div></header>
-<section><div class="wrap">
+<section id="center-service"><div class="wrap">
 <div class="sec-head"><div class="sec-kicker">Services</div><h2>센터 서비스</h2>
 <p>이륜차 관련 모든 것을 한 곳에서 — 라이더도, 일반 고객도 환영합니다.</p></div>
 <div class="pcard compact reveal"><img src="/assets/cut06-mechanic.webp" alt="직영 오토바이센터에서 스쿠터를 점검하는 코아파트너스 정비사"></div>
@@ -698,7 +710,7 @@ section[id]{scroll-margin-top:74px}
     <div class="fcol"><h5>센터 · 렌트</h5>
       <a href="/center">오토바이센터</a>
       <a href="/center#rent">차량 렌트 · 리스</a>
-      <a href="/center#accident">사고 · 보험 지원</a>
+      <a href="/about">회사소개</a>
     </div>
     <div class="fcol"><h5>문의</h5>
       <a href="tel:0426720901">대표 042-672-0901</a>
