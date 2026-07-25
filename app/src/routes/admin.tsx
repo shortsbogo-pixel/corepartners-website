@@ -108,9 +108,12 @@ td.dt{white-space:nowrap;color:#9fb2d4;font-variant-numeric:tabular-nums}
 <p class="c">최근순 · 최대 1,000건 · 자동 새로고침 없음</p>
 <div class="promo-box">
 <h2>📢 이번주 쿠팡플러스미션 배너 교체</h2>
-<p class="c">${url.searchParams.get("promo") === "ok" ? '<b style="color:#5ff0b0">✔ 배너가 교체되었습니다. 사이트에 즉시 반영됩니다.</b>' : "webp / png / jpg · 최대 5MB · 업로드 즉시 모집 페이지의 배너가 바뀝니다."}</p>
+<p class="c">${url.searchParams.get("promo") === "ok" ? '<b style="color:#5ff0b0">✔ 배너가 교체되었습니다. 사이트에 즉시 반영됩니다.</b>' : "webp / png / jpg · 최대 5MB · 주차 라벨과 적용 기간(시작·종료일)을 함께 입력하면 페이지의 기간 표시도 같이 갱신됩니다."}</p>
 <form method="post" enctype="multipart/form-data" action="/api/promo-upload?key=${encodeURIComponent(key)}">
 <input type="file" name="banner" accept="image/webp,image/png,image/jpeg" required>
+<input type="text" name="label" placeholder="주차 라벨 (예: 2026년 7월 5주차 프로모션)" maxlength="60" style="flex:1;min-width:240px;background:#0f2244;border:1px solid #26436f;border-radius:8px;color:#e8f0ff;padding:9px 11px;font-size:13px">
+<label style="font-size:12px;color:#8fa3c8">시작 <input type="date" name="start" style="background:#0f2244;border:1px solid #26436f;border-radius:8px;color:#e8f0ff;padding:8px;font-size:13px"></label>
+<label style="font-size:12px;color:#8fa3c8">종료 <input type="date" name="end" style="background:#0f2244;border:1px solid #26436f;border-radius:8px;color:#e8f0ff;padding:8px;font-size:13px"></label>
 <button type="submit">배너 업로드</button>
 </form>
 <p class="c">현재 배너 미리보기:</p>
