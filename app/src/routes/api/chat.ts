@@ -6,6 +6,7 @@ type Msg = { role: "user" | "assistant"; content: string };
 
 const WINDOW_MS = 10 * 60 * 1000;
 const WINDOW_MAX = 20;
+const DAILY_MAX = 300; // daily usage cap (user turns) — cost guard
 
 async function rateLimited(ip: string): Promise<boolean> {
   try {
@@ -33,6 +34,55 @@ async function rateLimited(ip: string): Promise<boolean> {
   }
 }
 
+function kstDayPrefix(): string {
+  const kst = new Date(Date.now() + 9 * 3600 * 1000);
+  return kst.toISOString().slice(0, 10);
+}
+
+async function dailyCapped(): Promise<boolean> {
+  try {
+    const db = bindings().DB;
+    if (!db) return false;
+    const row = await db
+      .prepare("SELECT COUNT(*) AS c FROM chat_logs WHERE role = 'user' AND created_at LIKE ?")
+      .bind(kstDayPrefix() + "%")
+      .first<{ c: number }>();
+    return !!row && Number(row.c) >= DAILY_MAX;
+  } catch {
+    return false;
+  }
+}
+
+// privacy: mask phone-like and RRN-like digit runs before persisting
+function mask(s: string): string {
+  return s
+    .replace(/\d{6}[-\s]?\d{7}/g, "******-*******")
+    .replace(/0\d{1,2}[-.\s]?\d{3,4}[-.\s]?\d{4}/g, "0**-****-****")
+    .replace(/\d{9,11}/g, "***********");
+}
+
+function topicOf(s: string): string {
+  if (/(사고|보험|산재|파손|다쳤)/.test(s)) return "사고·보험";
+  if (/(렌트|리스|바이크|기종|오토바이|전기|EV|내연)/i.test(s)) return "렌트·리스";
+  if (/(수익|미션|정산|콜비|얼마|150만|보상)/.test(s)) return "수익·미션";
+  if (/(지원|등록|신청|시작|서류|면허)/.test(s)) return "지원 절차";
+  if (/(가맹|입점|가게|사장|배달대행)/.test(s)) return "가맹·입점";
+  return "기타";
+}
+
+async function log(session: string, role: string, topic: string, flagged: number, content: string) {
+  try {
+    const db = bindings().DB;
+    if (!db) return;
+    await db
+      .prepare("INSERT INTO chat_logs (id, session, role, topic, flagged, content, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)")
+      .bind(crypto.randomUUID(), session, role, topic, flagged, mask(content).slice(0, 800), new Date(Date.now() + 9 * 3600 * 1000).toISOString().replace("Z", "+09:00"))
+      .run();
+  } catch {
+    // logging is best-effort
+  }
+}
+
 export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
@@ -51,12 +101,18 @@ export const Route = createFileRoute("/api/chat")({
             reply: "잠시 요청이 많아요. 몇 분 후 다시 시도하시거나 042-672-0901로 전화 주세요.",
           });
         }
-        let body: { messages?: Msg[] };
+        if (await dailyCapped()) {
+          return Response.json({
+            reply: "오늘 AI 상담이 몰려 잠시 쉬어갑니다. 042-672-0901(평일 10:30~18:00)로 전화 주시면 바로 도와드립니다. {{CALL}}",
+          });
+        }
+        let body: { messages?: Msg[]; session?: string };
         try {
           body = await request.json();
         } catch {
           return Response.json({ reply: "요청 형식이 올바르지 않습니다." }, { status: 400 });
         }
+        const session = String(body.session ?? "").replace(/[^a-z0-9]/gi, "").slice(0, 24) || "anon";
         const raw = Array.isArray(body.messages) ? body.messages : [];
         const messages: Msg[] = raw
           .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
@@ -65,6 +121,9 @@ export const Route = createFileRoute("/api/chat")({
         if (messages.length === 0 || messages[messages.length - 1].role !== "user") {
           return Response.json({ reply: "무엇이 궁금하신가요? 미션, 수익, 렌트, 지원 절차 모두 물어보세요." });
         }
+        const userMsg = messages[messages.length - 1].content;
+        const topic = topicOf(userMsg);
+        await log(session, "user", topic, 0, userMsg);
         try {
           const res = await fetch("https://api.anthropic.com/v1/messages", {
             method: "POST",
@@ -92,6 +151,8 @@ export const Route = createFileRoute("/api/chat")({
               .map((c) => c.text)
               .join("\n")
               .trim() || "죄송해요, 다시 한 번 여쭤봐 주시겠어요?";
+          const flagged = /042-672-0901/.test(reply) && /(문의해 주세요|전화 주세요|전화로 확인)/.test(reply) ? 1 : 0;
+          await log(session, "assistant", topic, flagged, reply.replace(/\{\{(APPLY|CALL)\}\}/g, ""));
           return Response.json({ reply });
         } catch {
           return Response.json({

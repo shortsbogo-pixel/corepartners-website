@@ -79,6 +79,34 @@ export const Route = createFileRoute("/admin")({
           })
           .join("");
         const expHref = `/admin?key=${encodeURIComponent(key)}&type=${type}&export=csv`;
+        // ---- AI chatbot logs (masked) ----
+        let chatTopics: Array<{ topic: string; n: number }> = [];
+        let chatFlagged = 0;
+        let chatRows: Array<{ created_at: string; role: string; topic: string; flagged: number; content: string }> = [];
+        try {
+          if (db) {
+            const weekAgo = new Date(Date.now() - 7 * 86400 * 1000 + 9 * 3600 * 1000).toISOString();
+            chatTopics = ((await db
+              .prepare("SELECT topic, COUNT(*) AS n FROM chat_logs WHERE role = 'user' AND created_at >= ? GROUP BY topic ORDER BY n DESC")
+              .bind(weekAgo)
+              .all()) .results ?? []) as Array<{ topic: string; n: number }>;
+            const fl = await db
+              .prepare("SELECT COUNT(*) AS c FROM chat_logs WHERE flagged = 1 AND created_at >= ?")
+              .bind(weekAgo)
+              .first<{ c: number }>();
+            chatFlagged = fl ? Number(fl.c) : 0;
+            chatRows = ((await db
+              .prepare("SELECT created_at, role, topic, flagged, content FROM chat_logs ORDER BY created_at DESC LIMIT 30")
+              .all()).results ?? []) as Array<{ created_at: string; role: string; topic: string; flagged: number; content: string }>;
+          }
+        } catch { /* table may not exist yet */ }
+        const chatTopicHtml = chatTopics.length
+          ? chatTopics.map((r) => `<span class="ct"><b>${esc(r.topic)}</b> ${r.n}건</span>`).join(" ")
+          : '<span class="c">아직 대화 기록이 없습니다.</span>';
+        const chatTrs = chatRows
+          .map((r) => `<tr class="${r.role === 'user' ? 'cu' : ''}${r.flagged ? ' cf' : ''}"><td>${esc(r.created_at.slice(5, 16).replace('T', ' '))}</td><td>${r.role === 'user' ? '👤 질문' : '🤖 답변'}</td><td>${esc(r.topic ?? '-')}</td><td>${r.flagged ? '⚠ 미해결' : ''}</td><td class="cc">${esc(r.content)}</td></tr>`)
+          .join("");
+        
         const html = `<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>지원·문의 접수 관리 · 코아파트너스</title><style>
 body{font-family:system-ui,'Malgun Gothic',sans-serif;background:#0b1a38;color:#eef3fc;margin:0;padding:22px}
 h1{font-size:20px;margin:0 0 4px}
@@ -103,6 +131,12 @@ td.dt{white-space:nowrap;color:#9fb2d4;font-variant-numeric:tabular-nums}
 .promo-box input[type=file]{font-size:13px;color:#c5d5ef}
 .promo-box button{font-size:13px;font-weight:800;color:#0a1730;background:linear-gradient(135deg,#fde68a,#fbbf24);border:none;padding:10px 16px;border-radius:9px;cursor:pointer}
 .promo-prev{max-width:260px;border-radius:9px;border:1px solid #26436f;display:block}
+.ct{display:inline-block;background:#0f2244;border:1px solid #26436f;border-radius:999px;padding:6px 12px;margin:0 6px 6px 0;font-size:12.5px;color:#c5d5ef}
+.ct b{color:#fde68a}
+tr.cu td{background:#13284c}
+tr.cf td{border-left:none}
+tr.cf td:first-child{border-left:3px solid #fbbf24}
+td.cc{max-width:520px;word-break:break-all;color:#c5d5ef;font-size:12px}
 </style></head><body>
 <h1>🛵 지원·문의 접수 관리</h1>
 <p class="c">최근순 · 최대 1,000건 · 자동 새로고침 없음</p>
@@ -127,6 +161,12 @@ ${tab("inquiry", "문의", cInq)}
 </div>
 <table><thead><tr><th>접수일시</th><th>구분</th><th>이름/상호</th><th>연락처</th><th>지역/문의유형</th><th>이륜차</th><th>메시지</th></tr></thead>
 <tbody>${trs || '<tr><td colspan="7" style="text-align:center;color:#8b9cbe;padding:30px">해당 항목이 없습니다.</td></tr>'}</tbody></table>
+
+<h1 style="margin-top:34px">💬 AI 챗봇 대화 로그</h1>
+<p class="c">최근 7일 문의 주제 분포 · 개인정보(전화번호 등)는 마스킹 저장 · ⚠ 미해결 = 전화 안내로 넘어간 답변 ${chatFlagged ? `· <b style="color:#fbbf24">미해결 ${chatFlagged}건</b>` : ""}</p>
+<div style="margin:10px 0 14px">${chatTopicHtml}</div>
+<table><thead><tr><th>일시</th><th>구분</th><th>주제</th><th></th><th>내용(마스킹)</th></tr></thead>
+<tbody>${chatTrs || '<tr><td colspan="5" style="text-align:center;color:#8b9cbe;padding:26px">챗봇 활성화 후 대화가 여기에 쌓입니다. (주 1회 훑어보고 자주 묻는 주제를 지식에 보강하세요)</td></tr>'}</tbody></table>
 </body></html>`;
         return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
       },

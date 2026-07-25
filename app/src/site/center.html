@@ -620,6 +620,7 @@ section[id]{scroll-margin-top:74px}
     <div class="ages"><span>20대 라이더</span><span>30~40대 라이더</span><span>50대 이상 시니어</span><span>초보 · 무경력</span></div>
   </div>
   <div class="rnote">정확한 연령 조건·필요 서류는 상담 시 안내드립니다 · <b>042-672-0901</b></div>
+  <div class="cw-entry-wrap"><button class="cw-entry" type="button" data-q="렌트와 리스 중 뭐가 맞을지 상담해 주세요">🤖 내 조건으로 AI 상담해보기</button></div>
 </div>
 
 </div></section>
@@ -686,6 +687,7 @@ section[id]{scroll-margin-top:74px}
   </div>
 </div>
 <div class="disc">※ 코아파트너스는 보험사·손해사정 기관이 아니며, 본 안내는 라이더의 원활한 사고 대응을 돕기 위한 <b>절차 안내·동행 지원</b>입니다. 실제 보상 여부와 범위는 가입한 보험 약관과 보험사의 판단에 따릅니다.</div>
+<div class="cw-entry-wrap"><button class="cw-entry" type="button" data-q="배달 중 사고가 나면 어떻게 해야 하나요?">🤖 사고 절차, AI에게 바로 물어보기</button></div>
 </div></section>
 
 <section><div class="wrap">
@@ -760,6 +762,16 @@ document.addEventListener('click',function(e){
 <style>
 .cw-fab{position:fixed;right:16px;bottom:20px;z-index:70;display:none;align-items:center;gap:8px;background:linear-gradient(135deg,#173a6e,#0e2647);color:#fff;border:none;border-radius:999px;padding:13px 18px;font:800 14px/1 'Pretendard Variable',Pretendard,sans-serif;box-shadow:0 10px 26px rgba(14,38,71,.35);cursor:pointer}
 .cw-fab .e{font-size:17px}
+.cw-acts{margin-top:9px;display:flex;flex-wrap:wrap;gap:7px}
+.cw-acts .cw-apply{display:inline-flex;align-items:center;margin:0}
+.cw-now{background:#c9930a!important;border-color:#c9930a!important;color:#fff!important}
+.cw-callb{background:#fff!important;color:#0e2647!important}
+.cw-teaser{position:fixed;right:16px;bottom:78px;z-index:69;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #dfe6ec;border-radius:14px;padding:11px 13px;font:700 13px/1.4 'Pretendard Variable',Pretendard,sans-serif;color:#0e2647;box-shadow:0 12px 30px rgba(14,38,71,.22);cursor:pointer;max-width:240px}
+.cw-teaser .x{border:none;background:none;color:#8ea0bd;font-size:13px;cursor:pointer;padding:2px;line-height:1}
+@media(max-width:720px){.cw-teaser{bottom:142px;right:12px}}
+.cw-entry-wrap{display:none;text-align:center;margin-top:20px}
+.cw-entry{display:inline-flex;align-items:center;gap:8px;border:1.5px solid #173a6e;background:#fff;color:#0e2647;font-family:inherit;font-weight:800;font-size:13.5px;padding:12px 20px;border-radius:999px;cursor:pointer;box-shadow:0 3px 10px rgba(14,38,71,.08);transition:.16s}
+.cw-entry:hover{background:#0e2647;color:#fff}
 @media(max-width:720px){.cw-fab{bottom:86px;right:12px;padding:12px 15px}}
 .cw-panel{position:fixed;right:16px;bottom:20px;z-index:71;width:min(94vw,370px);height:min(74vh,540px);background:#fff;border:1px solid #e7edee;border-radius:18px;box-shadow:0 24px 60px rgba(14,38,71,.28);display:none;flex-direction:column;overflow:hidden;font-family:'Pretendard Variable',Pretendard,sans-serif}
 @media(max-width:720px){.cw-panel{right:8px;left:8px;width:auto;bottom:8px;height:min(80vh,560px)}}
@@ -802,37 +814,117 @@ document.addEventListener('click',function(e){
   var fab=document.getElementById('cwFab'),panel=document.getElementById('cwPanel'),msgs=document.getElementById('cwMsgs'),
       input=document.getElementById('cwInput'),send=document.getElementById('cwSend'),chips=document.getElementById('cwChips');
   if(!fab)return;
-  var hist=[],busy=false;
-  fetch('/api/chat').then(function(r){return r.json()}).then(function(d){if(d&&d.enabled){fab.style.display='inline-flex';}}).catch(function(){});
+  var hist=[],busy=false,flow=null,pend={},enabled=false;
+  var sid=Math.random().toString(36).slice(2,14)+Date.now().toString(36);
   function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+  function actBtn(cls,txt,fn,href){var a=document.createElement(href?'a':'button');a.className=cls;if(href){a.href=href;}else{a.type='button';a.addEventListener('click',fn);}a.textContent=txt;return a;}
   function add(role,text){
     var b=document.createElement('div');b.className='cw-b '+(role==='me'?'me':'bot');
-    var t=esc(text);
-    if(role==='bot'){t=t.replace(/\{\{APPLY\}\}/g,'');}
-    b.innerHTML=t;
-    if(role==='bot'&&text.indexOf('{{APPLY}}')>-1){
-      var a=document.createElement('a');a.className='cw-apply';a.href='/coupang-plus#apply-form';a.textContent='📝 온라인 지원 신청 바로가기';b.appendChild(document.createElement('br'));b.appendChild(a);
+    var hasApply=text.indexOf('{{APPLY}}')>-1, hasCall=text.indexOf('{{CALL}}')>-1;
+    b.innerHTML=esc(text.replace(/\{\{APPLY\}\}/g,'').replace(/\{\{CALL\}\}/g,'').trim());
+    if(role==='bot'&&(hasApply||hasCall)){
+      var row=document.createElement('div');row.className='cw-acts';
+      if(hasApply){
+        row.appendChild(actBtn('cw-apply',' 온라인 지원 폼 열기',null,'/coupang-plus#apply-form'));
+        row.appendChild(actBtn('cw-apply cw-now','채팅으로 바로 접수',startApply));
+      }
+      if(hasCall){row.appendChild(actBtn('cw-apply cw-callb','전화 042-672-0901',null,'tel:0426720901'));}
+      b.appendChild(row);
     }
     msgs.appendChild(b);msgs.scrollTop=msgs.scrollHeight;return b;
   }
   function typing(){var b=document.createElement('div');b.className='cw-b bot cw-typing';b.innerHTML='<i></i><i></i><i></i>';msgs.appendChild(b);msgs.scrollTop=msgs.scrollHeight;return b;}
+  function startApply(){
+    if(flow)return;
+    flow='name';pend={};
+    add('bot','좋아요, 채팅으로 바로 접수해 드릴게요. 먼저 성함(또는 상호)을 입력해 주세요. (취소하려면 "취소")');
+    input.focus();
+  }
+  function fmtPhone(d){return d.length===10&&d.slice(0,2)==='02'?d.replace(/(\d{2})(\d{4})(\d{4})/,'$1-$2-$3'):d.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/,'$1-$2-$3');}
+  function handleFlow(q){
+    add('me',q);input.value='';
+    if(q.replace(/\s/g,'')==='취소'){flow=null;pend={};add('bot','접수를 취소했어요. 다른 궁금한 점을 물어보세요!');return;}
+    if(flow==='name'){
+      if(!q||q.length>30){add('bot','성함을 30자 이내로 입력해 주세요.');return;}
+      pend.name=q;flow='phone';
+      add('bot','연락받으실 전화번호를 입력해 주세요. (예: 010-1234-5678)');return;
+    }
+    if(flow==='phone'){
+      var d=q.replace(/[^0-9]/g,'');
+      if(d.length<9||d.length>11){add('bot','전화번호를 다시 확인해 주세요. 숫자 9~11자리로 입력해 주세요.');return;}
+      pend.phone=fmtPhone(d);flow='confirm';
+      var b=add('bot','아래 내용으로 접수할까요?\n· 성함: '+pend.name+'\n· 연락처: '+pend.phone);
+      var row=document.createElement('div');row.className='cw-acts';
+      row.appendChild(actBtn('cw-apply cw-now','접수하기',submitApply));
+      row.appendChild(actBtn('cw-apply','취소',function(){flow=null;pend={};add('bot','접수를 취소했어요.');}));
+      b.appendChild(row);return;
+    }
+    if(flow==='confirm'){
+      var s=q.replace(/\s/g,'');
+      if(s==='접수'||s==='접수하기'||s==='네'||s==='예'){submitApply();}
+      else{add('bot','위의 [접수하기] 또는 [취소] 버튼을 눌러주세요.');}
+      return;
+    }
+  }
+  function submitApply(){
+    if(flow!=='confirm')return;
+    flow='sending';
+    var tp=typing();
+    fetch('/api/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({website:'',name:pend.name,phone:pend.phone,source:'AI챗봇'})})
+      .then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});})
+      .then(function(o){tp.remove();flow=null;
+        var d=new Date(),pad=function(n){return(n<10?'0':'')+n};
+        if(o.ok&&o.j&&o.j.ok){add('bot',pad(d.getMonth()+1)+'.'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes())+' 접수 완료! 평일 10:30~18:00 담당자가 순차적으로 연락드립니다. 급하시면 {{CALL}}');}
+        else if(o.j&&o.j.code==='dup'){add('bot','이미 접수된 연락처예요. 담당자가 순차적으로 연락드립니다. 급하시면 {{CALL}}');}
+        else{add('bot','접수에 실패했어요. 온라인 지원 폼을 이용하시거나 전화 주세요. {{APPLY}} {{CALL}}');}
+        pend={};})
+      .catch(function(){tp.remove();flow=null;pend={};add('bot','연결이 원활하지 않아요. {{CALL}}');});
+  }
   function ask(q){
     if(busy||!q)return;busy=true;send.disabled=true;
     add('me',q);hist.push({role:'user',content:q});input.value='';
     var tp=typing();
-    fetch('/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({messages:hist.slice(-12)})})
+    fetch('/api/chat',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({messages:hist.slice(-12),session:sid})})
       .then(function(r){return r.json()})
-      .then(function(d){tp.remove();var rep=(d&&d.reply)||'죄송해요, 다시 시도해 주세요.';add('bot',rep);hist.push({role:'assistant',content:rep.replace(/\{\{APPLY\}\}/g,'')});})
+      .then(function(d){tp.remove();var rep=(d&&d.reply)||'죄송해요, 다시 시도해 주세요.';add('bot',rep);hist.push({role:'assistant',content:rep.replace(/\{\{(APPLY|CALL)\}\}/g,'')});})
       .catch(function(){tp.remove();add('bot','연결이 원활하지 않아요. 042-672-0901로 전화 주세요.');})
       .finally(function(){busy=false;send.disabled=false;});
   }
-  fab.addEventListener('click',function(){panel.style.display='flex';fab.style.display='none';
+  function route(q){if(!q)return;if(flow){handleFlow(q);}else{ask(q);}}
+  var teaser=null;
+  function hideTeaser(save){if(teaser){teaser.style.display='none';}if(save){try{localStorage.setItem('cwTz','1');}catch(e){}}}
+  function openPanel(preQ){
+    panel.style.display='flex';fab.style.display='none';hideTeaser(false);
     if(!msgs.children.length){add('bot','안녕하세요! 코아파트너스 AI 상담입니다 🛵\n미션·수익·렌트·리스·지원 절차까지 무엇이든 물어보세요.');}
-    input.focus();});
+    if(preQ){route(preQ);}else{input.focus();}
+  }
+  function makeTeaser(){
+    var dismissed=false;try{dismissed=localStorage.getItem('cwTz')==='1';}catch(e){}
+    if(dismissed)return;
+    teaser=document.createElement('div');teaser.className='cw-teaser';teaser.style.display='none';
+    teaser.innerHTML='<span>궁금한 점, AI가 바로 답해드려요 💬</span>';
+    var x=document.createElement('button');x.type='button';x.className='x';x.textContent='✕';
+    x.addEventListener('click',function(e){e.stopPropagation();hideTeaser(true);});
+    teaser.appendChild(x);
+    teaser.addEventListener('click',function(){openPanel();});
+    document.body.appendChild(teaser);
+    setTimeout(function(){if(panel.style.display!=='flex'&&teaser){teaser.style.display='flex';}},4500);
+  }
+  fetch('/api/chat').then(function(r){return r.json()}).then(function(d){
+    if(d&&d.enabled){
+      enabled=true;fab.style.display='inline-flex';
+      document.querySelectorAll('.cw-entry-wrap').forEach(function(w){w.style.display='block';});
+      makeTeaser();
+    }
+  }).catch(function(){});
+  document.querySelectorAll('.cw-entry').forEach(function(b){
+    b.addEventListener('click',function(){openPanel(b.getAttribute('data-q')||'');});
+  });
+  fab.addEventListener('click',function(){openPanel();});
   document.getElementById('cwClose').addEventListener('click',function(){panel.style.display='none';fab.style.display='inline-flex';});
-  send.addEventListener('click',function(){ask(input.value.trim());});
-  input.addEventListener('keydown',function(e){if(e.key==='Enter'){ask(input.value.trim());}});
-  chips.addEventListener('click',function(e){if(e.target.tagName==='BUTTON'){ask(e.target.textContent);}});
+  send.addEventListener('click',function(){route(input.value.trim());});
+  input.addEventListener('keydown',function(e){if(e.key==='Enter'){route(input.value.trim());}});
+  chips.addEventListener('click',function(e){if(e.target.tagName==='BUTTON'){route(e.target.textContent);}});
 })();
 </script>
 
