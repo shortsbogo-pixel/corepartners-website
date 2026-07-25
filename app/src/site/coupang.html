@@ -230,6 +230,72 @@ section[id]{scroll-margin-top:74px}
 .dual>*{flex:0 1 300px;margin:0!important}
 @media(max-width:640px){.dual{gap:14px}.dual>*{flex:0 1 250px}}
 
+/* ===== center service hub (tabs) ===== */
+.rtabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:4px auto 22px;max-width:720px}
+.rtab{border:1.5px solid var(--line-2);background:#fff;color:var(--navy);font-family:inherit;font-weight:750;font-size:13.5px;padding:11px 18px;border-radius:999px;cursor:pointer;transition:.16s;display:inline-flex;align-items:center;gap:7px}
+.rtab:hover{border-color:var(--teal)}
+.rtab.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.rtab.on .rtdot{background:var(--gold)}
+.rtpane{display:none}
+.rtpane.on{display:block;animation:rtfade .25s ease}
+@keyframes rtfade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* rent model table */
+.rtable{max-width:760px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
+.rtrow{display:grid;grid-template-columns:1.4fr 1fr 1.2fr;gap:0;border-top:1px solid var(--line)}
+.rtrow:first-child{border-top:none}
+.rthead{background:var(--navy);color:#fff}
+.rthead .rtc{color:#dbe6fb;font-weight:800;font-size:12.5px;letter-spacing:.02em}
+.rtc{padding:13px 16px;font-size:13.5px;color:var(--txt-1);display:flex;align-items:center}
+.rtc.price{font-weight:800;color:var(--navy)}
+.rtc.ask{color:var(--teal);font-weight:800}
+@media(max-width:560px){.rtc{padding:11px 12px;font-size:12.5px}}
+
+/* compare (rent vs lease) */
+.cmp{max-width:720px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.cmp{grid-template-columns:1fr}}
+.cmpc{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow)}
+.cmpc h4{font-size:17px;color:var(--navy);display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.cmpc .tag{font-size:11.5px;font-weight:800;color:#fff;background:var(--teal);border-radius:999px;padding:3px 10px;display:inline-block;margin-bottom:12px}
+.cmpc.lease .tag{background:var(--gold)}
+.cmpc ul{list-style:none;padding:0}
+.cmpc li{font-size:13px;color:var(--txt-2);padding:7px 0 7px 22px;position:relative;border-top:1px dashed var(--line)}
+.cmpc li:first-child{border-top:none}
+.cmpc li::before{content:"✓";position:absolute;left:0;color:var(--teal);font-weight:900}
+.cmpc.lease li::before{color:var(--gold-2)}
+.age{max-width:720px;margin:20px auto 0;background:linear-gradient(135deg,#eef6f6,#fff);border:1px solid var(--teal-soft);border-radius:var(--r-lg);padding:20px 22px}
+.age h4{font-size:15.5px;color:var(--navy);margin-bottom:8px}
+.age p{font-size:13px;color:var(--txt-2);line-height:1.7}
+.age .ages{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.age .ages span{font-size:12px;font-weight:750;color:var(--navy);background:#fff;border:1px solid var(--line-2);border-radius:999px;padding:7px 13px}
+
+/* ===== accident / insurance ===== */
+.sos{max-width:820px;margin:0 auto 22px;background:linear-gradient(135deg,#0e2647,#173a6e);border-radius:var(--r-lg);padding:22px 24px;color:#fff;box-shadow:var(--shadow-lg)}
+.sos .sos-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sos .sos-ic{width:46px;height:46px;border-radius:13px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:24px;flex:none}
+.sos h3{font-size:18px;font-weight:850}
+.sos .sos-sub{font-size:12.5px;color:#c6d5f2;margin-top:2px}
+.sos-call{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#fde68a,#fbbf24);color:#0a1730;font-weight:850;font-size:15px;padding:12px 20px;border-radius:999px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+@media(max-width:560px){.sos-call{margin-left:0;width:100%;justify-content:center;margin-top:6px}}
+
+.steps5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:900px;margin:0 auto}
+@media(max-width:760px){.steps5{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.steps5{grid-template-columns:1fr}}
+.st5{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:16px 14px;box-shadow:var(--shadow);position:relative}
+.st5 .stn{width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center;margin-bottom:10px}
+.st5.urgent .stn{background:var(--err)}
+.st5 h4{font-size:14px;color:var(--navy);margin-bottom:5px}
+.st5 p{font-size:11.5px;color:var(--txt-2);line-height:1.55}
+
+.ins2{max-width:900px;margin:22px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.ins2{grid-template-columns:1fr}}
+.insc{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow)}
+.insc h4{font-size:15.5px;color:var(--navy);display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.insc li{font-size:12.8px;color:var(--txt-2);padding:7px 0 7px 20px;position:relative;line-height:1.55;list-style:none}
+.insc li::before{content:"";position:absolute;left:2px;top:12px;width:7px;height:7px;border-radius:50%;background:var(--teal)}
+.insc.help li::before{background:var(--gold)}
+.disc{max-width:900px;margin:16px auto 0;font-size:11.5px;color:var(--mut);line-height:1.6;background:var(--tint);border:1px solid var(--line);border-radius:12px;padding:13px 16px}
+
 /* wayfinding routes — 3-color content code stripes */
 .finder{padding:30px 0 6px}
 .finder-h{text-align:center;margin-bottom:20px}
@@ -589,8 +655,12 @@ section[id]{scroll-margin-top:74px}
     <span class="has-sub"><a class="mn" href="/center">센터 · 렌트</a>
       <span class="subm">
         <a href="/center">오토바이센터 서비스</a>
-        <a href="/center#rent">EV 렌트 · 일 9,500원~</a>
-        <a href="/center#center">진바이크 · 코아바이크</a>
+        <a href="/center#rent">차량 렌트 · 리스</a>
+        <a href="/center#rent-ev">— EV 전기 오토바이</a>
+        <a href="/center#rent-gas">— 내연기관 오토바이</a>
+        <a href="/center#rent-guide">— 렌트·리스 / 연령대 안내</a>
+        <a href="/center#accident">사고 · 보험 지원</a>
+        <a href="/center#center">진바이크 · 코아바이크 (지점)</a>
       </span>
     </span>
     <a class="mn" href="/coupang-plus#promo">이번주 쿠팡플러스미션</a>
@@ -648,8 +718,12 @@ section[id]{scroll-margin-top:74px}
       <button class="acc-h" type="button">센터 · 렌트 <i>▾</i></button>
       <div class="acc-b">
         <a href="/center">오토바이센터 서비스</a>
-        <a href="/center#rent">EV 렌트 · 일 9,500원~</a>
-        <a href="/center#center">진바이크 · 코아바이크</a>
+        <a href="/center#rent">차량 렌트 · 리스</a>
+        <a href="/center#rent-ev">— EV 전기 오토바이</a>
+        <a href="/center#rent-gas">— 내연기관 오토바이</a>
+        <a href="/center#rent-guide">— 렌트·리스 / 연령대 안내</a>
+        <a href="/center#accident">사고 · 보험 지원</a>
+        <a href="/center#center">진바이크 · 코아바이크 (지점)</a>
       </div>
     </div>
     <div class="acc">
@@ -957,6 +1031,10 @@ section[id]{scroll-margin-top:74px}
         <div class="acc-b"><p>코아파트너스는 <b>대전 전역</b>에서 운영합니다. 희망하시는 지역과 시간대를 상담 때 말씀해 주시면 함께 조율합니다. 미션은 시간대별로 나뉘어 있어 <b>점심(런치)·오후(포스트런치)·야간(올빼미)</b> 중 본인 생활 패턴에 맞춰 선택하실 수 있습니다.</p></div></div>
       <div class="acc"><button class="acc-h" type="button">정말 주 150만원이 가능한가요? <i>▾</i></button>
         <div class="acc-b"><p>수행하신 <b>배달 콜비</b>에 <b>미션 보상(주간 최대 31만원 +α)</b>을 더한 금액 기준으로, 성실 수행 라이더 기준 통계상 가능한 수치입니다. 다만 <b>수행 건수와 시간대에 따라 실제 수익은 달라집니다.</b> 과장 없이 판단하실 수 있도록 실제 정산 화면과 계산 근거를 사이트에 그대로 공개하고 있습니다.</p></div></div>
+      <div class="acc"><button class="acc-h" type="button">배달 중 사고가 나면 보험 처리는 어떻게 되나요? <i>▾</i></button>
+        <div class="acc-b"><p>배달 중 사고는 유상운송 특성상 일반 자동차보험과 처리 방식이 다를 수 있어, <b>가입한 보험 형태 확인</b>이 가장 중요합니다. 코아파트너스는 직영 오토바이센터를 운영하며 <b>사고 접수 절차 안내·필요 서류 안내·보험 접수 동행·대물 수리 연계</b>까지 도와드립니다. 자세한 사고 대응 요령은 <a href="/center#accident">센터 · 사고/보험 지원</a> 페이지에서 확인하세요. (코아파트너스는 보험사가 아니며 실제 보상은 보험 약관에 따릅니다.)</p></div></div>
+      <div class="acc"><button class="acc-h" type="button">렌트 차량으로 사고가 나면요? <i>▾</i></button>
+        <div class="acc-b"><p>EV 렌트 차량은 <b>대인 무한 · 대물 3천만원 범위 종합보험</b>이 안내되며, 사고 시 직영 센터에서 <b>대물 수리 연계</b>와 수리 기간 중 대차(렌트) 이용까지 상담해 드립니다. 내연기관 렌트 차량의 보험 조건은 상담 시 안내드립니다.</p></div></div>
       <div class="acc"><button class="acc-h" type="button">미션 내용은 어디서 확인하나요? <i>▾</i></button>
         <div class="acc-b"><p>이 페이지의 <b>이번 주 프로모션</b> 배너에서 확인하실 수 있습니다. 프로모션은 <b>매주 업데이트</b>되며, 비정기 게릴라 미션과 쿠팡 본사 단체미션은 상황에 따라 별도 공지됩니다. 최신 내용은 전화로도 안내해 드립니다.</p></div></div>
     </div>
@@ -1033,8 +1111,8 @@ section[id]{scroll-margin-top:74px}
     </div>
     <div class="fcol"><h5>센터 · 렌트</h5>
       <a href="/center">오토바이센터</a>
-      <a href="/center#rent">EV 렌트</a>
-      <a href="/about">회사소개</a>
+      <a href="/center#rent">차량 렌트 · 리스</a>
+      <a href="/center#accident">사고 · 보험 지원</a>
     </div>
     <div class="fcol"><h5>문의</h5>
       <a href="tel:0426720901">대표 042-672-0901</a>

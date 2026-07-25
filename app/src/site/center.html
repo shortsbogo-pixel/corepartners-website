@@ -230,6 +230,72 @@ section[id]{scroll-margin-top:74px}
 .dual>*{flex:0 1 300px;margin:0!important}
 @media(max-width:640px){.dual{gap:14px}.dual>*{flex:0 1 250px}}
 
+/* ===== center service hub (tabs) ===== */
+.rtabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:4px auto 22px;max-width:720px}
+.rtab{border:1.5px solid var(--line-2);background:#fff;color:var(--navy);font-family:inherit;font-weight:750;font-size:13.5px;padding:11px 18px;border-radius:999px;cursor:pointer;transition:.16s;display:inline-flex;align-items:center;gap:7px}
+.rtab:hover{border-color:var(--teal)}
+.rtab.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.rtab.on .rtdot{background:var(--gold)}
+.rtpane{display:none}
+.rtpane.on{display:block;animation:rtfade .25s ease}
+@keyframes rtfade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* rent model table */
+.rtable{max-width:760px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
+.rtrow{display:grid;grid-template-columns:1.4fr 1fr 1.2fr;gap:0;border-top:1px solid var(--line)}
+.rtrow:first-child{border-top:none}
+.rthead{background:var(--navy);color:#fff}
+.rthead .rtc{color:#dbe6fb;font-weight:800;font-size:12.5px;letter-spacing:.02em}
+.rtc{padding:13px 16px;font-size:13.5px;color:var(--txt-1);display:flex;align-items:center}
+.rtc.price{font-weight:800;color:var(--navy)}
+.rtc.ask{color:var(--teal);font-weight:800}
+@media(max-width:560px){.rtc{padding:11px 12px;font-size:12.5px}}
+
+/* compare (rent vs lease) */
+.cmp{max-width:720px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.cmp{grid-template-columns:1fr}}
+.cmpc{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow)}
+.cmpc h4{font-size:17px;color:var(--navy);display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.cmpc .tag{font-size:11.5px;font-weight:800;color:#fff;background:var(--teal);border-radius:999px;padding:3px 10px;display:inline-block;margin-bottom:12px}
+.cmpc.lease .tag{background:var(--gold)}
+.cmpc ul{list-style:none;padding:0}
+.cmpc li{font-size:13px;color:var(--txt-2);padding:7px 0 7px 22px;position:relative;border-top:1px dashed var(--line)}
+.cmpc li:first-child{border-top:none}
+.cmpc li::before{content:"✓";position:absolute;left:0;color:var(--teal);font-weight:900}
+.cmpc.lease li::before{color:var(--gold-2)}
+.age{max-width:720px;margin:20px auto 0;background:linear-gradient(135deg,#eef6f6,#fff);border:1px solid var(--teal-soft);border-radius:var(--r-lg);padding:20px 22px}
+.age h4{font-size:15.5px;color:var(--navy);margin-bottom:8px}
+.age p{font-size:13px;color:var(--txt-2);line-height:1.7}
+.age .ages{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.age .ages span{font-size:12px;font-weight:750;color:var(--navy);background:#fff;border:1px solid var(--line-2);border-radius:999px;padding:7px 13px}
+
+/* ===== accident / insurance ===== */
+.sos{max-width:820px;margin:0 auto 22px;background:linear-gradient(135deg,#0e2647,#173a6e);border-radius:var(--r-lg);padding:22px 24px;color:#fff;box-shadow:var(--shadow-lg)}
+.sos .sos-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sos .sos-ic{width:46px;height:46px;border-radius:13px;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:24px;flex:none}
+.sos h3{font-size:18px;font-weight:850}
+.sos .sos-sub{font-size:12.5px;color:#c6d5f2;margin-top:2px}
+.sos-call{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#fde68a,#fbbf24);color:#0a1730;font-weight:850;font-size:15px;padding:12px 20px;border-radius:999px;text-decoration:none;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+@media(max-width:560px){.sos-call{margin-left:0;width:100%;justify-content:center;margin-top:6px}}
+
+.steps5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:900px;margin:0 auto}
+@media(max-width:760px){.steps5{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.steps5{grid-template-columns:1fr}}
+.st5{background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:16px 14px;box-shadow:var(--shadow);position:relative}
+.st5 .stn{width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center;margin-bottom:10px}
+.st5.urgent .stn{background:var(--err)}
+.st5 h4{font-size:14px;color:var(--navy);margin-bottom:5px}
+.st5 p{font-size:11.5px;color:var(--txt-2);line-height:1.55}
+
+.ins2{max-width:900px;margin:22px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.ins2{grid-template-columns:1fr}}
+.insc{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow)}
+.insc h4{font-size:15.5px;color:var(--navy);display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.insc li{font-size:12.8px;color:var(--txt-2);padding:7px 0 7px 20px;position:relative;line-height:1.55;list-style:none}
+.insc li::before{content:"";position:absolute;left:2px;top:12px;width:7px;height:7px;border-radius:50%;background:var(--teal)}
+.insc.help li::before{background:var(--gold)}
+.disc{max-width:900px;margin:16px auto 0;font-size:11.5px;color:var(--mut);line-height:1.6;background:var(--tint);border:1px solid var(--line);border-radius:12px;padding:13px 16px}
+
 /* wayfinding routes — 3-color content code stripes */
 .finder{padding:30px 0 6px}
 .finder-h{text-align:center;margin-bottom:20px}
@@ -376,8 +442,12 @@ section[id]{scroll-margin-top:74px}
     <span class="has-sub"><a class="mn" href="/center">센터 · 렌트</a>
       <span class="subm">
         <a href="/center">오토바이센터 서비스</a>
-        <a href="/center#rent">EV 렌트 · 일 9,500원~</a>
-        <a href="/center#center">진바이크 · 코아바이크</a>
+        <a href="/center#rent">차량 렌트 · 리스</a>
+        <a href="/center#rent-ev">— EV 전기 오토바이</a>
+        <a href="/center#rent-gas">— 내연기관 오토바이</a>
+        <a href="/center#rent-guide">— 렌트·리스 / 연령대 안내</a>
+        <a href="/center#accident">사고 · 보험 지원</a>
+        <a href="/center#center">진바이크 · 코아바이크 (지점)</a>
       </span>
     </span>
     <a class="mn" href="/coupang-plus#promo">이번주 쿠팡플러스미션</a>
@@ -435,8 +505,12 @@ section[id]{scroll-margin-top:74px}
       <button class="acc-h" type="button">센터 · 렌트 <i>▾</i></button>
       <div class="acc-b">
         <a href="/center">오토바이센터 서비스</a>
-        <a href="/center#rent">EV 렌트 · 일 9,500원~</a>
-        <a href="/center#center">진바이크 · 코아바이크</a>
+        <a href="/center#rent">차량 렌트 · 리스</a>
+        <a href="/center#rent-ev">— EV 전기 오토바이</a>
+        <a href="/center#rent-gas">— 내연기관 오토바이</a>
+        <a href="/center#rent-guide">— 렌트·리스 / 연령대 안내</a>
+        <a href="/center#accident">사고 · 보험 지원</a>
+        <a href="/center#center">진바이크 · 코아바이크 (지점)</a>
       </div>
     </div>
     <div class="acc">
@@ -470,16 +544,72 @@ section[id]{scroll-margin-top:74px}
 </div>
 </div></section>
 <section id="rent"><div class="wrap">
-<div class="sec-head"><div class="sec-kicker">EV Rental</div><h2>유류비 걱정 없는 EV 렌트</h2>
-<p>상시반납 · 소모품 0원 · 헬멧·충전요금 포함 — 하루 9,500원부터 부담 없이 시작하세요.</p></div>
-<div class="pcard reveal" style="background:#fff"><img src="/assets/ev-models.webp" alt="EV 렌트 모델별 일 렌트료 — EV-C1 11,500원, GOGORO S2 10,500원, GOGORO 2PLUS 9,500원, GOGORO 2 Utility 9,500원" loading="lazy"></div>
-<div class="rgrid">
-<div class="rc reveal"><span class="rn">01</span><p>월 1회 정기 점검 쿠폰 지급</p></div>
-<div class="rc reveal"><span class="rn">02</span><p>휴대폰 거치대 · 리어캐리어 · 배달박스 등 액세서리 제공</p></div>
-<div class="rc reveal"><span class="rn">03</span><p>대인 무한 · 대물 3천만원 범위 종합보험 안내</p></div>
-<div class="rc reveal"><span class="rn">04</span><p>가까운 배터리 교환 스테이션 검색·접근 가능</p></div>
+<div class="sec-head"><div class="sec-kicker">Rental &amp; Lease</div><h2>차량 렌트 · 리스</h2>
+<p>전기 오토바이부터 유상운송용 내연기관까지 — 직영 센터가 차량·정비·보장을 한 번에 책임집니다.</p></div>
+
+<div class="rtabs" id="rentTabs">
+  <button class="rtab on" data-rt="ev" type="button"><span class="rtdot">⚡</span> EV 전기 오토바이</button>
+  <button class="rtab" data-rt="gas" type="button"><span class="rtdot">🏍</span> 내연기관 오토바이</button>
+  <button class="rtab" data-rt="guide" type="button"><span class="rtdot">📋</span> 렌트·리스 / 연령대 안내</button>
 </div>
-<div class="rnote">EV 렌트는 차량만 빌리는 것이 아니라 <b>점검·보장·운행 편의</b>까지 함께 제공됩니다 · 상담 <b>042-672-0901</b></div>
+
+<!-- TAB: EV -->
+<div class="rtpane on" id="rt-ev">
+  <div class="pcard compact reveal" style="background:#fff"><img src="/assets/ev-models.webp" alt="EV 렌트 모델별 일 렌트료 — EV-C1 11,500원, GOGORO S2 10,500원, GOGORO 2PLUS 9,500원, GOGORO 2 Utility 9,500원" width="900" height="600" loading="lazy"></div>
+  <div class="rgrid" style="margin-top:18px">
+    <div class="rc reveal"><span class="rn">01</span><p>월 1회 정기 점검 쿠폰 지급</p></div>
+    <div class="rc reveal"><span class="rn">02</span><p>휴대폰 거치대 · 리어캐리어 · 배달박스 등 액세서리 제공</p></div>
+    <div class="rc reveal"><span class="rn">03</span><p>대인 무한 · 대물 3천만원 범위 종합보험 안내</p></div>
+    <div class="rc reveal"><span class="rn">04</span><p>가까운 배터리 교환 스테이션 검색·접근 가능</p></div>
+  </div>
+  <div class="rnote">유류비 걱정 없는 EV — 상시반납 · 소모품 0원 · 헬멧·충전요금 포함, 하루 <b>9,500원부터</b> · 상담 <b>042-672-0901</b></div>
+</div>
+
+<!-- TAB: 내연기관 -->
+<div class="rtpane" id="rt-gas">
+  <div class="rtable reveal">
+    <div class="rtrow rthead"><div class="rtc">차종 구분</div><div class="rtc">이용 방식</div><div class="rtc">요금 안내</div></div>
+    <div class="rtrow"><div class="rtc">스쿠터형 (예: PCX·NMAX 계열)</div><div class="rtc">단기·월 렌트</div><div class="rtc ask">상담 문의</div></div>
+    <div class="rtrow"><div class="rtc">고출력·장거리형</div><div class="rtc">월 렌트·리스</div><div class="rtc ask">상담 문의</div></div>
+    <div class="rtrow"><div class="rtc">기타 유상운송용 기종</div><div class="rtc">렌트·리스 선택</div><div class="rtc ask">상담 문의</div></div>
+  </div>
+  <div class="rgrid" style="margin-top:18px">
+    <div class="rc reveal"><span class="rn">01</span><p>전기차가 익숙지 않거나 장거리·고출력이 필요한 라이더에게 적합</p></div>
+    <div class="rc reveal"><span class="rn">02</span><p>직영 센터 정비로 고장·소모품 교체를 빠르게 지원</p></div>
+    <div class="rc reveal"><span class="rn">03</span><p>유상운송용 보험 가입 형태 확인·안내</p></div>
+    <div class="rc reveal"><span class="rn">04</span><p>보유 기종·재고에 따라 배차 — 상담 시 안내</p></div>
+  </div>
+  <div class="rnote">보유 기종과 정확한 요금은 재고·계약 조건에 따라 달라집니다 · 상담 <b>042-672-0901</b></div>
+</div>
+
+<!-- TAB: 렌트·리스 / 연령대 -->
+<div class="rtpane" id="rt-guide">
+  <div class="cmp reveal">
+    <div class="cmpc"><span class="tag">단기 · 유연</span><h4>🔑 렌트</h4>
+      <ul>
+        <li>단기간·유연하게 이용 (일·월 단위)</li>
+        <li>초보 · 단기 체험 · 성수기 대응에 적합</li>
+        <li>소모품·정비 지원 포함 안내</li>
+        <li>반납이 자유로워 부담이 적음</li>
+      </ul>
+    </div>
+    <div class="cmpc lease"><span class="tag">장기 · 저월납</span><h4>📄 리스</h4>
+      <ul>
+        <li>장기 계약으로 월 납입액을 낮춤</li>
+        <li>장기 전업 라이더에게 적합</li>
+        <li>계약 기간·조건은 상담 시 안내</li>
+        <li>안정적으로 한 차량을 오래 운용</li>
+      </ul>
+    </div>
+  </div>
+  <div class="age reveal">
+    <h4>🎂 연령대별 렌트 · 리스 상담 가능</h4>
+    <p>연령에 따라 이용 가능한 차종과 조건이 달라집니다. 코아파트너스는 <b>다양한 연령대의 라이더</b>가 시작할 수 있도록 조건에 맞춰 안내해 드립니다. 본인 상황에 맞는 차량·이용 방식은 상담으로 확인하세요.</p>
+    <div class="ages"><span>20대 라이더</span><span>30~40대 라이더</span><span>50대 이상 시니어</span><span>초보 · 무경력</span></div>
+  </div>
+  <div class="rnote">정확한 연령 조건·필요 서류는 상담 시 안내드립니다 · <b>042-672-0901</b></div>
+</div>
+
 </div></section>
 <section id="center"><div class="wrap">
 <div class="sec-head"><div class="sec-kicker">Locations</div><h2>대전 2개 직영 지점</h2></div>
@@ -499,6 +629,53 @@ section[id]{scroll-margin-top:74px}
 </div>
 <div class="svc-note">전화 문의 · <b>대표 042-672-0901</b> · 정비·매입·장비지원 상담 환영</div>
 </div></section>
+
+<section id="accident"><div class="wrap">
+<div class="sec-head"><div class="sec-kicker">Accident &amp; Insurance</div><h2>사고 · 보험 지원</h2>
+<p>사고는 누구에게나 일어날 수 있습니다. 직영 센터를 운영하는 코아파트너스가 초기 대응부터 처리 절차까지 함께합니다.</p></div>
+
+<div class="sos reveal">
+  <div class="sos-top">
+    <div class="sos-ic">🚨</div>
+    <div>
+      <h3>사고가 났다면, 먼저 침착하게</h3>
+      <div class="sos-sub">안전을 확보한 뒤 아래 순서대로 · 코아파트너스에 바로 연락하세요</div>
+    </div>
+    <a class="sos-call" href="tel:0426720901">📞 042-672-0901</a>
+  </div>
+</div>
+
+<div class="steps5">
+  <div class="st5 urgent reveal"><div class="stn">1</div><h4>안전 확보</h4><p>비상등·안전삼각대로 2차 사고를 막고 안전한 곳으로 이동</p></div>
+  <div class="st5 urgent reveal"><div class="stn">2</div><h4>부상자 확인</h4><p>다친 사람이 있으면 즉시 <b>119</b> 신고를 최우선으로</p></div>
+  <div class="st5 reveal"><div class="stn">3</div><h4>현장 기록</h4><p>사고 현장·차량 위치 사진과 블랙박스 영상 확보</p></div>
+  <div class="st5 reveal"><div class="stn">4</div><h4>상대 정보</h4><p>상대방 연락처·차량번호·보험사 정보 확인</p></div>
+  <div class="st5 reveal"><div class="stn">5</div><h4>센터 연락</h4><p>코아파트너스에 연락 — 이후 절차를 함께 안내</p></div>
+</div>
+
+<div class="ins2">
+  <div class="insc reveal">
+    <h4>🛡 보험 안내</h4>
+    <ul>
+      <li>EV 렌트 차량은 <b>대인 무한 · 대물 3천만원 범위 종합보험</b>이 안내됩니다</li>
+      <li>본인 소유 이륜차는 유상운송 가입 형태(유상운송·시간제 등)를 함께 확인해 드립니다</li>
+      <li>업무 중 사고의 산재보험 해당 여부를 상담해 드립니다</li>
+      <li>배달 중 사고는 일반 자동차보험과 처리 방식이 다를 수 있어, 가입 형태 확인이 중요합니다</li>
+    </ul>
+  </div>
+  <div class="insc help reveal">
+    <h4>🤝 코아파트너스가 돕는 것</h4>
+    <ul>
+      <li>사고 접수·처리 <b>절차 안내</b>와 필요 서류 안내</li>
+      <li>보험 접수 방법 안내 및 진행 상황 확인 <b>동행</b></li>
+      <li>직영 센터(진바이크·코아바이크) <b>대물 수리 연계</b></li>
+      <li>수리 기간 중 대차(렌트) 이용 상담</li>
+    </ul>
+  </div>
+</div>
+<div class="disc">※ 코아파트너스는 보험사·손해사정 기관이 아니며, 본 안내는 라이더의 원활한 사고 대응을 돕기 위한 <b>절차 안내·동행 지원</b>입니다. 실제 보상 여부와 범위는 가입한 보험 약관과 보험사의 판단에 따릅니다.</div>
+</div></section>
+
 <section><div class="wrap">
 <div class="recruit reveal">
 <div class="rk">🛵 라이더도 환영합니다</div>
@@ -520,8 +697,8 @@ section[id]{scroll-margin-top:74px}
     </div>
     <div class="fcol"><h5>센터 · 렌트</h5>
       <a href="/center">오토바이센터</a>
-      <a href="/center#rent">EV 렌트</a>
-      <a href="/about">회사소개</a>
+      <a href="/center#rent">차량 렌트 · 리스</a>
+      <a href="/center#accident">사고 · 보험 지원</a>
     </div>
     <div class="fcol"><h5>문의</h5>
       <a href="tel:0426720901">대표 042-672-0901</a>
@@ -647,4 +824,21 @@ document.addEventListener('click',function(e){
 })();
 </script>
 
+<script>
+(function(){
+  var tabs=document.getElementById('rentTabs'); if(!tabs)return;
+  tabs.querySelectorAll('.rtab').forEach(function(b){
+    b.addEventListener('click',function(){
+      tabs.querySelectorAll('.rtab').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on');
+      document.querySelectorAll('.rtpane').forEach(function(pn){pn.classList.remove('on')});
+      var pane=document.getElementById('rt-'+b.getAttribute('data-rt'));
+      if(pane){pane.classList.add('on'); pane.querySelectorAll('.reveal').forEach(function(e){e.classList.add('in')});}
+    });
+  });
+  // deep-link support: #rent-ev / #rent-gas / #rent-guide
+  var h=location.hash.replace('#rent-','');
+  if(['ev','gas','guide'].indexOf(h)>=0){var tb=tabs.querySelector('[data-rt="'+h+'"]'); if(tb)tb.click();}
+})();
+</script>
 </body></html>
