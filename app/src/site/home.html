@@ -461,6 +461,10 @@ section[id]{scroll-margin-top:74px}
     <span class="b"><span class="ck">✔</span> 배민플러스 협력사</span>
     <span class="b"><span class="ck">✔</span> 오토바이센터 2개 직영</span>
   </div>
+  <div class="hero-cta">
+    <a class="btn btn-primary" href="/coupang-plus#apply-form">🛵 라이더 지원하기</a>
+    <a class="btn btn-ghost" href="#contact">🏪 가맹점 · 센터 상담</a>
+  </div>
 </div></header>
 
 <!-- Wayfinding -->
@@ -619,7 +623,7 @@ section[id]{scroll-margin-top:74px}
     <div class="iformok" id="inqOk">
       <div class="ico">✅</div>
       <h4>문의가 접수되었습니다!</h4>
-      <p>담당자가 확인 후 빠르게 연락드리겠습니다.<br>급하시면 대표 <a href="tel:0426720901" style="font-weight:800">042-672-0901</a>로 전화 주세요.</p>
+      <p><span id="inqDone"></span>평일 10:30~18:00 접수 시 담당자가 순차적으로 연락드립니다.<br>급하시면 대표 <a href="tel:0426720901" style="font-weight:800">042-672-0901</a>로 전화 주세요.</p>
     </div>
   </div>
 </div></section>
@@ -666,6 +670,19 @@ section[id]{scroll-margin-top:74px}
 const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
+
+// auto-hyphen phone inputs
+(function(){
+  document.querySelectorAll('input[type="tel"]').forEach(function(inp){
+    inp.addEventListener('input',function(){
+      var v=inp.value.replace(/[^0-9]/g,'').slice(0,11), o=v;
+      if(v.length>=9){ o = v.length===9 ? v.replace(/(\d{2,3})(\d{3})(\d{3})$/, function(_,a,b,c){return a+'-'+b+'-'+c}) : v.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, function(_,a,b,c){return a+'-'+b+'-'+c}); }
+      else if(v.length>=6){ o = v.replace(/^(\d{2,3})(\d{3,4})/, function(_,a,b){return a+'-'+b}); }
+      else if(v.length>=4){ o = v.replace(/^(\d{3})/, '$1-'); }
+      inp.value=o;
+    });
+  });
+})();
 // inquiry form submit
 (function(){
   var form=document.getElementById('inqForm');
@@ -687,6 +704,8 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
           
           document.getElementById('iform-body').style.display='none';
           document.getElementById('inqOk').style.display='block';
+          var d=new Date(),pad=function(n){return (n<10?'0':'')+n};
+          var el=document.getElementById('inqDone'); if(el) el.innerHTML='<b>'+pad(d.getMonth()+1)+'.'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes())+' 접수 완료</b> · ';
           document.getElementById('inquiry').scrollIntoView({behavior:'smooth',block:'center'});
         }else if(res&&res.code==='dup'){btn.disabled=false;btn.textContent='문의 남기기';err.textContent='이미 접수된 연락처입니다. 담당자가 순차적으로 연락드립니다 · 급하시면 042-672-0901';err.style.display='block';}else{throw new Error('fail')}
       })
