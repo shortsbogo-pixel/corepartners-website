@@ -1,6 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { bindings } from "../../lib/bindings.server";
 
+// Single ingestion point for all applications/inquiries.
+// - Server-side validation & sanitization
+// - Duplicate suppression: same phone within 10 minutes -> 409 { code: "dup" }
+// - No third-party relay: data is stored in D1 only; staff review via /admin
 export const Route = createFileRoute("/api/apply")({
   server: {
     handlers: {
@@ -11,20 +15,43 @@ export const Route = createFileRoute("/api/apply")({
         } catch {
           return Response.json({ ok: false, code: "bad_json" }, { status: 400 });
         }
-        const s = (v: unknown, n: number) => String(v ?? "").trim().slice(0, n);
-        const name = s(data.name, 60);
-        const phone = s(data.phone, 30);
+        // honeypot: real forms never fill this
+        if (String(data.website ?? "").trim() !== "") {
+          return Response.json({ ok: true });
+        }
+        const clean = (v: unknown, n: number) =>
+          String(v ?? "")
+            .replace(/<[^>]*>/g, "")
+            .replace(/[\u0000-\u001f\u007f]/g, " ")
+            .trim()
+            .slice(0, n);
+        const name = clean(data.name, 60);
+        const phone = clean(data.phone, 30);
         if (!name || !phone) {
           return Response.json({ ok: false, code: "missing" }, { status: 400 });
         }
-        const area = s(data.area, 80);
-        const bike = s(data.bike, 20);
-        const message = s(data.message, 1000);
-        const source = s(data.source, 40);
+        const digits = phone.replace(/\D/g, "");
+        if (digits.length < 9 || digits.length > 11) {
+          return Response.json({ ok: false, code: "bad_phone" }, { status: 400 });
+        }
+        const area = clean(data.area, 80);
+        const bike = clean(data.bike, 20);
+        const message = clean(data.message, 1000);
+        const source = clean(data.source, 40);
         const createdAt = new Date().toISOString();
         const db = bindings().DB;
         if (!db) return Response.json({ ok: false, code: "no_db" }, { status: 500 });
         try {
+          const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+          const dup = await db
+            .prepare(
+              "SELECT COUNT(*) AS c FROM applications WHERE replace(replace(phone,'-',''),' ','') = ? AND created_at > ?",
+            )
+            .bind(digits, tenMinAgo)
+            .first<{ c: number }>();
+          if (dup && Number(dup.c) > 0) {
+            return Response.json({ ok: false, code: "dup" }, { status: 409 });
+          }
           await db
             .prepare(
               "INSERT INTO applications (id, name, phone, area, bike, message, source, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
@@ -34,8 +61,6 @@ export const Route = createFileRoute("/api/apply")({
         } catch {
           return Response.json({ ok: false, code: "db_error" }, { status: 500 });
         }
-        // Email notification is sent client-side (browser → FormSubmit) for
-        // reliability; the application is always safely stored above.
         return Response.json({ ok: true });
       },
     },

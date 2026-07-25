@@ -947,6 +947,7 @@ section[id]{scroll-margin-top:74px}
         <h4>🛵 온라인 지원 신청</h4>
         <p class="fsub">간단히 남겨주시면 담당자가 빠르게 연락드립니다.</p>
         <form id="riderForm" autocomplete="on">
+        <input type="text" name="website" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0">
           <div class="frow">
             <div class="field"><label>이름 <span class="req">*</span></label><input name="name" type="text" placeholder="홍길동" required maxlength="30"></div>
             <div class="field"><label>연락처 <span class="req">*</span></label><input name="phone" type="tel" inputmode="tel" placeholder="010-0000-0000" required maxlength="20"></div>
@@ -962,7 +963,7 @@ section[id]{scroll-margin-top:74px}
           <div class="field"><label>남기실 말씀 (선택)</label><textarea name="message" placeholder="문의 사항이나 희망 근무 시간대를 적어주세요" maxlength="500"></textarea></div>
           <button type="submit" class="submitbtn" id="submitBtn">지원 신청하기</button>
           <div class="formerr" id="formErr">전송에 실패했습니다. 잠시 후 다시 시도하거나 전화로 문의해 주세요.</div>
-          <div class="formnote">제출 시 개인정보(이름·연락처)는 라이더 모집 상담 목적으로만 이용됩니다.</div>
+          <div class="formnote">제출 시 개인정보(이름·연락처)는 라이더 모집 상담 목적으로만 이용됩니다 · <a href="/privacy" style="color:var(--mut);text-decoration:underline">개인정보 처리방침</a></div>
         </form>
       </div>
       <div class="formok" id="formOk">
@@ -1015,6 +1016,7 @@ section[id]{scroll-margin-top:74px}
     <span><b>사업자등록번호</b> 581-86-02836</span>
     <span><b>주소</b> 대전광역시 동구 동서대로 1623 (홍도동) 4층 401호</span>
     <span><b>대표문의</b> 042-672-0901</span>
+    <span><a href="/privacy" style="color:#d6e2f8;text-decoration:underline">개인정보 처리방침</a></span>
   </div>
   <p class="fcopy">© 2026 CorePartners. All rights reserved.</p>
 </div></footer>
@@ -1048,30 +1050,18 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       message:form.message.value.trim(),
       source:'coupang-plus'
     };
+    if(!data.name||!data.phone){var digits=(data.phone||'').replace(/[^0-9]/g,'');
     if(!data.name||!data.phone){err.textContent='이름과 연락처를 입력해 주세요.';err.style.display='block';return;}
+    if(digits.length<9||digits.length>11){err.textContent='연락처를 정확히 입력해 주세요. (예: 010-1234-5678)';err.style.display='block';return;}}
     btn.disabled=true;btn.textContent='전송 중…';
     fetch('/api/apply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
       .then(function(r){return r.json().catch(function(){return{ok:false}})})
       .then(function(res){
         if(res&&res.ok){
-          // instant email notification (browser -> FormSubmit), fire-and-forget
-          try{
-            fetch('https://formsubmit.co/ajax/shortsbogo@gmail.com',{
-              method:'POST',
-              headers:{'Content-Type':'application/json','Accept':'application/json'},
-              body:JSON.stringify({
-                _subject:'🛵 [코아파트너스] 새 라이더 지원 · '+data.name,
-                _template:'table',
-                이름:data.name,연락처:data.phone,
-                희망지역:data.area||'-',이륜차:data.bike,
-                메시지:data.message||'-',출처:data.source
-              })
-            }).catch(function(){});
-          }catch(e){}
-          document.getElementById('form-body').style.display='none';
+                    document.getElementById('form-body').style.display='none';
           document.getElementById('formOk').style.display='block';
           document.getElementById('apply-form').scrollIntoView({behavior:'smooth',block:'center'});
-        }else{throw new Error('fail')}
+        }else if(res&&res.code==='dup'){btn.disabled=false;btn.textContent='지원 신청하기';err.textContent='이미 접수된 연락처입니다. 담당자가 순차적으로 연락드립니다 · 급하시면 042-672-0901';err.style.display='block';}else{throw new Error('fail')}
       })
       .catch(function(){
         btn.disabled=false;btn.textContent='지원 신청하기';
