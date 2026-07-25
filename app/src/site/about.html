@@ -455,7 +455,7 @@ section[id]{scroll-margin-top:74px}
     <span class="has-sub"><a class="mn" href="/center">센터 · 렌트</a>
       <span class="subm">
         <a href="/center">오토바이센터 서비스</a>
-        <a href="/center#rent">차량 렌트 · 리스</a>
+        <a href="/center#rent">바이크 렌트 · 리스</a>
         <a href="/center#accident">사고 · 보험 지원</a>
         <a href="/center#center">진바이크 · 코아바이크</a>
       </span>
@@ -515,7 +515,7 @@ section[id]{scroll-margin-top:74px}
       <button class="acc-h" type="button">센터 · 렌트 <i>▾</i></button>
       <div class="acc-b">
         <a href="/center">오토바이센터 서비스</a>
-        <a href="/center#rent">차량 렌트 · 리스</a>
+        <a href="/center#rent">바이크 렌트 · 리스</a>
         <a href="/center#accident">사고 · 보험 지원</a>
         <a href="/center#center">진바이크 · 코아바이크</a>
       </div>
@@ -563,8 +563,8 @@ section[id]{scroll-margin-top:74px}
 <div class="svc t-rider reveal"><div class="top"><span class="ic">🏪</span><h3>배민플러스</h3><span class="tag tag-soon">준비중</span></div><p>배민플러스 배달대행 협력. 모집 페이지 준비 중.</p></div>
 <div class="svc t-store reveal"><div class="top"><span class="ic">💼</span><h3>바로고 B2B</h3></div><p>바로고 배달대행 B2B 운영 — 상점·가맹점 대상 안정적 배달.</p></div>
 <div class="svc t-store reveal"><div class="top"><span class="ic">🛵</span><h3>꼬르륵 배달대행</h3></div><p>지역 상권 밀착 배달대행 운영.</p></div>
-<a class="svc t-center reveal" href="/center#rent"><div class="top"><span class="ic">🔋</span><h3>EV 바이크 렌트</h3><span class="tag tag-live">일 9,500원~</span></div><p>유류비 걱정 없는 전기 스쿠터 렌트 — 상시반납·점검·보험 포함.</p><span class="go">렌트 안내 보기 →</span></a>
-<a class="svc feature t-center reveal" href="/center"><div class="top"><span class="ic">🔧</span><h3>오토바이센터 직접운영</h3><span class="tag tag-live">2개 지점</span></div><p>진바이크(용전동)·코아바이크(자양동) 직영 — 정비·매입·라이더 장비 지원.</p><span class="go">센터 자세히 보기 →</span></a>
+<a class="svc t-center reveal" href="/center#rent"><div class="top"><span class="ic">🔑</span><h3>바이크 렌트 · 리스</h3><span class="tag tag-live">일 9,500원~</span></div><p>전기(EV)부터 유상운송용 내연기관까지, 연령대별 상담 — 점검·보험 포함.</p><span class="go">렌트·리스 안내 →</span></a>
+<a class="svc feature t-center reveal" href="/center"><div class="top"><span class="ic">🔧</span><h3>오토바이센터 직접운영</h3><span class="tag tag-live">2개 지점</span></div><p>진바이크(용전동)·코아바이크(자양동) 직영 — 정비·매입에 렌트·리스와 대물 사고 수리 연계까지.</p><span class="go">센터 자세히 보기 →</span></a>
 </div>
 </div></section>
 <section id="contact"><div class="wrap">
@@ -586,7 +586,7 @@ section[id]{scroll-margin-top:74px}
   <div class="fgrid">
     <div class="fcol fbrand">
       <div class="fl"><img class="mark" src="/assets/logo-mark.webp" alt="코아파트너스 CP 엠블럼"> CORE PARTNERS · 코아파트너스</div>
-      <p class="fdesc">대전 쿠팡이츠플러스 · 배민플러스 공식 협력사<br>배달대행 · 오토바이센터 직영 · EV 렌트</p>
+      <p class="fdesc">대전 쿠팡이츠플러스 · 배민플러스 공식 협력사<br>배달대행 · 오토바이센터 직영 · 렌트 · 리스</p>
     </div>
     <div class="fcol"><h5>라이더</h5>
       <a href="/coupang-plus">모집 안내</a>
@@ -595,7 +595,7 @@ section[id]{scroll-margin-top:74px}
     </div>
     <div class="fcol"><h5>센터 · 렌트</h5>
       <a href="/center">오토바이센터</a>
-      <a href="/center#rent">차량 렌트 · 리스</a>
+      <a href="/center#rent">바이크 렌트 · 리스</a>
       <a href="/about">회사소개</a>
     </div>
     <div class="fcol"><h5>문의</h5>
@@ -713,7 +713,7 @@ document.addEventListener('click',function(e){
       .finally(function(){busy=false;send.disabled=false;});
   }
   fab.addEventListener('click',function(){panel.style.display='flex';fab.style.display='none';
-    if(!msgs.children.length){add('bot','안녕하세요! 코아파트너스 AI 상담입니다 🛵\n미션·수익·EV 렌트·지원 절차까지 무엇이든 물어보세요.');}
+    if(!msgs.children.length){add('bot','안녕하세요! 코아파트너스 AI 상담입니다 🛵\n미션·수익·렌트·리스·지원 절차까지 무엇이든 물어보세요.');}
     input.focus();});
   document.getElementById('cwClose').addEventListener('click',function(){panel.style.display='none';fab.style.display='inline-flex';});
   send.addEventListener('click',function(){ask(input.value.trim());});
