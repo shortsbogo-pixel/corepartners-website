@@ -17,6 +17,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as MissionRouteImport } from './routes/mission'
 import { Route as PromoMetaRouteImport } from './routes/promo-meta'
 import { Route as PromoBannerRouteImport } from './routes/promo-banner'
 import { Route as ApiApplyRouteImport } from './routes/api/apply'
@@ -63,6 +64,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MissionRoute = MissionRouteImport.update({
+  id: '/mission',
+  path: '/mission',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PromoMetaRoute = PromoMetaRouteImport.update({
   id: '/promo-meta',
   path: '/promo-meta',
@@ -101,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/promo-banner': typeof PromoBannerRoute
   '/api/promo-upload': typeof ApiPromoUploadRoute
   '/privacy': typeof PrivacyRoute
+  '/mission': typeof MissionRoute
   '/promo-meta': typeof PromoMetaRoute
   '/api/chat': typeof ApiChatRoute
 }
@@ -116,6 +123,7 @@ export interface FileRoutesByTo {
   '/promo-banner': typeof PromoBannerRoute
   '/api/promo-upload': typeof ApiPromoUploadRoute
   '/privacy': typeof PrivacyRoute
+  '/mission': typeof MissionRoute
   '/promo-meta': typeof PromoMetaRoute
   '/api/chat': typeof ApiChatRoute
 }
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/promo-banner': typeof PromoBannerRoute
   '/api/promo-upload': typeof ApiPromoUploadRoute
   '/privacy': typeof PrivacyRoute
+  '/mission': typeof MissionRoute
   '/promo-meta': typeof PromoMetaRoute
   '/api/chat': typeof ApiChatRoute
 }
@@ -149,6 +158,7 @@ export interface FileRouteTypes {
     | '/promo-banner'
     | '/api/promo-upload'
     | '/privacy'
+    | '/mission'
     | '/promo-meta'
     | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
@@ -164,6 +174,7 @@ export interface FileRouteTypes {
     | '/promo-banner'
     | '/api/promo-upload'
     | '/privacy'
+    | '/mission'
     | '/promo-meta'
     | '/api/chat'
   id:
@@ -179,6 +190,7 @@ export interface FileRouteTypes {
     | '/promo-banner'
     | '/api/promo-upload'
     | '/privacy'
+    | '/mission'
     | '/promo-meta'
     | '/api/chat'
   fileRoutesById: FileRoutesById
@@ -195,6 +207,7 @@ export interface RootRouteChildren {
   PromoBannerRoute: typeof PromoBannerRoute
   ApiPromoUploadRoute: typeof ApiPromoUploadRoute
   PrivacyRoute: typeof PrivacyRoute
+  MissionRoute: typeof MissionRoute
   PromoMetaRoute: typeof PromoMetaRoute
   ApiChatRoute: typeof ApiChatRoute
 }
@@ -278,6 +291,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mission': {
+      id: '/mission'
+      path: '/mission'
+      fullPath: '/mission'
+      preLoaderRoute: typeof MissionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/promo-meta': {
       id: '/promo-meta'
       path: '/promo-meta'
@@ -307,6 +327,7 @@ const rootRouteChildren: RootRouteChildren = {
   PromoBannerRoute: PromoBannerRoute,
   ApiPromoUploadRoute: ApiPromoUploadRoute,
   PrivacyRoute: PrivacyRoute,
+  MissionRoute: MissionRoute,
   PromoMetaRoute: PromoMetaRoute,
   ApiChatRoute: ApiChatRoute,
 }
