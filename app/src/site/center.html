@@ -946,4 +946,21 @@ document.addEventListener('click',function(e){
   if(['ev','gas','guide'].indexOf(h)>=0){var tb=tabs.querySelector('[data-rt="'+h+'"]'); if(tb)tb.click();}
 })();
 </script>
+<script>
+/* anchor re-scroll: images loading after initial hash jump shift layout */
+(function(){
+  var h = location.hash; if(!h || h.length < 2) return;
+  var touched = false;
+  ['wheel','touchmove','keydown'].forEach(function(e){
+    window.addEventListener(e, function(){ touched = true; }, {passive:true, once:true});
+  });
+  function go(){
+    if(touched) return;
+    var el;
+    try { el = document.querySelector(h); } catch(e) { return; }
+    if(el) el.scrollIntoView();
+  }
+  window.addEventListener('load', function(){ setTimeout(go, 80); setTimeout(go, 700); });
+})();
+</script>
 </body></html>
