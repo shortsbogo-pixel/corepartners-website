@@ -7,7 +7,10 @@ export const Route = createFileRoute("/mission")({
     handlers: {
       GET: async ({ request }) => {
         const origin = new URL(request.url).origin;
-        return Response.redirect(`${origin}/coupang-plus#promo`, 302);
+        return Response.redirect(
+          `${origin}/coupang-plus?utm_source=namecard&utm_medium=qr&utm_campaign=weekly-mission#promo`,
+          302,
+        );
       },
     },
   },
