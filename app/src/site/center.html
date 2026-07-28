@@ -309,6 +309,22 @@ section[id]{scroll-margin-top:74px}
 .osp p{font-size:12px;color:var(--txt-2);margin-top:5px;line-height:1.55}
 .osp .go{display:inline-block;margin-top:10px;font-size:12px;font-weight:800;color:var(--teal)}
 
+/* home hero — weekly mission strip */
+.mstrip{display:flex;align-items:center;gap:14px;max-width:620px;margin:22px auto 0;background:var(--navy);border-radius:var(--r-lg);padding:14px 18px;text-decoration:none;box-shadow:0 10px 26px rgba(14,38,71,.20);transition:.18s;border:1px solid #1b436f}
+.mstrip:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(14,38,71,.28)}
+.mstrip .ms-tag{flex:none;background:var(--gold);color:#fff;font-size:12px;font-weight:900;letter-spacing:-.01em;padding:6px 11px;border-radius:999px;white-space:nowrap}
+.mstrip .ms-txt{flex:1;min-width:0;text-align:left;line-height:1.35}
+.mstrip .ms-txt b{display:block;color:#fff;font-size:15px;font-weight:850;letter-spacing:-.02em}
+.mstrip .ms-txt em{display:block;font-style:normal;color:#a9c0e4;font-size:12px;margin-top:3px}
+.mstrip .ms-go{flex:none;color:var(--gold-l,#F5CF6B);font-size:13px;font-weight:900;white-space:nowrap}
+@media(max-width:560px){
+  .mstrip{gap:10px;padding:13px 14px;margin-top:18px}
+  .mstrip .ms-tag{font-size:11px;padding:5px 9px}
+  .mstrip .ms-txt b{font-size:14px}
+  .mstrip .ms-txt em{font-size:11.5px}
+  .mstrip .ms-go{font-size:12px}
+}
+
 /* wayfinding routes — 3-color content code stripes */
 .finder{padding:30px 0 6px}
 .finder-h{text-align:center;margin-bottom:20px}
