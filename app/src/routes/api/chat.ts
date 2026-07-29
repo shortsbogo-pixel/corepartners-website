@@ -54,11 +54,31 @@ async function dailyCapped(): Promise<boolean> {
 }
 
 // privacy: mask phone-like and RRN-like digit runs before persisting
+// 회사 공개 번호(대표문의·센터)는 개인정보가 아니므로 마스킹에서 제외한다.
+const PUBLIC_TELS = ["042-672-0901", "042-672-0777"];
 function mask(s: string): string {
-  return s
+  const keep: string[] = [];
+  let t = s;
+  // 1) 공개 번호를 자리표시자로 빼둔다 (하이픈 없는 표기까지 함께 처리)
+  for (const tel of PUBLIC_TELS) {
+    const bare = tel.replace(/-/g, "");
+    for (const form of [tel, bare]) {
+      let i = t.indexOf(form);
+      while (i !== -1) {
+        const token = "\u0000T" + keep.length + "\u0000";
+        keep.push(tel);
+        t = t.slice(0, i) + token + t.slice(i + form.length);
+        i = t.indexOf(form);
+      }
+    }
+  }
+  // 2) 나머지 개인 연락처·주민번호를 마스킹
+  t = t
     .replace(/\d{6}[-\s]?\d{7}/g, "******-*******")
     .replace(/0\d{1,2}[-.\s]?\d{3,4}[-.\s]?\d{4}/g, "0**-****-****")
     .replace(/\d{9,11}/g, "***********");
+  // 3) 공개 번호를 원래대로 되돌린다
+  return t.replace(/\u0000T(\d+)\u0000/g, (_m, i) => keep[Number(i)] ?? "");
 }
 
 // widget renders plain text — strip any markdown the model emits
