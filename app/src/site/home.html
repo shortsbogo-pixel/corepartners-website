@@ -449,6 +449,22 @@ section[id]{scroll-margin-top:74px}
 .rnote{margin-top:14px;text-align:center;font-size:13px;color:var(--mut)}
 .rnote b{color:var(--gold-2)}
 
+
+/* 상단바 넘침 방지 — 좁은 화면에서 메뉴 버튼이 잘리던 문제 */
+@media(max-width:720px){
+  .topbar .wrap{padding:0 12px;gap:6px}
+  .topbar .logo{min-width:0;flex:1 1 auto;overflow:hidden}
+  .topbar .logo .mark{width:40px;height:40px;flex:none}
+  .topbar .logo .nm{font-size:13.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .topbar .logo .nm small{font-size:10px;overflow:hidden;text-overflow:ellipsis}
+  .topbar .gnb{flex:none;gap:8px}
+  .topbar .gnb .cta{font-size:12.5px;padding:8px 12px;white-space:nowrap}
+  .topbar .menu-toggle{margin-left:4px}
+}
+@media(max-width:360px){
+  .topbar .logo .nm{font-size:12px}
+  .topbar .gnb .cta{font-size:12px;padding:8px 10px}
+}
 </style>
 </head>
 <body>
