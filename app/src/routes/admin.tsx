@@ -88,6 +88,8 @@ export const Route = createFileRoute("/admin")({
         // ---- AI chatbot logs (masked) ----
         let chatTopics: Array<{ topic: string; n: number }> = [];
         let chatFlagged = 0;
+        let gapTopics: Array<{ topic: string; n: number }> = [];
+        let gapRows: Array<{ at: string; topic: string; q: string | null }> = [];
         let chatTotal = 0;
         let chatRows: Array<{ created_at: string; role: string; topic: string; flagged: number; content: string }> = [];
         const cWhere: string[] = [];
@@ -108,6 +110,18 @@ export const Route = createFileRoute("/admin")({
               .bind(sinceIso)
               .first<{ c: number }>();
             chatFlagged = fl ? Number(fl.c) : 0;
+            gapTopics = ((await db
+              .prepare("SELECT topic, COUNT(*) AS n FROM chat_logs WHERE flagged = 1 AND created_at >= ? GROUP BY topic ORDER BY n DESC LIMIT 6")
+              .bind(sinceIso)
+              .all()).results ?? []) as Array<{ topic: string; n: number }>;
+            gapRows = ((await db
+              .prepare(
+                "SELECT a.created_at AS at, a.topic AS topic, " +
+                "(SELECT u.content FROM chat_logs u WHERE u.session = a.session AND u.role = 'user' AND u.created_at <= a.created_at ORDER BY u.created_at DESC LIMIT 1) AS q " +
+                "FROM chat_logs a WHERE a.flagged = 1 AND a.created_at >= ? ORDER BY a.created_at DESC LIMIT 25"
+              )
+              .bind(sinceIso)
+              .all()).results ?? []) as Array<{ at: string; topic: string; q: string | null }>;
             const tot = await db
               .prepare("SELECT COUNT(*) AS c FROM chat_logs" + cW)
               .bind(...cBind)
@@ -172,6 +186,16 @@ export const Route = createFileRoute("/admin")({
 body{font-family:system-ui,'Malgun Gothic',sans-serif;background:#0b1a38;color:#eef3fc;margin:0;padding:22px}
 h1{font-size:20px;margin:0 0 4px}
 .c{color:#8b9cbe;font-size:13px;margin:0 0 16px}
+.gap{background:#122a52;border:1px solid #1f3f74;border-radius:12px;padding:14px 16px;margin:12px 0 6px}
+.gap-h{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+.gap-h b{font-size:15px}
+.gap-r{font-size:13px;font-weight:800}
+.gap-t{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.gt{background:#0b1a38;border:1px solid #274a86;border-radius:999px;padding:4px 10px;font-size:12px;color:#c7d6f0}
+.gt b{color:#fbbf24}
+.gq{margin:0;padding-left:20px;max-height:230px;overflow:auto}
+.gq li{font-size:13px;line-height:1.55;margin-bottom:5px;color:#e3ecfb}
+.gq-t{display:inline-block;background:#0b1a38;border-radius:5px;padding:1px 6px;margin-right:7px;font-size:11px;color:#8fa8d4}
 .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
 .tab{font-size:13px;font-weight:700;color:#c5d5ef;background:#152a4e;border:1px solid #26436f;padding:9px 15px;border-radius:999px;text-decoration:none}
 .tab.on{background:linear-gradient(135deg,#4f8dff,#2563eb);color:#fff;border-color:transparent}
@@ -231,6 +255,23 @@ ${tab("inquiry", "문의", cInq)}
 
 <h1 id="chatlog" style="margin-top:34px">💬 AI 챗봇 대화 로그</h1>
 <p class="c">최근 7일 문의 주제 분포 · 개인정보(전화번호 등)는 마스킹 저장 · ⚠ 미해결 = 전화 안내로 넘어간 답변 ${chatFlagged ? `· <b style="color:#fbbf24">미해결 ${chatFlagged}건</b>` : ""}</p>
+${(() => {
+  const totalQ = chatTopics.reduce((a, r) => a + Number(r.n || 0), 0);
+  const pct = totalQ ? Math.round((chatFlagged / totalQ) * 1000) / 10 : 0;
+  const tone = pct >= 35 ? "#f87171" : pct >= 20 ? "#fbbf24" : "#4ade80";
+  const topicLine = gapTopics.length
+    ? gapTopics.map((r) => `<span class="gt">${esc(r.topic || "기타")} <b>${r.n}</b></span>`).join(" ")
+    : `<span class="c" style="font-size:12px">막힌 주제 없음</span>`;
+  const qList = gapRows.length
+    ? gapRows.map((r) => `<li><span class="gq-t">${esc(r.topic || "기타")}</span>${esc((r.q || "(질문 기록 없음)").slice(0, 120))}</li>`).join("")
+    : `<li style="color:#8b9cbe">아직 막힌 질문이 없습니다.</li>`;
+  return `<div class="gap">
+  <div class="gap-h"><b>📌 이번 기간 막힌 질문 리포트</b><span class="gap-r" style="color:${tone}">미해결 ${chatFlagged}건 / 질문 ${totalQ}건 · ${pct}%</span></div>
+  <p class="c" style="margin:0 0 9px;font-size:12px">아래는 챗봇이 답하지 못하고 전화로 넘긴 질문들입니다. <b>주 1회 훑어보고 답할 수 있게 만들면 미해결률이 내려갑니다.</b> 업계 기준으로 신규 도입 초기 20~35%는 정상, 안정되면 40~60%까지 해결 가능합니다.</p>
+  <div class="gap-t">${topicLine}</div>
+  <ol class="gq">${qList}</ol>
+</div>`;
+})()}
 <div style="margin:10px 0 6px">${chatTopicHtml}</div>
 <div style="margin:0 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
   <span class="c" style="font-size:12px">기간</span>${dayHtml}

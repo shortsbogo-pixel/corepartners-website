@@ -1412,14 +1412,14 @@ document.addEventListener('click',function(e){
   function hideTeaser(save){if(teaser){teaser.style.display='none';}if(save){try{localStorage.setItem('cwTz','1');}catch(e){}}}
   function openPanel(preQ){
     panel.style.display='flex';fab.style.display='none';hideTeaser(false);
-    if(!msgs.children.length){add('bot','안녕하세요! 코아파트너스 AI 상담입니다 🛵\n미션·수익·렌트·리스·지원 절차까지 무엇이든 물어보세요.');}
+    if(!msgs.children.length){add('bot','쿠팡플러스 모집 상담이에요 🛵\n이번 주 미션 조건, 실수령 계산, 지원 절차를 물어보세요.');}
     if(preQ){route(preQ);}else{input.focus();}
   }
   function makeTeaser(){
     var dismissed=false;try{dismissed=localStorage.getItem('cwTz')==='1';}catch(e){}
     if(dismissed)return;
     teaser=document.createElement('div');teaser.className='cw-teaser';teaser.style.display='none';
-    teaser.innerHTML='<span>궁금한 점, AI가 바로 답해드려요 💬</span>';
+    teaser.innerHTML='<span>이번 주 미션 조건, 바로 알려드려요 💬</span>';
     var x=document.createElement('button');x.type='button';x.className='x';x.textContent='✕';
     x.addEventListener('click',function(e){e.stopPropagation();hideTeaser(true);});
     teaser.appendChild(x);
