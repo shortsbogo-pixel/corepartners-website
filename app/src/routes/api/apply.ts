@@ -38,11 +38,13 @@ export const Route = createFileRoute("/api/apply")({
         const bike = clean(data.bike, 20);
         const message = clean(data.message, 1000);
         const source = clean(data.source, 40);
-        const createdAt = new Date().toISOString();
+        // 한국시간(KST)으로 저장 — 관리자 화면·챗봇 로그와 시간대를 통일한다
+        const kstIso = (t: number) => new Date(t + 9 * 3600 * 1000).toISOString().replace("Z", "+09:00");
+        const createdAt = kstIso(Date.now());
         const db = bindings().DB;
         if (!db) return Response.json({ ok: false, code: "no_db" }, { status: 500 });
         try {
-          const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+          const tenMinAgo = kstIso(Date.now() - 10 * 60 * 1000);
           const dup = await db
             .prepare(
               "SELECT COUNT(*) AS c FROM applications WHERE replace(replace(phone,'-',''),' ','') = ? AND created_at > ?",

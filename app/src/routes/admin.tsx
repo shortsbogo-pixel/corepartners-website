@@ -8,6 +8,17 @@ function csvCell(v: unknown): string {
   const s = String(v ?? "");
   return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
 }
+// 저장값이 UTC(...Z)든 KST(+09:00)든 항상 한국시간으로 표시한다
+function kst(v: unknown): string {
+  const raw = String(v ?? "");
+  if (!raw) return "";
+  const d = new Date(raw);
+  if (isNaN(d.getTime())) return raw;
+  const k = new Date(d.getTime() + 9 * 3600 * 1000);
+  const p = (n: number) => String(n).padStart(2, "0");
+  return `${k.getUTCFullYear()}-${p(k.getUTCMonth() + 1)}-${p(k.getUTCDate())} ${p(k.getUTCHours())}:${p(k.getUTCMinutes())}`;
+}
+const STATUSES = ["미처리", "연락함", "완료", "보류"] as const;
 function label(source: string): string {
   if (source === "coupang-plus") return "라이더지원";
   if (source === "홈-문의") return "문의";
@@ -17,6 +28,35 @@ function label(source: string): string {
 export const Route = createFileRoute("/admin")({
   server: {
     handlers: {
+      POST: async ({ request }) => {
+        const url = new URL(request.url);
+        const key = url.searchParams.get("key") ?? "";
+        const env = bindings() as unknown as { ADMIN_KEY?: string };
+        if (!env.ADMIN_KEY || key !== env.ADMIN_KEY) return new Response("Unauthorized", { status: 401 });
+        const db = bindings().DB;
+        const form = await request.formData();
+        const id = String(form.get("id") ?? "");
+        const action = String(form.get("action") ?? "");
+        const back = String(form.get("back") ?? `/admin?key=${encodeURIComponent(key)}`);
+        if (db && id) {
+          try {
+            await db.prepare("ALTER TABLE applications ADD COLUMN status TEXT").run();
+          } catch { /* 이미 있으면 통과 */ }
+          try {
+            await db.prepare("ALTER TABLE applications ADD COLUMN memo TEXT").run();
+          } catch { /* 이미 있으면 통과 */ }
+          try {
+            if (action === "delete") {
+              await db.prepare("DELETE FROM applications WHERE id = ?").bind(id).run();
+            } else {
+              const st = String(form.get("status") ?? "미처리");
+              const memo = String(form.get("memo") ?? "").slice(0, 200);
+              await db.prepare("UPDATE applications SET status = ?, memo = ? WHERE id = ?").bind(st, memo, id).run();
+            }
+          } catch { /* best effort */ }
+        }
+        return new Response(null, { status: 303, headers: { Location: back } });
+      },
       GET: async ({ request }) => {
         const url = new URL(request.url);
         const key = url.searchParams.get("key") ?? "";
@@ -27,6 +67,7 @@ export const Route = createFileRoute("/admin")({
         }
         const type = url.searchParams.get("type") ?? "all"; // all | rider | inquiry
         const wantExport = url.searchParams.get("export") === "csv";
+        const stFilter = url.searchParams.get("st") ?? "";           // 접수 상태 필터
         const chatTopic = url.searchParams.get("ctopic") ?? "";        // 주제 필터
         const chatDays = Math.min(Math.max(Number(url.searchParams.get("cdays") ?? 7) || 7, 1), 90);
         const chatFlagOnly = url.searchParams.get("cflag") === "1";
@@ -41,12 +82,24 @@ export const Route = createFileRoute("/admin")({
         let rows: Record<string, unknown>[] = [];
         let cRider = 0, cInq = 0, cAll = 0;
         if (db) {
-          const base = "SELECT name, phone, area, bike, message, source, created_at FROM applications";
-          const q = filterSrc
-            ? db.prepare(base + " WHERE source = ? ORDER BY created_at DESC LIMIT 1000").bind(filterSrc)
-            : db.prepare(base + " ORDER BY created_at DESC LIMIT 1000");
-          const r = await q.all();
-          rows = (r.results ?? []) as Record<string, unknown>[];
+          const base = "SELECT id, name, phone, area, bike, message, source, created_at, status, memo FROM applications";
+          const w: string[] = []; const b: unknown[] = [];
+          if (filterSrc) { w.push("source = ?"); b.push(filterSrc); }
+          if (stFilter === "미처리") w.push("(status IS NULL OR status = '' OR status = '미처리')");
+          else if (stFilter) { w.push("status = ?"); b.push(stFilter); }
+          const sql = base + (w.length ? " WHERE " + w.join(" AND ") : "") + " ORDER BY created_at DESC LIMIT 1000";
+          try {
+            const r = await db.prepare(sql).bind(...b).all();
+            rows = (r.results ?? []) as Record<string, unknown>[];
+          } catch {
+            // status/memo 컬럼이 아직 없으면 만들고 다시 조회한다
+            try { await db.prepare("ALTER TABLE applications ADD COLUMN status TEXT").run(); } catch { /* noop */ }
+            try { await db.prepare("ALTER TABLE applications ADD COLUMN memo TEXT").run(); } catch { /* noop */ }
+            try {
+              const r2 = await db.prepare(sql).bind(...b).all();
+              rows = (r2.results ?? []) as Record<string, unknown>[];
+            } catch { rows = []; }
+          }
           const counts = await db
             .prepare("SELECT source, COUNT(*) as n FROM applications GROUP BY source")
             .all();
@@ -58,11 +111,11 @@ export const Route = createFileRoute("/admin")({
         }
 
         if (wantExport) {
-          const header = ["접수일시", "구분", "이름", "연락처", "희망지역/문의유형", "이륜차", "메시지", "출처"];
+          const header = ["접수일시(KST)", "구분", "상태", "이름", "연락처", "희망지역/문의유형", "이륜차", "메시지", "메모", "출처"];
           const lines = [header.join(",")];
           for (const x of rows) {
             lines.push([
-              x.created_at, label(String(x.source ?? "")), x.name, x.phone, x.area, x.bike, x.message, x.source,
+              kst(x.created_at), label(String(x.source ?? "")), x.status || "미처리", x.name, x.phone, x.area, x.bike, x.message, x.memo, x.source,
             ].map(csvCell).join(","));
           }
           const csv = "﻿" + lines.join("\r\n");
@@ -77,13 +130,42 @@ export const Route = createFileRoute("/admin")({
 
         const tab = (t: string, name: string, n: number) =>
           `<a class="tab${t === type ? " on" : ""}" href="/admin?key=${encodeURIComponent(key)}&type=${t}">${name} <b>${n}</b></a>`;
+        const backHref = url.pathname + url.search;
+        const stKey = (v: unknown) => { const t = String(v ?? "").trim(); return STATUSES.includes(t as typeof STATUSES[number]) ? t : "미처리"; };
         const trs = rows
           .map((x) => {
             const tg = label(String(x.source ?? ""));
             const cls = x.source === "coupang-plus" ? "rider" : x.source === "홈-문의" ? "inq" : "";
-            return `<tr><td class="dt">${esc(x.created_at)}</td><td><span class="pill ${cls}">${esc(tg)}</span></td><td><b>${esc(x.name)}</b></td><td>${esc(x.phone)}</td><td>${esc(x.area)}</td><td>${esc(x.bike)}</td><td>${esc(x.message)}</td></tr>`;
+            const cur = stKey(x.status);
+            const opts = STATUSES.map((o) => `<option value="${o}"${o === cur ? " selected" : ""}>${o}</option>`).join("");
+            const idv = esc(x.id);
+            return `<tr class="st-${cur === "미처리" ? "todo" : cur === "완료" ? "done" : cur === "연락함" ? "call" : "hold"}">
+<td class="dt">${esc(kst(x.created_at))}</td>
+<td><span class="pill ${cls}">${esc(tg)}</span></td>
+<td><b>${esc(x.name)}</b></td><td>${esc(x.phone)}</td><td>${esc(x.area)}</td><td>${esc(x.bike)}</td><td>${esc(x.message)}</td>
+<td class="stc">
+<form method="post" action="/admin?key=${encodeURIComponent(key)}" class="stf">
+<input type="hidden" name="id" value="${idv}"><input type="hidden" name="back" value="${esc(backHref)}">
+<select name="status">${opts}</select>
+<input type="text" name="memo" value="${esc(x.memo)}" placeholder="메모" maxlength="200">
+<button type="submit">저장</button>
+</form>
+<form method="post" action="/admin?key=${encodeURIComponent(key)}" class="stf" onsubmit="return confirm('이 접수를 삭제할까요? 되돌릴 수 없습니다.')">
+<input type="hidden" name="id" value="${idv}"><input type="hidden" name="action" value="delete"><input type="hidden" name="back" value="${esc(backHref)}">
+<button type="submit" class="del">삭제</button>
+</form>
+</td></tr>`;
           })
           .join("");
+        const stq = (v: string) => {
+          const sp = new URLSearchParams({ key });
+          if (type !== "all") sp.set("type", type);
+          if (v) sp.set("st", v);
+          return "/admin?" + sp.toString();
+        };
+        const stChips = ["", "미처리", "연락함", "완료", "보류"]
+          .map((v) => `<a class="ct sm${stFilter === v ? " on" : ""}" href="${stq(v)}">${v || "전체 상태"}</a>`)
+          .join(" ");
         const expHref = `/admin?key=${encodeURIComponent(key)}&type=${type}&export=csv`;
         // ---- AI chatbot logs (masked) ----
         let chatTopics: Array<{ topic: string; n: number }> = [];
@@ -210,6 +292,18 @@ td.dt{white-space:nowrap;color:#9fb2d4;font-variant-numeric:tabular-nums}
 .pill{font-size:11px;font-weight:800;padding:3px 9px;border-radius:6px;white-space:nowrap}
 .pill.rider{background:rgba(52,211,153,.16);color:#5ff0b0}
 .pill.inq{background:rgba(125,180,255,.16);color:#a9cbff}
+td.stc{white-space:nowrap;min-width:250px}
+.stf{display:flex;gap:5px;align-items:center;margin:0 0 5px}
+.stf select,.stf input[type=text]{background:#0f2244;border:1px solid #26436f;border-radius:7px;color:#e8f0ff;padding:6px 8px;font-size:12px;font-family:inherit}
+.stf input[type=text]{width:120px}
+.stf button{background:#2563eb;border:none;color:#fff;font-weight:800;font-size:12px;padding:6px 11px;border-radius:7px;cursor:pointer;font-family:inherit}
+.stf button.del{background:transparent;border:1px solid #7f3550;color:#f0a0b4;font-weight:700}
+.stf button.del:hover{background:#7f3550;color:#fff}
+tr.st-todo td:first-child{border-left:3px solid #fbbf24}
+tr.st-call td:first-child{border-left:3px solid #4f8dff}
+tr.st-done td:first-child{border-left:3px solid #34d399}
+tr.st-done td{opacity:.62}
+tr.st-hold td:first-child{border-left:3px solid #8b9cbe}
 .promo-box{background:#152a4e;border:1px solid #26436f;border-radius:12px;padding:16px 18px;margin:0 0 18px}
 .promo-box h2{font-size:15px;margin:0 0 6px}
 .promo-box form{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0 12px}
@@ -230,7 +324,7 @@ tr.cf td:first-child{border-left:3px solid #fbbf24}
 td.cc{max-width:520px;word-break:break-all;color:#c5d5ef;font-size:12px}
 </style></head><body>
 <h1>🛵 지원·문의 접수 관리</h1>
-<p class="c">최근순 · 최대 1,000건 · 자동 새로고침 없음</p>
+<p class="c">최근순 · 최대 1,000건 · 시각은 한국시간(KST) · 상태와 메모는 저장 버튼을 눌러야 반영됩니다 · CSV에는 개인정보가 그대로 담기니 내려받은 파일은 따로 관리하세요</p>
 <div class="promo-box">
 <h2>📢 이번주 쿠팡플러스미션 배너 교체</h2>
 <p class="c">${url.searchParams.get("promo") === "ok" ? '<b style="color:#5ff0b0">✔ 배너가 교체되었습니다. 사이트에 즉시 반영됩니다.</b>' : "webp / png / jpg · 최대 5MB · 주차 라벨과 적용 기간(시작·종료일)을 함께 입력하면 페이지의 기간 표시도 같이 갱신됩니다."}</p>
@@ -250,8 +344,9 @@ ${tab("rider", "라이더지원", cRider)}
 ${tab("inquiry", "문의", cInq)}
 <a class="dl" href="${expHref}">⬇ 엑셀(CSV) 내려받기</a>
 </div>
-<table><thead><tr><th>접수일시</th><th>구분</th><th>이름/상호</th><th>연락처</th><th>지역/문의유형</th><th>이륜차</th><th>메시지</th></tr></thead>
-<tbody>${trs || '<tr><td colspan="7" style="text-align:center;color:#8b9cbe;padding:30px">해당 항목이 없습니다.</td></tr>'}</tbody></table>
+<div style="margin:0 0 10px">${stChips}</div>
+<table><thead><tr><th>접수일시</th><th>구분</th><th>이름/상호</th><th>연락처</th><th>지역/문의유형</th><th>이륜차</th><th>메시지</th><th>상태 · 메모</th></tr></thead>
+<tbody>${trs || '<tr><td colspan="8" style="text-align:center;color:#8b9cbe;padding:30px">해당 항목이 없습니다.</td></tr>'}</tbody></table>
 
 <h1 id="chatlog" style="margin-top:34px">💬 AI 챗봇 대화 로그</h1>
 <p class="c">최근 7일 문의 주제 분포 · 개인정보(전화번호 등)는 마스킹 저장 · 📞 전화 안내 = 답변 끝에 대표번호 안내가 붙은 답변(답변 실패가 아님) ${chatFlagged ? `· <b style="color:#fbbf24">전화 안내 ${chatFlagged}건</b>` : ""}</p>
