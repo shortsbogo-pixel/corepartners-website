@@ -1,15 +1,21 @@
 import { createFileRoute } from '@tanstack/react-router'
 
+// Canonical public domain. Hardcoded on purpose: the site is also reachable at
+// its origin host (corepartners-dj.higgsfield.app) behind the corepartners.kr
+// reverse proxy, and search engines must be pointed at ONE address regardless
+// of which host served the request.
+const SITE = 'https://corepartners.kr'
+
 export const Route = createFileRoute('/robots.txt')({
   server: {
     handlers: {
-      GET: async ({ request }) => {
-        const origin = new URL(request.url).origin
+      GET: async () => {
         const body = [
           'User-agent: *',
           'Allow: /',
+          'Disallow: /admin',
           '',
-          `Sitemap: ${origin}/sitemap.xml`,
+          `Sitemap: ${SITE}/sitemap.xml`,
         ].join('\n')
         return new Response(body, {
           headers: {
