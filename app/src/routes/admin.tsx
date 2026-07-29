@@ -267,7 +267,7 @@ ${(() => {
     : `<li style="color:#8b9cbe">아직 막힌 질문이 없습니다.</li>`;
   return `<div class="gap">
   <div class="gap-h"><b>📌 이번 기간 막힌 질문 리포트</b><span class="gap-r" style="color:${tone}">미해결 ${chatFlagged}건 / 질문 ${totalQ}건 · ${pct}%</span></div>
-  <p class="c" style="margin:0 0 9px;font-size:12px">아래는 챗봇이 답하지 못하고 전화로 넘긴 질문들입니다. <b>주 1회 훑어보고 답할 수 있게 만들면 미해결률이 내려갑니다.</b> 업계 기준으로 신규 도입 초기 20~35%는 정상, 안정되면 40~60%까지 해결 가능합니다.</p>
+  <p class="c" style="margin:0 0 9px;font-size:12px">아래는 챗봇이 답하지 못하고 전화로 넘긴 질문들입니다. <b>주 1회 훑어보고 답할 수 있게 만들면 미해결률이 내려갑니다.</b> 질문이 30건 미만일 때는 비율이 크게 흔들리니 숫자보다 아래 질문 내용을 보세요. 답은 했는데 전화 안내를 덧붙여 미해결로 잡히는 경우도 있으니, 실제 답변 내용을 함께 확인하세요.</p>
   <div class="gap-t">${topicLine}</div>
   <ol class="gq">${qList}</ol>
 </div>`;
