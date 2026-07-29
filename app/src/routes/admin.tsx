@@ -27,6 +27,12 @@ export const Route = createFileRoute("/admin")({
         }
         const type = url.searchParams.get("type") ?? "all"; // all | rider | inquiry
         const wantExport = url.searchParams.get("export") === "csv";
+        const chatTopic = url.searchParams.get("ctopic") ?? "";        // 주제 필터
+        const chatDays = Math.min(Math.max(Number(url.searchParams.get("cdays") ?? 7) || 7, 1), 90);
+        const chatFlagOnly = url.searchParams.get("cflag") === "1";
+        const chatPage = Math.max(Number(url.searchParams.get("cpage") ?? 1) || 1, 1);
+        const wantChatCsv = url.searchParams.get("cexport") === "csv";
+        const CHAT_PER = 50;
         const db = bindings().DB;
 
         const srcFor = (t: string) => (t === "rider" ? "coupang-plus" : t === "inquiry" ? "홈-문의" : null);
@@ -82,31 +88,86 @@ export const Route = createFileRoute("/admin")({
         // ---- AI chatbot logs (masked) ----
         let chatTopics: Array<{ topic: string; n: number }> = [];
         let chatFlagged = 0;
+        let chatTotal = 0;
         let chatRows: Array<{ created_at: string; role: string; topic: string; flagged: number; content: string }> = [];
+        const cWhere: string[] = [];
+        const cBind: unknown[] = [];
+        const sinceIso = new Date(Date.now() - chatDays * 86400 * 1000 + 9 * 3600 * 1000).toISOString();
+        cWhere.push("created_at >= ?"); cBind.push(sinceIso);
+        if (chatTopic) { cWhere.push("topic = ?"); cBind.push(chatTopic); }
+        if (chatFlagOnly) { cWhere.push("flagged = 1"); }
+        const cW = cWhere.length ? " WHERE " + cWhere.join(" AND ") : "";
         try {
           if (db) {
-            const weekAgo = new Date(Date.now() - 7 * 86400 * 1000 + 9 * 3600 * 1000).toISOString();
             chatTopics = ((await db
               .prepare("SELECT topic, COUNT(*) AS n FROM chat_logs WHERE role = 'user' AND created_at >= ? GROUP BY topic ORDER BY n DESC")
-              .bind(weekAgo)
-              .all()) .results ?? []) as Array<{ topic: string; n: number }>;
+              .bind(sinceIso)
+              .all()).results ?? []) as Array<{ topic: string; n: number }>;
             const fl = await db
               .prepare("SELECT COUNT(*) AS c FROM chat_logs WHERE flagged = 1 AND created_at >= ?")
-              .bind(weekAgo)
+              .bind(sinceIso)
               .first<{ c: number }>();
             chatFlagged = fl ? Number(fl.c) : 0;
+            const tot = await db
+              .prepare("SELECT COUNT(*) AS c FROM chat_logs" + cW)
+              .bind(...cBind)
+              .first<{ c: number }>();
+            chatTotal = tot ? Number(tot.c) : 0;
+            const lim = wantChatCsv ? 5000 : CHAT_PER;
+            const off = wantChatCsv ? 0 : (chatPage - 1) * CHAT_PER;
             chatRows = ((await db
-              .prepare("SELECT created_at, role, topic, flagged, content FROM chat_logs ORDER BY created_at DESC LIMIT 30")
+              .prepare("SELECT created_at, role, topic, flagged, content FROM chat_logs" + cW + " ORDER BY created_at DESC LIMIT ? OFFSET ?")
+              .bind(...cBind, lim, off)
               .all()).results ?? []) as Array<{ created_at: string; role: string; topic: string; flagged: number; content: string }>;
           }
         } catch { /* table may not exist yet */ }
-        const chatTopicHtml = chatTopics.length
-          ? chatTopics.map((r) => `<span class="ct"><b>${esc(r.topic)}</b> ${r.n}건</span>`).join(" ")
-          : '<span class="c">아직 대화 기록이 없습니다.</span>';
+
+        if (wantChatCsv) {
+          const header = ["일시", "구분", "주제", "미해결", "내용(마스킹)"];
+          const lines = [header.join(",")];
+          for (const r of chatRows) {
+            lines.push([
+              r.created_at, r.role === "user" ? "질문" : "답변", r.topic ?? "", r.flagged ? "미해결" : "", r.content,
+            ].map(csvCell).join(","));
+          }
+          const csv = "\ufeff" + lines.join("\r\n");
+          const tag = chatTopic ? chatTopic.replace(/[^\uAC00-\uD7A3A-Za-z0-9]/g, "") : (chatFlagOnly ? "unresolved" : "all");
+          return new Response(csv, {
+            headers: {
+              "Content-Type": "text/csv; charset=utf-8",
+              "Content-Disposition": `attachment; filename="corepartners_chatlogs_${tag}_${chatDays}d.csv"`,
+            },
+          });
+        }
+        const cq = (o: Record<string, string | number>) => {
+          const sp = new URLSearchParams({ key });
+          if (type !== "all") sp.set("type", type);
+          const merged: Record<string, string | number> = { ctopic: chatTopic, cdays: chatDays, cflag: chatFlagOnly ? 1 : 0, cpage: chatPage, ...o };
+          for (const [k, v] of Object.entries(merged)) {
+            if (v === "" || v === 0 || (k === "cpage" && v === 1) || (k === "cdays" && v === 7)) continue;
+            sp.set(k, String(v));
+          }
+          return "/admin?" + sp.toString() + "#chatlog";
+        };
+        const chip = (labelTxt: string, active: boolean, href: string, n?: number) =>
+          `<a class="ct${active ? " on" : ""}" href="${href}"><b>${esc(labelTxt)}</b>${n === undefined ? "" : ` ${n}건`}</a>`;
+        const chatTopicHtml = [
+          chip("전체", !chatTopic && !chatFlagOnly, cq({ ctopic: "", cflag: 0, cpage: 1 })),
+          ...chatTopics.map((r) => chip(r.topic ?? "기타", chatTopic === r.topic, cq({ ctopic: r.topic ?? "", cflag: 0, cpage: 1 }), r.n)),
+          chip("⚠ 미해결", chatFlagOnly, cq({ ctopic: "", cflag: 1, cpage: 1 }), chatFlagged),
+        ].join(" ");
+        const dayHtml = [7, 30, 90]
+          .map((d) => `<a class="ct sm${chatDays === d ? " on" : ""}" href="${cq({ cdays: d, cpage: 1 })}">${d}일</a>`)
+          .join(" ");
+        const chatPages = Math.max(Math.ceil(chatTotal / CHAT_PER), 1);
+        const pagerHtml =
+          chatPages > 1
+            ? `<div class="pager">${chatPage > 1 ? `<a class="ct sm" href="${cq({ cpage: chatPage - 1 })}">‹ 이전</a>` : ""}<span class="pg">${chatPage} / ${chatPages} 쪽 · 총 ${chatTotal}건</span>${chatPage < chatPages ? `<a class="ct sm" href="${cq({ cpage: chatPage + 1 })}">다음 ›</a>` : ""}</div>`
+            : `<div class="pager"><span class="pg">총 ${chatTotal}건</span></div>`;
+        const chatCsvHref = cq({ cexport: "csv" }).replace("#chatlog", "");
         const chatTrs = chatRows
-          .map((r) => `<tr class="${r.role === 'user' ? 'cu' : ''}${r.flagged ? ' cf' : ''}"><td>${esc(r.created_at.slice(5, 16).replace('T', ' '))}</td><td>${r.role === 'user' ? '👤 질문' : '🤖 답변'}</td><td>${esc(r.topic ?? '-')}</td><td>${r.flagged ? '⚠ 미해결' : ''}</td><td class="cc">${esc(r.content)}</td></tr>`)
+          .map((r) => `<tr class="${r.role === 'user' ? 'cu' : ''}${r.flagged ? ' cf' : ''}"><td>${esc(String(r.created_at ?? '').slice(5, 16).replace('T', ' '))}</td><td>${r.role === 'user' ? '👤 질문' : '🤖 답변'}</td><td>${esc(r.topic ?? '-')}</td><td>${r.flagged ? '⚠ 미해결' : ''}</td><td class="cc">${esc(r.content)}</td></tr>`)
           .join("");
-        
         const html = `<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>지원·문의 접수 관리 · 코아파트너스</title><style>
 body{font-family:system-ui,'Malgun Gothic',sans-serif;background:#0b1a38;color:#eef3fc;margin:0;padding:22px}
 h1{font-size:20px;margin:0 0 4px}
@@ -131,8 +192,14 @@ td.dt{white-space:nowrap;color:#9fb2d4;font-variant-numeric:tabular-nums}
 .promo-box input[type=file]{font-size:13px;color:#c5d5ef}
 .promo-box button{font-size:13px;font-weight:800;color:#0a1730;background:linear-gradient(135deg,#fde68a,#fbbf24);border:none;padding:10px 16px;border-radius:9px;cursor:pointer}
 .promo-prev{max-width:260px;border-radius:9px;border:1px solid #26436f;display:block}
-.ct{display:inline-block;background:#0f2244;border:1px solid #26436f;border-radius:999px;padding:6px 12px;margin:0 6px 6px 0;font-size:12.5px;color:#c5d5ef}
+.ct{display:inline-block;background:#0f2244;border:1px solid #26436f;border-radius:999px;padding:6px 12px;margin:0 6px 6px 0;font-size:12.5px;color:#c5d5ef;text-decoration:none}
 .ct b{color:#fde68a}
+.ct:hover{background:#173a6e}
+.ct.on{background:#c9930a;border-color:#c9930a;color:#fff}
+.ct.on b{color:#fff}
+.ct.sm{font-size:11.5px;padding:5px 10px}
+.pager{display:flex;align-items:center;gap:10px;margin:12px 0 4px}
+.pg{font-size:12px;color:#8b9cbe}
 tr.cu td{background:#13284c}
 tr.cf td{border-left:none}
 tr.cf td:first-child{border-left:3px solid #fbbf24}
@@ -162,11 +229,17 @@ ${tab("inquiry", "문의", cInq)}
 <table><thead><tr><th>접수일시</th><th>구분</th><th>이름/상호</th><th>연락처</th><th>지역/문의유형</th><th>이륜차</th><th>메시지</th></tr></thead>
 <tbody>${trs || '<tr><td colspan="7" style="text-align:center;color:#8b9cbe;padding:30px">해당 항목이 없습니다.</td></tr>'}</tbody></table>
 
-<h1 style="margin-top:34px">💬 AI 챗봇 대화 로그</h1>
+<h1 id="chatlog" style="margin-top:34px">💬 AI 챗봇 대화 로그</h1>
 <p class="c">최근 7일 문의 주제 분포 · 개인정보(전화번호 등)는 마스킹 저장 · ⚠ 미해결 = 전화 안내로 넘어간 답변 ${chatFlagged ? `· <b style="color:#fbbf24">미해결 ${chatFlagged}건</b>` : ""}</p>
-<div style="margin:10px 0 14px">${chatTopicHtml}</div>
+<div style="margin:10px 0 6px">${chatTopicHtml}</div>
+<div style="margin:0 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+  <span class="c" style="font-size:12px">기간</span>${dayHtml}
+  <a class="dl" href="${chatCsvHref}">⬇ 엑셀(CSV) 내려받기</a>
+</div>
+${pagerHtml}
 <table><thead><tr><th>일시</th><th>구분</th><th>주제</th><th></th><th>내용(마스킹)</th></tr></thead>
 <tbody>${chatTrs || '<tr><td colspan="5" style="text-align:center;color:#8b9cbe;padding:26px">챗봇 활성화 후 대화가 여기에 쌓입니다. (주 1회 훑어보고 자주 묻는 주제를 지식에 보강하세요)</td></tr>'}</tbody></table>
+${pagerHtml}
 </body></html>`;
         return new Response(html, { headers: { "Content-Type": "text/html; charset=utf-8" } });
       },
