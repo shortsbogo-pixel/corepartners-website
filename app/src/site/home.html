@@ -176,7 +176,7 @@ section{padding:32px 0 4px}
 .sec-head{margin-bottom:18px}
 .stats{margin-top:16px}
 .pcard.narrow{max-width:330px}
-footer{margin-top:32px;padding:26px 0 32px}
+footer{margin-top:32px;padding:26px 0 calc(96px + env(safe-area-inset-bottom))}
 .recruit{padding:28px 18px}
 }
 
@@ -1005,7 +1005,7 @@ document.addEventListener('click',function(e){
     teaser.appendChild(x);
     teaser.addEventListener('click',function(){openPanel();});
     document.body.appendChild(teaser);
-    setTimeout(function(){if(panel.style.display!=='flex'&&teaser){teaser.style.display='flex';}},4500);
+    setTimeout(function(){if(panel.style.display!=='flex'&&teaser){teaser.style.display='flex';setTimeout(function(){if(teaser&&teaser.style.display!=='none'){hideTeaser(false);}},15000);}},4500);
   }
   fetch('/api/chat').then(function(r){return r.json()}).then(function(d){
     if(d&&d.enabled){
