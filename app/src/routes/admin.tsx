@@ -174,6 +174,15 @@ export const Route = createFileRoute("/admin")({
         let gapRows: Array<{ at: string; topic: string; q: string | null }> = [];
         let chatTotal = 0;
         let chatRows: Array<{ created_at: string; role: string; topic: string; flagged: number; content: string }> = [];
+        // 챗봇 대화 기록 90일 경과분 정리(처리방침 명시 보유기간)
+        if (db) {
+          try {
+            const cutoff = new Date(Date.now() + 9 * 3600 * 1000 - 90 * 86400 * 1000)
+              .toISOString()
+              .replace("Z", "+09:00");
+            await db.prepare("DELETE FROM chat_logs WHERE created_at < ?").bind(cutoff).run();
+          } catch { /* best-effort */ }
+        }
         const cWhere: string[] = [];
         const cBind: unknown[] = [];
         const sinceIso = new Date(Date.now() - chatDays * 86400 * 1000 + 9 * 3600 * 1000).toISOString();

@@ -725,7 +725,7 @@ document.addEventListener('click',function(e){
     <button type="button">라이더 꿀팁</button>
   </div>
   <div class="cw-in"><input id="cwInput" type="text" maxlength="500" placeholder="궁금한 점을 입력하세요" autocomplete="off"><button id="cwSend" type="button">전송</button></div>
-  <div class="cw-note">AI 안내는 참고용입니다 · 이번 주 조건·개인 사안은 042-672-0901</div>
+  <div class="cw-note">AI 안내는 참고용입니다 · 주민등록번호·계좌번호는 입력하지 마세요<br>대화는 상담 품질 개선을 위해 저장되며 답변 생성을 위해 AI 처리 위탁사로 전송됩니다 · <a href="/privacy" target="_blank" rel="noopener" style="color:#5a6b8c;text-decoration:underline">개인정보 처리방침</a> · 개인 사안은 042-672-0901</div>
 </div>
 <script>
 (function(){
@@ -755,7 +755,7 @@ document.addEventListener('click',function(e){
   function startApply(){
     if(flow)return;
     flow='name';pend={};
-    add('bot','좋아요, 채팅으로 바로 접수해 드릴게요. 먼저 성함(또는 상호)을 입력해 주세요. (취소하려면 "취소")');
+    add('bot','좋아요, 채팅으로 바로 접수해 드릴게요.\n입력하신 이름과 연락처는 상담 응대 목적으로만 이용되며, 자세한 내용은 아래 개인정보 처리방침에서 확인하실 수 있어요.\n먼저 성함(또는 상호)을 입력해 주세요. (취소하려면 "취소")');
     input.focus();
   }
   function fmtPhone(d){return d.length===10&&d.slice(0,2)==='02'?d.replace(/(\d{2})(\d{4})(\d{4})/,'$1-$2-$3'):d.replace(/^(\d{2,3})(\d{3,4})(\d{4})$/,'$1-$2-$3');}

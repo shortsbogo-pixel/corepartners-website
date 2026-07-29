@@ -104,6 +104,23 @@ function topicOf(s: string): string {
   return "기타";
 }
 
+// 개인정보 처리방침상 챗봇 대화 기록 보유기간은 90일.
+// 별도 스케줄러 없이, 로그를 쓸 때 낮은 확률로 만료분을 정리한다.
+const LOG_RETENTION_DAYS = 90;
+async function purgeOldLogs(force = false) {
+  if (!force && Math.random() > 0.02) return;
+  try {
+    const db = bindings().DB;
+    if (!db) return;
+    const cutoff = new Date(Date.now() + 9 * 3600 * 1000 - LOG_RETENTION_DAYS * 86400 * 1000)
+      .toISOString()
+      .replace("Z", "+09:00");
+    await db.prepare("DELETE FROM chat_logs WHERE created_at < ?").bind(cutoff).run();
+  } catch {
+    // best-effort
+  }
+}
+
 async function log(session: string, role: string, topic: string, flagged: number, content: string) {
   try {
     const db = bindings().DB;
@@ -158,6 +175,7 @@ export const Route = createFileRoute("/api/chat")({
         const userMsg = messages[messages.length - 1].content;
         const topic = topicOf(userMsg);
         await log(session, "user", topic, 0, userMsg);
+        await purgeOldLogs();
         try {
           const res = await fetch("https://api.anthropic.com/v1/messages", {
             method: "POST",
