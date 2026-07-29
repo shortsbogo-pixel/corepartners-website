@@ -61,6 +61,20 @@ function mask(s: string): string {
     .replace(/\d{9,11}/g, "***********");
 }
 
+// widget renders plain text — strip any markdown the model emits
+function plain(s: string): string {
+  return s
+    .replace(/```[\s\S]*?```/g, "")
+    .replace(/^\s{0,3}#{1,6}\s*/gm, "")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/__([^_]+)__/g, "$1")
+    .replace(/(^|\n)\s*[-*•]\s+/g, "$1· ")
+    .replace(/(^|\n)\s*\d+\.\s+/g, "$1· ")
+    .replace(/\*/g, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
 function topicOf(s: string): string {
   if (/(사고|보험|산재|파손|다쳤)/.test(s)) return "사고·보험";
   if (/(렌트|리스|바이크|기종|오토바이|전기|EV|내연)/i.test(s)) return "렌트·리스";
@@ -151,9 +165,10 @@ export const Route = createFileRoute("/api/chat")({
               .map((c) => c.text)
               .join("\n")
               .trim() || "죄송해요, 다시 한 번 여쭤봐 주시겠어요?";
+          const clean = plain(reply);
           const flagged = /042-672-0901/.test(reply) && /(문의해 주세요|전화 주세요|전화로 확인)/.test(reply) ? 1 : 0;
-          await log(session, "assistant", topic, flagged, reply.replace(/\{\{(APPLY|CALL)\}\}/g, ""));
-          return Response.json({ reply });
+          await log(session, "assistant", topic, flagged, clean.replace(/\{\{(APPLY|CALL)\}\}/g, ""));
+          return Response.json({ reply: clean });
         } catch {
           return Response.json({
             reply: "지금 상담봇 연결이 원활하지 않아요. 042-672-0901로 전화 주시면 바로 도와드립니다.",
