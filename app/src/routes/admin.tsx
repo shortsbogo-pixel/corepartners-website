@@ -137,15 +137,15 @@ export const Route = createFileRoute("/admin")({
         } catch { /* table may not exist yet */ }
 
         if (wantChatCsv) {
-          const header = ["일시", "구분", "주제", "미해결", "내용(마스킹)"];
+          const header = ["일시", "구분", "주제", "전화안내", "내용(마스킹)"];
           const lines = [header.join(",")];
           for (const r of chatRows) {
             lines.push([
-              r.created_at, r.role === "user" ? "질문" : "답변", r.topic ?? "", r.flagged ? "미해결" : "", r.content,
+              r.created_at, r.role === "user" ? "질문" : "답변", r.topic ?? "", r.flagged ? "전화안내" : "", r.content,
             ].map(csvCell).join(","));
           }
           const csv = "\ufeff" + lines.join("\r\n");
-          const tag = chatTopic ? chatTopic.replace(/[^\uAC00-\uD7A3A-Za-z0-9]/g, "") : (chatFlagOnly ? "unresolved" : "all");
+          const tag = chatTopic ? chatTopic.replace(/[^\uAC00-\uD7A3A-Za-z0-9]/g, "") : (chatFlagOnly ? "phone-guided" : "all");
           return new Response(csv, {
             headers: {
               "Content-Type": "text/csv; charset=utf-8",
@@ -168,7 +168,7 @@ export const Route = createFileRoute("/admin")({
         const chatTopicHtml = [
           chip("전체", !chatTopic && !chatFlagOnly, cq({ ctopic: "", cflag: 0, cpage: 1 })),
           ...chatTopics.map((r) => chip(r.topic ?? "기타", chatTopic === r.topic, cq({ ctopic: r.topic ?? "", cflag: 0, cpage: 1 }), r.n)),
-          chip("⚠ 미해결", chatFlagOnly, cq({ ctopic: "", cflag: 1, cpage: 1 }), chatFlagged),
+          chip("📞 전화 안내", chatFlagOnly, cq({ ctopic: "", cflag: 1, cpage: 1 }), chatFlagged),
         ].join(" ");
         const dayHtml = [7, 30, 90]
           .map((d) => `<a class="ct sm${chatDays === d ? " on" : ""}" href="${cq({ cdays: d, cpage: 1 })}">${d}일</a>`)
@@ -180,7 +180,7 @@ export const Route = createFileRoute("/admin")({
             : `<div class="pager"><span class="pg">총 ${chatTotal}건</span></div>`;
         const chatCsvHref = cq({ cexport: "csv" }).replace("#chatlog", "");
         const chatTrs = chatRows
-          .map((r) => `<tr class="${r.role === 'user' ? 'cu' : ''}${r.flagged ? ' cf' : ''}"><td>${esc(String(r.created_at ?? '').slice(5, 16).replace('T', ' '))}</td><td>${r.role === 'user' ? '👤 질문' : '🤖 답변'}</td><td>${esc(r.topic ?? '-')}</td><td>${r.flagged ? '⚠ 미해결' : ''}</td><td class="cc">${esc(r.content)}</td></tr>`)
+          .map((r) => `<tr class="${r.role === 'user' ? 'cu' : ''}${r.flagged ? ' cf' : ''}"><td>${esc(String(r.created_at ?? '').slice(5, 16).replace('T', ' '))}</td><td>${r.role === 'user' ? '👤 질문' : '🤖 답변'}</td><td>${esc(r.topic ?? '-')}</td><td>${r.flagged ? '📞 전화 안내' : ''}</td><td class="cc">${esc(r.content)}</td></tr>`)
           .join("");
         const html = `<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>지원·문의 접수 관리 · 코아파트너스</title><style>
 body{font-family:system-ui,'Malgun Gothic',sans-serif;background:#0b1a38;color:#eef3fc;margin:0;padding:22px}
@@ -254,20 +254,20 @@ ${tab("inquiry", "문의", cInq)}
 <tbody>${trs || '<tr><td colspan="7" style="text-align:center;color:#8b9cbe;padding:30px">해당 항목이 없습니다.</td></tr>'}</tbody></table>
 
 <h1 id="chatlog" style="margin-top:34px">💬 AI 챗봇 대화 로그</h1>
-<p class="c">최근 7일 문의 주제 분포 · 개인정보(전화번호 등)는 마스킹 저장 · ⚠ 미해결 = 전화 안내로 넘어간 답변 ${chatFlagged ? `· <b style="color:#fbbf24">미해결 ${chatFlagged}건</b>` : ""}</p>
+<p class="c">최근 7일 문의 주제 분포 · 개인정보(전화번호 등)는 마스킹 저장 · 📞 전화 안내 = 답변 끝에 대표번호 안내가 붙은 답변(답변 실패가 아님) ${chatFlagged ? `· <b style="color:#fbbf24">전화 안내 ${chatFlagged}건</b>` : ""}</p>
 ${(() => {
   const totalQ = chatTopics.reduce((a, r) => a + Number(r.n || 0), 0);
   const pct = totalQ ? Math.round((chatFlagged / totalQ) * 1000) / 10 : 0;
-  const tone = pct >= 35 ? "#f87171" : pct >= 20 ? "#fbbf24" : "#4ade80";
+  const tone = pct >= 40 ? "#f87171" : pct >= 25 ? "#fbbf24" : "#4ade80";
   const topicLine = gapTopics.length
     ? gapTopics.map((r) => `<span class="gt">${esc(r.topic || "기타")} <b>${r.n}</b></span>`).join(" ")
     : `<span class="c" style="font-size:12px">막힌 주제 없음</span>`;
   const qList = gapRows.length
     ? gapRows.map((r) => `<li><span class="gq-t">${esc(r.topic || "기타")}</span>${esc((r.q || "(질문 기록 없음)").slice(0, 120))}</li>`).join("")
-    : `<li style="color:#8b9cbe">아직 막힌 질문이 없습니다.</li>`;
+    : `<li style="color:#8b9cbe">아직 전화로 넘긴 질문이 없습니다.</li>`;
   return `<div class="gap">
-  <div class="gap-h"><b>📌 이번 기간 막힌 질문 리포트</b><span class="gap-r" style="color:${tone}">미해결 ${chatFlagged}건 / 질문 ${totalQ}건 · ${pct}%</span></div>
-  <p class="c" style="margin:0 0 9px;font-size:12px">아래는 챗봇이 답하지 못하고 전화로 넘긴 질문들입니다. <b>주 1회 훑어보고 답할 수 있게 만들면 미해결률이 내려갑니다.</b> 질문이 30건 미만일 때는 비율이 크게 흔들리니 숫자보다 아래 질문 내용을 보세요. 답은 했는데 전화 안내를 덧붙여 미해결로 잡히는 경우도 있으니, 실제 답변 내용을 함께 확인하세요.</p>
+  <div class="gap-h"><b>📞 전화로 넘긴 질문 리포트</b><span class="gap-r" style="color:${tone}">전화 안내 ${chatFlagged}건 / 질문 ${totalQ}건 · ${pct}%</span></div>
+  <p class="c" style="margin:0 0 9px;font-size:12px">챗봇이 답변 끝에 대표번호 안내를 붙인 질문들입니다. <b>답변 실패가 아니라 "챗봇 선에서 끝내지 못한 질문"</b>이라는 뜻이에요. 같은 질문이 반복되면 그 주제를 더 확실히 답할 수 있게 보완하면 됩니다. 질문이 30건 미만일 때는 비율이 크게 흔들리니 숫자보다 아래 질문 내용을 보세요.</p>
   <div class="gap-t">${topicLine}</div>
   <ol class="gq">${qList}</ol>
 </div>`;
