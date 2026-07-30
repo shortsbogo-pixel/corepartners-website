@@ -136,13 +136,6 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible,.ifield input:focus-visible,.ifield select:focus-visible,.ifield textarea:focus-visible{outline:3px solid var(--navy);outline-offset:1px;border-color:var(--navy-2)}
 .sos :focus-visible{outline-color:#fff}
 @media (prefers-contrast:more){:focus-visible{outline-width:4px}}
-/* E-3c: 강제 색상 모드 — 배경·그림자가 제거되는 환경에서 경계와 포커스 복원 */
-@media (forced-colors:active){
-.gnb .cta{box-shadow:none;outline:1px solid ButtonText;outline-offset:-2px}
-.gnb .cta:focus-visible{outline:3px solid Highlight;outline-offset:2px}
-.sos a{outline:1px solid LinkText;outline-offset:-2px}
-.sos a:focus-visible{outline:3px solid Highlight;outline-offset:3px}
-}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 
 /* hamburger + accordion menu */
@@ -502,3 +495,14 @@ svg.i{width:1em;height:1em;flex:none;vertical-align:-.125em;fill:none;stroke:cur
 h1,h2,h3,h4,.logo .nm,.tnum,.cw-h b{font-family:var(--font-display)}
 h1,h2,h3{letter-spacing:-.035em}
 .tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+
+/* E-3c·E-3d: 강제 색상 모드 — 배경·그림자가 제거되는 환경에서 경계와 포커스 복원. 순서 의존을 없애기 위해 파일 끝에 배치 */
+@media (forced-colors:active){
+.gnb .cta{box-shadow:none;outline:1px solid ButtonText;outline-offset:-2px}
+.gnb .cta:focus-visible{outline:3px solid Highlight;outline-offset:2px}
+.sos a{outline:1px solid LinkText;outline-offset:-2px}
+.sos a:focus-visible{outline:3px solid Highlight;outline-offset:3px}
+.menu-toggle{border-color:ButtonText}
+.menu-toggle span{background:ButtonText}
+.menu-toggle:focus-visible{outline:3px solid Highlight;outline-offset:2px}
+}
