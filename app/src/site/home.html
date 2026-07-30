@@ -23,11 +23,11 @@
   --navy:#0e2647; --navy-2:#173a6e; --navy-deep:#0a1c36; --navy-soft:#eef2f9;
   --err:#c0392b;
   --blue:#2563eb; --blue-soft:#eaf1fe;
-  --teal:#0d9d92; --teal-soft:#e5f6f4;
+  --teal:#0d9d92;--teal-2:#0a716a; --teal-soft:#e5f6f4;
   --gold:#c9930a; --gold-2:#8f6a00; --gold-soft:#fdf6e1; --gold-line:#e6c261;
   --lime:#d1fe17; --lime-2:#b8e000; --lime-soft:#f4ffd0;
   --bg:#ffffff; --bg-2:#f5f9f9; --tint:#f2f8f8;
-  --txt:#1d2434; --txt-2:#49536a; --mut:#7b8499; --mut-2:#a4abbc;
+  --txt:#1d2434; --txt-2:#49536a; --mut:#5f6a80; --mut-2:#677084;
   --line:#e7edee; --line-2:#d6dee0;
   --acc:var(--navy); --acc-2:var(--navy-2); --acc-soft:var(--navy-soft);
   --r-lg:18px; --r-md:14px; --r-sm:12px;--elev-btn:0 9px 22px rgba(14,38,71,.26);--elev-gold:0 8px 20px rgba(184,134,11,.30);--elev-media:0 8px 20px rgba(0,0,0,.28);--glow-lime:0 0 9px rgba(209,254,23,.88);--r-xs:9px;--r-xl:22px;--r-pill:999px; --maxw:1080px;
@@ -46,7 +46,10 @@ a{color:inherit;text-decoration:none}
 /* content color codes: rider red / store-settle blue / center teal / brand navy */
 .t-rider{--acc:#c9930a;--acc-2:#8f6a00;--acc-soft:#fdf6e1}
 .t-store{--acc:#2563eb;--acc-2:#1d4fc4;--acc-soft:#eaf1fe}
-.t-center{--acc:#0d9d92;--acc-2:#0a7d75;--acc-soft:#e5f6f4}
+/* P0 — 원색 대비가 낮은 테마(골드·틸)에서는 텍스트에 acc-2 사용 */
+.t-center .sec-kicker,.t-rider .sec-kicker{color:var(--acc-2)}
+
+.t-center{--acc:#0d9d92;--acc-2:#0a716a;--acc-soft:#e5f6f4}
 .t-brand{--acc:#0e2647;--acc-2:#173a6e;--acc-soft:#eef2f9}
 
 /* top bar — navy backbone */
@@ -63,7 +66,7 @@ a{color:inherit;text-decoration:none}
 .gnb a.mn:hover{color:#fff}
 .gnb .cta{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--navy-deep);background:linear-gradient(135deg,#eec95f,#cf9a10);padding:9px 16px;border-radius:var(--r-pill);box-shadow:var(--elev-gold);transition:filter .15s}
 .gnb .cta:hover{filter:brightness(1.06)}
-@media(max-width:720px){.gnb a.mn{display:none}}
+@media(max-width:720px){}
 
 /* hero — white, trust first */
 .hero{position:relative;padding:56px 0 42px;text-align:center;background:linear-gradient(180deg,#eef6f6,#fff 80%)}
@@ -136,6 +139,11 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
 .reveal.in{opacity:1;transform:none}
+/* P0 — 키보드 포커스 표시 (마우스 클릭 시에는 표시되지 않음) */
+:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+.topbar :focus-visible,footer :focus-visible{outline-color:var(--lime)}
+.field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible,.ifield input:focus-visible,.ifield select:focus-visible,.ifield textarea:focus-visible{outline:3px solid var(--navy);outline-offset:1px;border-color:var(--navy-2)}
+@media (prefers-contrast:more){:focus-visible{outline-width:4px}}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 
 /* hamburger + accordion menu */
@@ -202,7 +210,7 @@ footer{margin-top:32px;padding:26px 0 calc(96px + env(safe-area-inset-bottom))}
 .fdesc{font-size:12.5px;color:#9fb0d1;line-height:1.8;text-align:left}
 .finfo{border-top:1px solid rgba(255,255,255,.12);padding-top:16px;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;font-size:12px;color:#9fb0d1}
 .finfo b{color:#d6e2f8;margin-right:5px}
-.fcopy{margin-top:10px;font-size:11px;color:#7488ad}
+.fcopy{margin-top:10px;font-size:11px;color:#96a6c6}
 
 /* inline guide accordion (start guide, FAQ 등) */
 .guide{max-width:760px;margin:18px auto 0;background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:4px 18px;box-shadow:var(--shadow)}
@@ -217,7 +225,7 @@ footer{margin-top:32px;padding:26px 0 calc(96px + env(safe-area-inset-bottom))}
 .gnb .has-sub:hover .subm,.gnb .has-sub:focus-within .subm{opacity:1;visibility:visible;transform:translateX(-50%) translateY(3px)}
 .subm a{display:block;padding:9px 12px;font-size:13.5px;font-weight:650;color:var(--txt-2);border-radius:var(--r-xs);white-space:nowrap}
 .subm a:hover{background:var(--teal-soft);color:var(--navy)}
-@media(max-width:820px){.subm{display:none}}
+@media(max-width:860px){.gnb a.mn,.gnb .has-sub{display:none}.subm{display:none}}
 
 section[id]{scroll-margin-top:74px}
 #apply-form,.applyform{scroll-margin-top:82px}
@@ -269,7 +277,7 @@ section[id]{scroll-margin-top:74px}
 .rthead .rtc{color:#dbe6fb;font-weight:800;font-size:12.5px;letter-spacing:.02em}
 .rtc{padding:13px 16px;font-size:13.5px;color:var(--txt-2);display:flex;align-items:center}
 .rtc.price{font-weight:800;color:var(--navy)}
-.rtc.ask{color:var(--teal);font-weight:800}
+.rtc.ask{color:var(--teal-2);font-weight:800}
 @media(max-width:560px){.rtc{padding:11px 12px;font-size:12.5px}}
 
 /* compare (rent vs lease) */
@@ -277,12 +285,12 @@ section[id]{scroll-margin-top:74px}
 @media(max-width:600px){.cmp{grid-template-columns:1fr}}
 .cmpc{background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow)}
 .cmpc h4{font-size:17px;color:var(--navy);display:flex;align-items:center;gap:8px;margin-bottom:4px}
-.cmpc .tag{font-size:11.5px;font-weight:800;color:#fff;background:var(--teal);border-radius:var(--r-pill);padding:3px 10px;display:inline-block;margin-bottom:12px}
+.cmpc .tag{font-size:11.5px;font-weight:800;color:#fff;background:var(--teal-2);border-radius:var(--r-pill);padding:3px 10px;display:inline-block;margin-bottom:12px}
 .cmpc.lease .tag{background:var(--gold)}
 .cmpc ul{list-style:none;padding:0}
 .cmpc li{font-size:13px;color:var(--txt-2);padding:7px 0 7px 22px;position:relative;border-top:1px dashed var(--line)}
 .cmpc li:first-child{border-top:none}
-.cmpc li::before{content:"✓";position:absolute;left:0;color:var(--teal);font-weight:900}
+.cmpc li::before{content:"✓";position:absolute;left:0;color:var(--teal-2);font-weight:900}
 .cmpc.lease li::before{color:var(--gold-2)}
 .age{max-width:720px;margin:20px auto 0;background:linear-gradient(135deg,#eef6f6,#fff);border:1px solid var(--teal-soft);border-radius:var(--r-lg);padding:20px 22px}
 .age h4{font-size:15.5px;color:var(--navy);margin-bottom:8px}
@@ -328,12 +336,12 @@ section[id]{scroll-margin-top:74px}
 .osp .oi{font-size:28px;display:block;margin-bottom:8px}
 .osp h3{font-size:15.5px;color:var(--navy);font-weight:850;letter-spacing:-.02em}
 .osp p{font-size:12px;color:var(--txt-2);margin-top:5px;line-height:1.55}
-.osp .go{display:inline-block;margin-top:10px;font-size:12px;font-weight:800;color:var(--teal)}
+.osp .go{display:inline-block;margin-top:10px;font-size:12px;font-weight:800;color:var(--teal-2)}
 
 /* home hero — weekly mission strip */
 .mstrip{display:flex;align-items:center;gap:14px;max-width:620px;margin:22px auto 0;background:var(--navy);border-radius:var(--r-lg);padding:14px 18px;text-decoration:none;box-shadow:0 10px 26px rgba(14,38,71,.20);transition:.18s;border:1px solid #1b436f}
 .mstrip:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(14,38,71,.28)}
-.mstrip .ms-tag{flex:none;background:var(--gold);color:#fff;font-size:12px;font-weight:900;letter-spacing:-.01em;padding:6px 11px;border-radius:var(--r-pill);white-space:nowrap}
+.mstrip .ms-tag{flex:none;background:var(--gold-2);color:#fff;font-size:12px;font-weight:900;letter-spacing:-.01em;padding:6px 11px;border-radius:var(--r-pill);white-space:nowrap}
 .mstrip .ms-txt{flex:1;min-width:0;text-align:left;line-height:1.35}
 .mstrip .ms-txt b{display:block;color:#fff;font-size:15px;font-weight:850;letter-spacing:-.02em}
 .mstrip .ms-txt em{display:block;font-style:normal;color:#a9c0e4;font-size:12px;margin-top:3px}
@@ -360,8 +368,8 @@ section[id]{scroll-margin-top:74px}
 .route .ic{width:52px;height:52px;border-radius:var(--r-md);display:grid;place-items:center;font-size:26px;background:var(--acc-soft);margin-bottom:14px;box-shadow:inset 0 0 0 1px rgba(13,157,146,.10)}
 .route h3{font-size:19px;font-weight:850;color:var(--navy);letter-spacing:-.02em}
 .route p{font-size:13.5px;color:var(--txt-2);margin-top:7px;line-height:1.55;flex:1}
-.route .go{margin-top:16px;display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:850;color:var(--acc)}
-.route .hl{color:var(--acc);font-weight:800}
+.route .go{margin-top:16px;display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:850;color:var(--acc-2)}
+.route .hl{color:var(--acc-2);font-weight:800}
 
 /* service cards */
 .svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px}
@@ -373,11 +381,11 @@ section[id]{scroll-margin-top:74px}
 .svc .ic{width:46px;height:46px;border-radius:var(--r-sm);display:grid;place-items:center;font-size:23px;background:var(--acc-soft)}
 .svc h3{font-size:18px;font-weight:850;letter-spacing:-.02em;color:var(--navy)}
 .svc .tag{font-size:11px;font-weight:800;padding:4px 9px;border-radius:var(--r-xs);margin-left:auto;white-space:nowrap}
-.tag-live{background:#e8f8ef;color:#0f9d58;border:1px solid #bfe9d0}
+.tag-live{background:#e8f8ef;color:#0b7540;border:1px solid #bfe9d0}
 .tag-soon{background:var(--navy-soft);color:var(--navy-2);border:1px solid var(--line-2)}
 .svc p{font-size:13.5px;color:var(--txt-2);line-height:1.6;flex:1}
 .svc p b{color:var(--navy)!important}
-.svc .go{margin-top:15px;display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:850;color:var(--acc)}
+.svc .go{margin-top:15px;display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:850;color:var(--acc-2)}
 .svc.feature{grid-column:1/-1;background:linear-gradient(135deg,var(--acc-soft),#fff 55%)}
 
 /* recruit banner — navy card + gold headline (signature) */
@@ -395,9 +403,9 @@ section[id]{scroll-margin-top:74px}
 .center .cn{display:flex;align-items:center;gap:10px}
 .center .cn .b{width:42px;height:42px;border-radius:var(--r-sm);display:grid;place-items:center;font-size:20px;background:var(--teal-soft)}
 .center .cn h4{font-size:18px;font-weight:850;color:var(--navy)}
-.center .cn small{display:block;font-size:11.5px;color:var(--teal);font-weight:750;margin-top:1px}
+.center .cn small{display:block;font-size:11.5px;color:var(--teal-2);font-weight:750;margin-top:1px}
 .center .ad{margin-top:13px;font-size:13.5px;color:var(--txt-2)}
-.center a.map{margin-top:13px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#fff;background:var(--teal);padding:9px 14px;border-radius:var(--r-pill)}
+.center a.map{margin-top:13px;display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#fff;background:var(--teal-2);padding:9px 14px;border-radius:var(--r-pill)}
 .svc-note{margin-top:14px;text-align:center;font-size:13px;color:var(--mut)}
 .svc-note b{color:var(--navy)}
 
@@ -484,7 +492,7 @@ svg.i{width:1em;height:1em;flex:none;vertical-align:-.125em;fill:none;stroke:cur
 .oi svg.i{color:var(--navy)}
 .sos-ic svg.i{color:#fff}
 .ico svg.i{color:#16a34a}
-.trophy svg.i{color:var(--gold)}
+.trophy svg.i{color:var(--gold-2)}
 .rtdot svg.i{color:var(--navy-deep)}
 .ck svg.i{stroke-width:2.4}
 
@@ -500,7 +508,7 @@ h1,h2,h3{letter-spacing:-.035em}
 
 <!-- Top bar -->
 <div class="topbar"><div class="wrap">
-  <a class="logo" href="/"><img class="mark" src="/assets/logo-mark.webp" alt="코아파트너스 CP 엠블럼"><span class="nm">CORE PARTNERS<small>코아파트너스</small></span></a>
+  <a class="logo" href="/"><img class="mark" src="/assets/logo-mark.webp" alt="코아파트너스 CP 엠블럼" width="256" height="256"><span class="nm">CORE PARTNERS<small>코아파트너스</small></span></a>
   <nav class="gnb">
     <span class="has-sub"><a class="mn" href="/about">소개</a>
       <span class="subm">
@@ -659,9 +667,9 @@ h1,h2,h3{letter-spacing:-.035em}
     <div class="stat"><b><em>2</em></b><span>오토바이센터 직영</span></div>
     <div class="stat"><b><em>대전</em></b><span>전역 운영</span></div>
   </div>
-  <div class="pcard compact reveal"><img src="/assets/infra-compact.webp" alt="배달 플랫폼부터 라이더 인프라까지 — 코아파트너스 사업 연결 다이어그램" loading="lazy"></div>
+  <div class="pcard compact reveal"><img src="/assets/infra-compact.webp" alt="배달 플랫폼부터 라이더 인프라까지 — 코아파트너스 사업 연결 다이어그램" loading="lazy" width="760" height="898"></div>
   <a class="film-teaser reveal" href="/coupang-plus#film">
-    <img src="/assets/promo-video-poster.webp" alt="코아파트너스 홍보영상 미리보기" loading="lazy">
+    <img src="/assets/promo-video-poster.webp" alt="코아파트너스 홍보영상 미리보기" loading="lazy" width="406" height="720">
     <span class="veil"></span><span class="play">▶</span>
     <span class="lab"><b>36초 브랜드 영상 보기</b><small>운행 · 정산 · 복지 · 정비센터 · 유튜브 공개</small></span>
   </a>
@@ -703,13 +711,13 @@ h1,h2,h3{letter-spacing:-.035em}
   </div>
   <div class="centers">
     <div class="center reveal">
-      <div class="cphoto"><img src="/assets/center-jinbike.webp" alt="진바이크 용전동점 매장 외관" loading="lazy"></div>
+      <div class="cphoto"><img src="/assets/center-jinbike.webp" alt="진바이크 용전동점 매장 외관" loading="lazy" width="882" height="718"></div>
 <div class="cn"><span class="b"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 4.8 17.3 8a2 2 0 0 1-2.8 0l-.5-.5a2 2 0 0 1 0-2.8l3.2-3.2A6 6 0 0 0 9.3 9.4l-6.1 6.1a2.2 2.2 0 0 0 3.1 3.1l6.1-6.1a6 6 0 0 0 8.1-7.7z"/></svg></span><div><h4>진바이크</h4><small>JIN BIKE · 용전동점</small></div></div>
       <div class="ad"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg> 대전광역시 동구 용전동 80-19</div>
       <a class="map" href="https://map.naver.com/p/search/대전 동구 용전동 80-19" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>
     </div>
     <div class="center reveal">
-      <div class="cphoto"><img src="/assets/center-corebike.webp" alt="코아바이크 자양동점 매장 외관" loading="lazy"></div>
+      <div class="cphoto"><img src="/assets/center-corebike.webp" alt="코아바이크 자양동점 매장 외관" loading="lazy" width="882" height="648"></div>
 <div class="cn"><span class="b"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 4.8 17.3 8a2 2 0 0 1-2.8 0l-.5-.5a2 2 0 0 1 0-2.8l3.2-3.2A6 6 0 0 0 9.3 9.4l-6.1 6.1a2.2 2.2 0 0 0 3.1 3.1l6.1-6.1a6 6 0 0 0 8.1-7.7z"/></svg></span><div><h4>코아바이크</h4><small>CORE BIKE · 자양동점</small></div></div>
       <div class="ad"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg> 대전광역시 동구 백룡로22번길 3 (자양동)</div>
       <a class="map" href="https://map.naver.com/p/search/대전 동구 백룡로22번길 3" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>
@@ -792,7 +800,7 @@ h1,h2,h3{letter-spacing:-.035em}
 <footer><div class="wrap">
   <div class="fgrid">
     <div class="fcol fbrand">
-      <div class="fl"><img class="mark" src="/assets/logo-mark.webp" alt="코아파트너스 CP 엠블럼"> CORE PARTNERS · 코아파트너스</div>
+      <div class="fl"><img class="mark" src="/assets/logo-mark.webp" alt="코아파트너스 CP 엠블럼" width="256" height="256"> CORE PARTNERS · 코아파트너스</div>
       <p class="fdesc">대전 쿠팡이츠플러스 · 배민플러스 공식 협력사<br>배달대행 · 오토바이센터 직영 · 렌트 · 리스</p>
       <p class="fdesc" style="margin-top:8px"><b style="color:var(--gold)">corepartners.kr</b></p>
     </div>
