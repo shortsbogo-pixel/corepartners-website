@@ -704,6 +704,46 @@ svg.i{width:1em;height:1em;flex:none;vertical-align:-.125em;fill:none;stroke:cur
 h1,h2,h3,h4,.logo .nm,.tnum,.cw-h b{font-family:var(--font-display)}
 h1,h2,h3{letter-spacing:-.035em}
 .tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+
+/* ── 이번 주 미션 시간표 보드 ───────────────────────── */
+.msb{--msb-lab:236px;background:var(--navy-deep,#0a1c36);border-radius:var(--r-xl);padding:22px 20px 20px;color:#e8f0ff;margin:0 0 20px;box-shadow:0 18px 44px rgba(10,28,54,.24)}
+.msb-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.msb-h h3{font-family:var(--font-display);font-size:clamp(17px,4.2vw,21px);font-weight:850;letter-spacing:-.035em;color:#fff;margin:0}
+.msb-pill{font-family:var(--font-display);font-size:12.5px;font-weight:800;color:var(--gold-line);background:rgba(230,194,97,.13);border:1px solid rgba(230,194,97,.3);padding:4px 11px;border-radius:var(--r-pill);white-space:nowrap}
+.msb-rg{margin-left:auto;font-size:12.5px;color:#8fa3c8;font-variant-numeric:tabular-nums}
+.msb-sub{font-size:12.5px;color:#8fa3c8;margin:6px 0 18px}
+.msb-axis{position:relative;height:18px;margin-left:calc(var(--msb-lab) + 12px);border-bottom:1px solid rgba(255,255,255,.13)}
+.msb-axis span{position:absolute;top:0;transform:translateX(-50%);font-size:11px;color:#7f93b8;font-variant-numeric:tabular-nums}
+.msb-tracks{position:relative;margin-top:12px}
+.msb-row{display:grid;grid-template-columns:var(--msb-lab) 1fr;align-items:center;gap:12px;margin-bottom:12px}
+.msb-lab{font-family:var(--font-display);font-size:14.5px;font-weight:850;color:#dbe6fb;letter-spacing:-.02em;line-height:1.36}
+.msb-lab .d{font-family:var(--font-body);font-size:11px;font-weight:700;color:#93a8cc;background:rgba(255,255,255,.08);border-radius:var(--r-pill);padding:1px 8px;margin-left:6px;letter-spacing:0;vertical-align:1px}
+.msb-lab .tm{display:block;font-family:var(--font-display);font-size:13px;font-weight:800;color:var(--gold-line);font-variant-numeric:tabular-nums;letter-spacing:0}
+.msb-lab .py{display:block;font-family:var(--font-body);font-size:11.5px;font-weight:600;color:#9db1d4;font-variant-numeric:tabular-nums;letter-spacing:0}
+.msb-track{position:relative;height:34px;background:rgba(255,255,255,.05);border-radius:var(--r-xs)}
+.msb-bar{position:absolute;top:5px;bottom:5px;background:linear-gradient(180deg,rgba(230,194,97,.32),rgba(230,194,97,.15));border:1px solid rgba(230,194,97,.42);border-left:3px solid var(--gold-line);border-radius:var(--r-xs)}
+.msb-row.off{opacity:.38}
+.msb-row.live .msb-bar{background:linear-gradient(180deg,rgba(209,254,23,.34),rgba(209,254,23,.15));border-color:rgba(209,254,23,.6);border-left-color:var(--lime)}
+.msb-row.live .msb-lab,.msb-row.live .msb-lab .tm{color:var(--lime)}
+.msb-row.std .msb-lab{color:#b7c6e2}
+.msb-row.std .msb-lab .tm{color:#9db1d4}
+.msb-ghost{position:absolute;inset:4px;border:1px dashed rgba(255,255,255,.22);border-radius:var(--r-xs);display:flex;align-items:center;justify-content:center;font-size:11.5px;color:#7f93b8;text-align:center;padding:0 8px}
+.msb-nowwrap{position:absolute;top:-18px;bottom:6px;left:calc(var(--msb-lab) + 12px);right:0;pointer-events:none;z-index:3}
+.msb-now{position:absolute;top:0;bottom:0;width:2px;background:var(--lime);box-shadow:var(--glow-lime)}
+.msb-offhours{margin-top:4px;font-size:12.5px;color:#8fa3c8}
+.msb-extra{margin-top:16px;padding-top:15px;border-top:1px solid rgba(255,255,255,.11)}
+.msb-extra .t{font-size:11.5px;color:#8095b8;margin-bottom:9px}
+.msb-chips{display:flex;flex-wrap:wrap;gap:7px}
+.msb-chip{display:inline-flex;align-items:baseline;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:var(--r-pill);padding:6px 12px;font-size:12px;color:#cfdcf3}
+.msb-chip b{font-family:var(--font-display);font-weight:850;color:var(--gold-line);font-variant-numeric:tabular-nums}
+@media(max-width:780px){
+.msb{--msb-lab:0px;padding:18px 14px 16px;border-radius:var(--r-lg)}
+.msb-axis{margin-left:0}
+.msb-row{grid-template-columns:1fr;gap:6px;margin-bottom:16px}
+.msb-track{height:30px}
+.msb-nowwrap{display:none}
+.msb-rg{margin-left:0}
+}
 </style>
 </head>
 <body>
@@ -1010,6 +1050,28 @@ h1,h2,h3{letter-spacing:-.035em}
       <p id="promoLabel"><b style="color:var(--navy)">2026년 7월 4주차 프로모션</b></p>
       <p style="margin-top:6px"><span id="promoPeriod" data-end="2026-07-28T23:59:59+09:00">적용 기간 2026.07.22(수) ~ 07.28(화)</span> · <span id="promoUpdated">최종 업데이트 2026.07.22</span></p>
       <p style="margin-top:6px;font-size:12.5px;color:var(--mut)">※ 프로모션은 운영 상황에 따라 변경될 수 있으며, 변경 시 즉시 반영됩니다.</p>
+    </div>
+
+    <div class="msb reveal">
+      <div class="msb-h">
+        <h3>이번 주 미션 시간표</h3>
+        <span class="msb-pill" id="msbWk">2026년 7월 5주차</span>
+        <span class="msb-rg" id="msbRg">07.29 – 08.04</span>
+        <span class="msb-pill" id="msbNow" hidden></span>
+      </div>
+      <p class="msb-sub">주간 집계는 수요일 ~ 다음 주 화요일 · 정상 완료된 배달 건 기준</p>
+      <div class="msb-axis" id="msbAxis"></div>
+      <div class="msb-tracks" id="msbTracks"></div>
+      <p class="msb-offhours" id="msbOff" hidden></p>
+      <div class="msb-extra">
+        <div class="t">시간대와 무관한 미션</div>
+        <div class="msb-chips">
+          <span class="msb-chip">주간 누적 180 → 350건 <b>최대 9만원</b></span>
+          <span class="msb-chip">친구추천 <b>5만원</b></span>
+          <span class="msb-chip">웰컴 · 최초 150건 <b>3만원</b></span>
+          <span class="msb-chip">오일 · 패드 · 100건 이상 <b>무상 지원</b></span>
+        </div>
+      </div>
     </div>
     <div class="promo reveal">
       <div class="pcard"><img src="/promo-banner" width="1000" height="1500" alt="코아파트너스 주간 프로모션 안내 배너 — 평일 런치·포스트런치·올빼미 미션 상세, 주간 누적 보상, 라이더 혜택 요약, 문의 042-672-0777 / 042-672-0901" loading="lazy"></div>
@@ -1511,6 +1573,84 @@ document.addEventListener('click',function(e){
 })();
 </script>
 <script>
+/* 이번 주 미션 시간표 — 미션 조건이 바뀌면 아래 MISSIONS 배열만 수정하면 됩니다 */
+(function(){
+  var wrap=document.getElementById('msbTracks'); if(!wrap) return;
+  var START=10, END=24;
+  function pct(h){ return (h-START)/(END-START)*100; }
+
+  var MISSIONS=[
+    {name:'평일런치',   days:[1,2,3,4,5], from:10+55/60, to:12+59/60, d:'월~금',   tm:'10:55~12:59', pay:'10건 7,000 · 13건 10,000'},
+    {name:'포스트런치', days:[1,2,3,4,5], from:13,       to:16+54/60, d:'평일',    tm:'13:00~16:54', pay:'15건 8,000 · 20건 10,000'},
+    {name:'포스트런치', days:[0,6],       from:14,       to:16+54/60, d:'주말',    tm:'14:00~16:54', pay:'12건 8,000 · 15건 10,000'},
+    {name:'야간 올빼미',days:[1,2],       from:21.5,     to:23+59/60, d:'월·화',   tm:'21:30~23:59', pay:'21건 10,000'},
+    {name:'야간 올빼미',days:[3,4,5],     from:21.5,     to:23+59/60, d:'수·목·금',tm:'21:30~23:59', pay:'33건 20,000'},
+    {name:'야간 올빼미',days:[0,6],       from:21.5,     to:23+59/60, d:'토·일',   tm:'21:30~23:59', pay:'22건 14,000'}
+  ];
+
+  var now=new Date(), day=now.getDay(), hour=now.getHours()+now.getMinutes()/60;
+
+  var ax=document.getElementById('msbAxis');
+  for(var h=START; h<=END; h+=2){
+    var sp=document.createElement('span');
+    sp.style.left=pct(h)+'%'; sp.textContent=h; ax.appendChild(sp);
+  }
+
+  var pick={};
+  MISSIONS.forEach(function(m){
+    var cur=pick[m.name];
+    if(!cur){ pick[m.name]=m; return; }
+    if(cur.days.indexOf(day)===-1 && m.days.indexOf(day)>-1) pick[m.name]=m;
+  });
+
+  Object.keys(pick).forEach(function(name){
+    var m=pick[name];
+    var today=m.days.indexOf(day)>-1;
+    var live=today && hour>=m.from && hour<m.to;
+    var row=document.createElement('div');
+    row.className='msb-row'+(today?'':' off')+(live?' live':'');
+    row.innerHTML=
+      '<div class="msb-lab">'+name+'<span class="d">'+m.d+'</span>'+
+      '<span class="tm">'+m.tm+'</span><span class="py">'+m.pay+'</span></div>'+
+      '<div class="msb-track"><div class="msb-bar" style="left:'+pct(m.from).toFixed(2)+'%;width:'+
+      (pct(m.to)-pct(m.from)).toFixed(2)+'%"></div></div>';
+    wrap.appendChild(row);
+  });
+
+  /* 비정기 미션 — 본사(우천·이벤트)와 게릴라(기사 부족 시 출근 유도).
+     발생 이유는 다르나 라이더가 겪는 형태가 같아 한 레인으로 두고, 시간은 단정하지 않는다. */
+  var std=document.createElement('div');
+  std.className='msb-row std';
+  std.innerHTML=
+    '<div class="msb-lab">비정기 미션<span class="d">수시</span>'+
+    '<span class="tm">우천 · 이벤트 · 물량 몰릴 때</span>'+
+    '<span class="py">공지되면 앱에서 확인</span></div>'+
+    '<div class="msb-track"><div class="msb-ghost">공지가 뜨면 이 자리에 표시됩니다</div></div>';
+  wrap.appendChild(std);
+
+  var hh=('0'+now.getHours()).slice(-2)+':'+('0'+now.getMinutes()).slice(-2);
+  var chip=document.getElementById('msbNow');
+  if(chip){
+    chip.hidden=false; chip.textContent='지금 '+hh;
+    chip.style.background='rgba(209,254,23,.15)';
+    chip.style.borderColor='rgba(209,254,23,.45)';
+    chip.style.color='#d1fe17';
+  }
+
+  if(hour>=START && hour<=END){
+    var nw=document.createElement('div'); nw.className='msb-nowwrap';
+    var ln=document.createElement('div'); ln.className='msb-now';
+    ln.style.left=pct(hour).toFixed(2)+'%';
+    nw.appendChild(ln); wrap.appendChild(nw);
+  }else{
+    var o=document.getElementById('msbOff');
+    if(o){ o.hidden=false;
+      o.textContent='지금은 미션 운영 시간대가 아닙니다. 오늘 첫 미션은 '+
+        (day>=1&&day<=5?'10:55 평일런치':'14:00 포스트런치')+'부터 시작합니다.'; }
+  }
+})();
+</script>
+<script>
 (function(){
   var per=document.getElementById('promoPeriod'), lab=document.getElementById('promoLabel'), upd=document.getElementById('promoUpdated');
   function expire(endStr){
@@ -1522,6 +1662,9 @@ document.addEventListener('click',function(e){
     if(m){
       if(m.label&&lab) lab.innerHTML='<b style="color:var(--navy)">'+m.label+'</b>';
       if(m.period&&per) per.textContent='적용 기간 '+m.period;
+      var bw=document.getElementById('msbWk'), br=document.getElementById('msbRg');
+      if(m.label&&bw) bw.textContent=String(m.label).replace(/\s*프로모션\s*$/,'');
+      if(m.period&&br) br.textContent=m.period;
       if(m.updated&&upd) upd.textContent='최종 업데이트 '+m.updated;
       expire(m.end||per&&per.getAttribute('data-end'));
     } else { expire(per&&per.getAttribute('data-end')); }
