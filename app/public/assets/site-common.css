@@ -134,7 +134,15 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 :focus-visible{outline:3px solid var(--navy);outline-offset:2px}
 .topbar :focus-visible,footer :focus-visible{outline-color:var(--lime)}
 .field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible,.ifield input:focus-visible,.ifield select:focus-visible,.ifield textarea:focus-visible{outline:3px solid var(--navy);outline-offset:1px;border-color:var(--navy-2)}
+.sos :focus-visible{outline-color:#fff}
 @media (prefers-contrast:more){:focus-visible{outline-width:4px}}
+/* E-3c: 강제 색상 모드 — 배경·그림자가 제거되는 환경에서 경계와 포커스 복원 */
+@media (forced-colors:active){
+.gnb .cta{box-shadow:none;outline:1px solid ButtonText;outline-offset:-2px}
+.gnb .cta:focus-visible{outline:3px solid Highlight;outline-offset:2px}
+.sos a{outline:1px solid LinkText;outline-offset:-2px}
+.sos a:focus-visible{outline:3px solid Highlight;outline-offset:3px}
+}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
 
 /* hamburger + accordion menu */
@@ -291,11 +299,11 @@ section[id]{scroll-margin-top:74px}
 .age .ages span{font-size:12px;font-weight:750;color:var(--navy);background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r-pill);padding:7px 13px}
 
 /* ===== accident / insurance ===== */
-.sos{max-width:820px;margin:0 auto 22px;background:linear-gradient(135deg,#0e2647,#173a6e);border-radius:var(--r-lg);padding:22px 24px;color:#fff;box-shadow:var(--shadow-lg)}
+.sos{max-width:820px;margin:0 auto 22px;background:linear-gradient(135deg,var(--ink),var(--ink-2));border-radius:var(--r-lg);padding:22px 24px;color:#fff;box-shadow:var(--shadow-lg)}
 .sos .sos-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .sos .sos-ic{width:46px;height:46px;border-radius:var(--r-sm);background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:24px;flex:none}
 .sos h3{font-size:18px;font-weight:850}
-.sos .sos-sub{font-size:12.5px;color:#c6d5f2;margin-top:2px}
+.sos .sos-sub{font-size:12.5px;color:var(--ink-muted);margin-top:2px}
 .sos-call{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#fde68a,#fbbf24);color:#0a1730;font-weight:850;font-size:15px;padding:12px 20px;border-radius:var(--r-pill);text-decoration:none;box-shadow:var(--elev-media)}
 @media(max-width:560px){.sos-call{margin-left:0;width:100%;justify-content:center;margin-top:6px}}
 
