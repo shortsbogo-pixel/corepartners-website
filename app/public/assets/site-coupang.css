@@ -6,7 +6,7 @@
 .chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:750;color:var(--navy);background:var(--surface);border:1px solid var(--line-2);padding:7px 14px;border-radius:var(--r-pill);letter-spacing:.2px;box-shadow:var(--shadow)}
 .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:var(--glow-lime);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.hero h1 .gold{color:var(--gold-2);background:none}
+.hero h1 .gold{color:var(--ink-gold);background:none}
 .feat-row{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
 .feat{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--navy);background:var(--surface);border:1px solid var(--line-2);padding:8px 13px;border-radius:var(--r-pill);box-shadow:var(--shadow)}
 
