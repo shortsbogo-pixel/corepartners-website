@@ -15,6 +15,12 @@
   --ease:cubic-bezier(.22,.68,0,1);
   --shadow:0 2px 9px rgba(14,38,71,.045);
   --shadow-lg:0 14px 32px rgba(14,38,71,.10);
+  /* E안 「Core Shift」 토큰 — E-1: 정의만, 미참조 (기존 토큰 무변경) */
+  --ink:#0B1F3A; --ink-2:#14315C; --body:#232B36; --muted:#5B6675;
+  --surface:#FFFFFF; --section-alt:#FFFFFF;
+  --ink-muted:#9AA7BC; --ink-gold:#E8B84B;
+  --action:#D1FE17; --action-hover:#BCE80F;
+  --revenue:#7A5A05; --service:#0B6B6A;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}

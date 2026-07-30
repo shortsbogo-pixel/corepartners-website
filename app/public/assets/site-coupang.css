@@ -1,4 +1,6 @@
 /* corepartners.kr — 쿠팡 모집 페이지 전용 · 구조 정리 단계에서 인라인 <style>에서 추출. 편집은 이 파일에서. */
+/* E안 나이트 구역 토큰 — E-1: 정의만, 미참조. 사용처는 .msb 구역 한정 예정 */
+:root{--night-bg:#0A1526; --night-card:#122036; --night-txt:#E8ECF3; --night-mut:#9AA7BC; --night-gold:#E8B84B; --night-teal:#59D6CC}
 /* top bar variant */
 /* hero */
 .chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:750;color:var(--navy);background:#fff;border:1px solid var(--line-2);padding:7px 14px;border-radius:var(--r-pill);letter-spacing:.2px;box-shadow:var(--shadow)}
