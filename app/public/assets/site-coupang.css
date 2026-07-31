@@ -25,7 +25,7 @@
 .rows>.row:first-child{border-top:none}
 .row .cond{font-size:14.5px;color:var(--txt-2);font-weight:550}
 .row .cond b{color:var(--navy);font-weight:800}
-.row .amt{font-size:17px;font-weight:850;letter-spacing:-.02em;color:var(--gold-2);white-space:nowrap}
+.row .amt{font-size:17px;font-weight:850;letter-spacing:-.02em;color:var(--revenue);white-space:nowrap}
 
 /* bonus */
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:11px}
@@ -35,11 +35,11 @@
 .xcard .ic{width:38px;height:38px;border-radius:var(--r-sm);display:grid;place-items:center;font-size:18px;background:var(--teal-soft);margin-bottom:12px}
 .xcard h4{font-size:14.5px;font-weight:800;letter-spacing:-.01em;color:var(--navy);margin-bottom:5px}
 .xcard p{font-size:12.5px;color:var(--txt-2);line-height:1.55}
-.xcard p b{color:var(--gold-2);font-weight:800}
+.xcard p b{color:var(--revenue);font-weight:800}
 
 /* ladder */
 .ladder{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 20px;box-shadow:var(--shadow)}
-.ladder-note{display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:800;color:var(--gold-2);margin-bottom:16px;letter-spacing:.02em}
+.ladder-note{display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:800;color:var(--revenue);margin-bottom:16px;letter-spacing:.02em}
 .tierlist{display:flex;flex-direction:column;gap:9px}
 .tier{display:flex;align-items:center;gap:14px;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;position:relative;overflow:hidden}
 .tier .fill{position:absolute;inset:0;background:linear-gradient(90deg,rgba(23,58,110,.08),transparent);width:var(--w,0%)}
@@ -47,13 +47,13 @@
 .tier .bar{position:relative;flex:1;height:6px;border-radius:var(--r-pill);background:#e3e8f1;overflow:hidden}
 .tier .bar i{position:absolute;inset:0;width:var(--w,0%);border-radius:var(--r-pill);background:linear-gradient(90deg,var(--navy-2),#4a76c4)}
 .tier .plus{position:relative;font-size:15.5px;font-weight:850;color:var(--navy-2);white-space:nowrap}
-.tier.max{border-color:var(--gold-line);background:var(--gold-soft)}
+.tier.max{border-color:var(--revenue-line);background:var(--revenue-soft)}
 .tier.max .bar i{background:linear-gradient(90deg,#b8860b,#e6c261)}
-.tier.max .plus{color:var(--gold-2)}
-.jackpot{margin-top:14px;position:relative;text-align:center;border-radius:var(--r-md);padding:24px 18px;background:var(--gold-soft);border:1.5px solid var(--gold-line)}
+.tier.max .plus{color:var(--revenue)}
+.jackpot{margin-top:14px;position:relative;text-align:center;border-radius:var(--r-md);padding:24px 18px;background:var(--revenue-soft);border:1.5px solid var(--revenue-line)}
 .jackpot .trophy{font-size:34px}
 .jackpot h3{font-size:19px;font-weight:800;color:var(--navy);margin-top:8px;line-height:1.4;letter-spacing:-.02em}
-.jackpot h3 b{font-size:27px;font-weight:900;color:var(--gold-2)}
+.jackpot h3 b{font-size:27px;font-weight:900;color:var(--revenue)}
 .jackpot p{font-size:12px;color:var(--muted);margin-top:8px}
 
 /* income */
@@ -62,14 +62,14 @@
 .crow{display:flex;gap:13px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-md);padding:15px 16px}
 .crow .ci{flex:none;width:40px;height:40px;border-radius:var(--r-sm);display:grid;place-items:center;font-size:18px;background:var(--teal-soft)}
 .crow .ck b{display:block;font-size:15px;font-weight:800;color:var(--navy);letter-spacing:-.01em}
-.crow .ck b em{font-style:normal;color:var(--gold-2)}
+.crow .ck b em{font-style:normal;color:var(--revenue)}
 .crow .ck small{display:block;font-size:12px;color:var(--muted);margin-top:2px}
 .cop{text-align:center;font-size:18px;font-weight:900;color:var(--mut-2)}
 /* THE gold revenue box — signature */
-.cequal{margin-top:10px;text-align:center;border-radius:var(--r-md);padding:20px 16px;background:var(--gold-soft);border:2px solid var(--gold-line);box-shadow:0 10px 26px rgba(184,134,11,.14)}
-.cequal .cl{font-size:12px;font-weight:750;color:var(--gold-2);letter-spacing:.02em}
+.cequal{margin-top:10px;text-align:center;border-radius:var(--r-md);padding:20px 16px;background:var(--revenue-soft);border:2px solid var(--revenue-line);box-shadow:0 10px 26px rgba(184,134,11,.14)}
+.cequal .cl{font-size:12px;font-weight:750;color:var(--revenue);letter-spacing:.02em}
 .cequal .cv{margin-top:6px;font-size:clamp(21px,5.6vw,27px);font-weight:900;letter-spacing:-.03em;color:var(--navy)}
-.cequal .cv b{color:var(--gold-2)}
+.cequal .cv b{color:var(--revenue)}
 /* challenge — gold CTA banner */
 .challenge{margin-top:14px;display:block;text-align:center;border-radius:var(--r-md);padding:22px 18px;background:linear-gradient(135deg,#f0cd68,#cf9a10);color:var(--navy-deep);box-shadow:var(--elev-gold);transition:filter .15s,transform .15s var(--ease)}
 .challenge:hover{filter:brightness(1.05)}
@@ -85,9 +85,9 @@
 .sumr .k{font-size:13.5px;font-weight:700;color:var(--body)}
 .sumr .k small{display:block;font-size:11.5px;color:var(--muted);font-weight:600}
 .sumr .v{font-size:15px;font-weight:850;color:var(--navy)}
-.sumr.total{background:var(--gold-soft)}
-.sumr.total .k{color:var(--gold-2);font-weight:850}
-.sumr.total .v{color:var(--gold-2);font-size:17px}
+.sumr.total{background:var(--revenue-soft)}
+.sumr.total .k{color:var(--revenue);font-weight:850}
+.sumr.total .v{color:var(--revenue);font-size:17px}
 .sumr.alpha{background:var(--navy-soft)}
 .sumr.alpha .v{color:var(--navy-2)}
 .daywrap{margin-top:16px}
@@ -119,9 +119,9 @@
 .wgrid .wi{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:var(--r-sm);padding:14px 4px 12px}
 .wgrid .wi .e{font-size:21px}
 .wgrid .wi span{display:block;font-size:11px;color:#d4def2;font-weight:650;margin-top:7px;letter-spacing:-.01em}
-.water{margin-top:13px;display:flex;align-items:center;gap:14px;border-radius:var(--r-md);padding:16px;background:rgba(255,255,255,.06);border:1px solid var(--gold-line)}
+.water{margin-top:13px;display:flex;align-items:center;gap:14px;border-radius:var(--r-md);padding:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14)}
 .water .e{font-size:26px}
-.water b{color:#f5cf6b;font-size:15px;font-weight:800;letter-spacing:-.01em}
+.water b{color:var(--ink-gold);font-size:15px;font-weight:800;letter-spacing:-.01em}
 .water span{display:block;font-size:12.5px;color:#c6d5f2;margin-top:2px}
 
 /* benefit summary — 3-color content code stripes */
@@ -136,7 +136,7 @@
 
 /* apply — navy panel + gold headline over brand photo */
 .apply{position:relative;border-radius:var(--r-xl);padding:32px 22px;text-align:center;overflow:hidden;background:linear-gradient(rgba(17,42,80,.88),rgba(10,28,54,.94)),url('/assets/cut01-rider-city.webp') center 20%/cover no-repeat,var(--navy);box-shadow:var(--shadow-lg)}
-.apply h3{font-size:23px;font-weight:900;letter-spacing:-.03em;color:#f5cf6b}
+.apply h3{font-size:23px;font-weight:900;letter-spacing:-.03em;color:var(--ink-gold)}
 .apply .slogan{font-size:13.5px;color:#c6d5f2;font-weight:550;margin-top:8px;margin-bottom:22px}
 .calls{display:grid;gap:9px;max-width:420px;margin:0 auto}
 .callbtn{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:850;font-size:18px;letter-spacing:.01em;padding:16px;border-radius:var(--r-md);transition:transform .15s var(--ease)}
@@ -152,7 +152,7 @@
 .applyform .fsub{font-size:13px;color:var(--muted);margin-top:5px;margin-bottom:18px}
 .field{margin-bottom:13px}
 .field label{display:block;font-size:12.5px;font-weight:750;color:var(--navy-2);margin-bottom:6px}
-.field label .req{color:var(--gold-2)}
+.field label .req{color:var(--required)}
 .field input,.field select,.field textarea{width:100%;background:var(--bg-2);border:1px solid var(--control-line);border-radius:var(--r-sm);padding:15px;font-size:16px;color:var(--body);font-family:inherit;transition:border-color .15s,background .15s}
 .field input::placeholder,.field textarea::placeholder{color:var(--mut-2)}
 .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--navy-2);background:var(--surface)}
@@ -180,7 +180,7 @@
 .loc .pin{flex:none;width:38px;height:38px;border-radius:var(--r-sm);display:grid;place-items:center;font-size:16px;background:var(--teal-soft)}
 .loc .nm{font-size:11px;color:var(--teal-2);font-weight:800;letter-spacing:.08em;text-transform:uppercase}
 .loc .ad{font-size:13.5px;color:var(--body);font-weight:600;margin-top:2px;letter-spacing:-.01em}
-.loc a.map{margin-left:auto;flex:none;font-size:12.5px;color:#fff;font-weight:750;padding:8px 14px;border-radius:var(--r-pill);background:var(--teal-2)}
+.loc a.map{margin-left:auto;flex:none;font-size:12.5px;color:#fff;font-weight:750;padding:8px 14px;border-radius:var(--r-pill);background:var(--service)}
 
 /* settlement proof */
 .proof{max-width:420px;margin:20px auto 0;text-align:center}
