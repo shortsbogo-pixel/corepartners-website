@@ -64,7 +64,7 @@
 .crow .ck b{display:block;font-size:15px;font-weight:800;color:var(--navy);letter-spacing:-.01em}
 .crow .ck b em{font-style:normal;color:var(--revenue)}
 .crow .ck small{display:block;font-size:12px;color:var(--muted);margin-top:2px}
-.cop{text-align:center;font-size:18px;font-weight:900;color:var(--mut-2)}
+.cop{text-align:center;font-size:18px;font-weight:900;color:var(--txt-2)}
 /* THE gold revenue box — signature */
 .cequal{margin-top:10px;text-align:center;border-radius:var(--r-md);padding:20px 16px;background:var(--revenue-soft);border:2px solid var(--revenue-line);box-shadow:0 10px 26px rgba(184,134,11,.14)}
 .cequal .cl{font-size:12px;font-weight:750;color:var(--revenue);letter-spacing:.02em}
