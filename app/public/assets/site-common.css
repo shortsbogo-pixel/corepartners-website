@@ -92,9 +92,13 @@ header.hero+section{padding-top:38px}
 /* shared button */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:850;border-radius:var(--r-md);padding:16px 26px;font-size:15.5px;letter-spacing:-.01em;transition:transform .15s var(--ease),box-shadow .15s,background .15s}
 .btn:active{transform:scale(.975)}
-.btn-primary{background:var(--navy);color:#fff;box-shadow:var(--elev-btn)}
-.btn-primary:hover{background:var(--navy-2)}
-.btn-ghost{background:#fff;color:var(--navy);border:1.5px solid var(--line-2)}
+.btn-primary{background:var(--ink);color:#fff;box-shadow:var(--elev-btn)}
+.btn-primary:hover{background:var(--ink-2)}
+.btn-ghost{background:var(--surface);color:var(--ink);border:1.5px solid var(--control-line)}
+.btn-ghost:hover{background:var(--bg)}
+/* E-4a 주 CTA: 라임 배경은 라이트 표면 위 면대비가 1.01이라 --ink 1.5px inset 링으로 경계 확보 */
+.hero .btn-primary{background:var(--action);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink),var(--elev-btn)}
+.hero .btn-primary:hover{background:var(--action-hover)}
 .hero-cta{margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
 /* footer — navy backbone */
@@ -436,8 +440,8 @@ section[id]{scroll-margin-top:74px}
 .ifield select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23173a6e' d='M6 8 0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
 .ifrow{display:grid;grid-template-columns:1fr 1fr;gap:11px}
 @media(max-width:560px){.ifrow{grid-template-columns:1fr}}
-.isubmit{width:100%;margin-top:6px;background:var(--navy);color:#fff;font-weight:850;font-size:16px;padding:17px;border:none;border-radius:var(--r-md);cursor:pointer;box-shadow:var(--elev-btn);transition:transform .15s var(--ease),background .15s}
-.isubmit:hover{background:var(--navy-2)}
+.isubmit{width:100%;margin-top:6px;background:var(--ink);color:#fff;font-weight:850;font-size:16px;padding:17px;border:none;border-radius:var(--r-md);cursor:pointer;box-shadow:var(--elev-btn);transition:transform .15s var(--ease),background .15s}
+.isubmit:hover{background:var(--ink-2)}
 .isubmit:active{transform:scale(.98)}
 .isubmit:disabled{opacity:.6}
 .iformnote{font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.6;text-align:center}
