@@ -113,9 +113,11 @@ footer a{color:#d6e2f8;text-decoration:underline;text-underline-offset:2px}
 .callbar{position:fixed;bottom:0;left:0;right:0;z-index:50;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.92);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);border-top:1px solid var(--line)}
 .callbar .wrap{display:flex;gap:10px;max-width:520px}
 .callbar a{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;font-weight:850;font-size:15px;padding:15px 8px;border-radius:var(--r-md);white-space:nowrap;line-height:1.1}
-.callbar .c1{background:var(--navy);color:#fff;box-shadow:var(--elev-btn)}
-.callbar .c2{background:linear-gradient(135deg,#eec95f,#cf9a10);color:var(--navy-deep)}
-.callbar .c3{background:#FEE500;color:#3C1E1E;box-shadow:var(--elev-gold)}
+.callbar .c1{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink),var(--elev-btn)}
+.callbar .c1:hover{background:var(--bg)}
+.callbar .c2{background:var(--ink);color:#fff}
+.callbar .c2:hover{background:var(--ink-2)}
+.callbar .c3{background:#FEE500;color:#3C1E1E;box-shadow:inset 0 0 0 1.5px var(--ink)}
 .callbar .wrap{max-width:620px}
 .callbar .c1{flex:.8}
 .callbar .c3{flex:1}
@@ -302,7 +304,8 @@ section[id]{scroll-margin-top:74px}
 .sos .sos-ic{width:46px;height:46px;border-radius:var(--r-sm);background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:24px;flex:none}
 .sos h3{font-size:18px;font-weight:850}
 .sos .sos-sub{font-size:12.5px;color:var(--ink-muted);margin-top:2px}
-.sos-call{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#fde68a,#fbbf24);color:#0a1730;font-weight:850;font-size:15px;padding:12px 20px;border-radius:var(--r-pill);text-decoration:none;box-shadow:var(--elev-media)}
+.sos-call{margin-left:auto;display:inline-flex;align-items:center;gap:8px;background:var(--surface);color:var(--ink);font-weight:850;font-size:15px;padding:12px 20px;border-radius:var(--r-pill);text-decoration:none;box-shadow:var(--elev-media)}
+.sos-call:hover{background:var(--bg)}
 @media(max-width:560px){.sos-call{margin-left:0;width:100%;justify-content:center;margin-top:6px}}
 
 .steps5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;max-width:900px;margin:0 auto}
@@ -510,4 +513,9 @@ h1,h2,h3{letter-spacing:-.035em}
 .menu-toggle{border-color:ButtonText}
 .menu-toggle span{background:ButtonText}
 .menu-toggle:focus-visible{outline:3px solid Highlight;outline-offset:2px}
+/* E-4c: 배경·inset 링이 제거되는 환경에서 액션 요소 경계 복원 */
+.btn-primary,.btn-ghost,.callbar a,.callbtn,.challenge{outline:1px solid LinkText;outline-offset:-2px}
+.isubmit,.submitbtn{outline:1px solid ButtonText;outline-offset:-2px}
+.btn-primary:focus-visible,.btn-ghost:focus-visible,.callbar a:focus-visible,.callbtn:focus-visible,.challenge:focus-visible,
+.isubmit:focus-visible,.submitbtn:focus-visible{outline:3px solid Highlight;outline-offset:3px}
 }
