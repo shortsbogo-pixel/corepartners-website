@@ -34,9 +34,11 @@ CREATE TABLE IF NOT EXISTS admin_users (
 CREATE UNIQUE INDEX IF NOT EXISTS uq_admin_users_username
   ON admin_users (lower(username));
 
+-- 세션. user_id 는 admin_users 로 FK 를 걸고 ON DELETE CASCADE 를 둔다 —
+-- 계정을 지우면 그 계정의 세션도 즉시 무효가 되어야 한다.
 CREATE TABLE IF NOT EXISTS admin_sessions (
   token_hash TEXT    PRIMARY KEY,
-  user_id    TEXT    NOT NULL REFERENCES admin_users(id) ON DELETE CASCADE,
+  user_id    TEXT    NOT NULL REFERENCES admin_users(id) ON DELETE CASCADE ON UPDATE CASCADE,
   created_at TEXT    NOT NULL DEFAULT (datetime('now')),
   expires_at TEXT    NOT NULL,
   revoked    INTEGER NOT NULL DEFAULT 0,
@@ -44,19 +46,46 @@ CREATE TABLE IF NOT EXISTS admin_sessions (
   ua         TEXT,
 
   CONSTRAINT ck_admin_sessions_revoked CHECK (revoked IN (0,1)),
-  CONSTRAINT ck_admin_sessions_hash    CHECK (length(token_hash) = 64)
+  CONSTRAINT ck_admin_sessions_hash    CHECK (length(token_hash) = 64),
+  CONSTRAINT ck_admin_sessions_expiry  CHECK (length(trim(expires_at)) > 0)
 );
 
 CREATE INDEX IF NOT EXISTS idx_admin_sessions_user
   ON admin_sessions (user_id, expires_at DESC);
+-- 만료 세션 일괄 정리 · 유효성 검사 경로
 CREATE INDEX IF NOT EXISTS idx_admin_sessions_expiry
   ON admin_sessions (expires_at);
+-- 살아 있는 세션만 훑는 스윕(부분 인덱스)
+CREATE INDEX IF NOT EXISTS idx_admin_sessions_live
+  ON admin_sessions (expires_at) WHERE revoked = 0;
 
--- 로그인 무차별 대입 방어. 기존 chat_rate 와 같은 고정 윈도 방식.
+-- 로그인 무차별 대입 방어.
+--
+-- 키는 **IP + 아이디 조합**이다. IP 만으로 잡으면 사무실·모바일망처럼 여러
+-- 관리자가 같은 공인 IP 를 쓸 때 한 사람의 오타가 나머지를 잠그고, 반대로
+-- 아이디만으로 잡으면 분산 IP 공격을 못 막는다.
+--
+-- 4-2C 는 이 테이블 하나로 두 층을 강제한다.
+--   1) (ip, username) 조합 : 특정 계정 표적 대입
+--   2) ip 단위 SUM(count)  : 아이디를 바꿔 가며 훑는 계정 열거
+-- 2번을 위해 (ip, window_start) 인덱스를 둔다.
+-- username 은 소문자로 정규화해 저장한다(admin_users 유일성 규칙과 동일).
 CREATE TABLE IF NOT EXISTS admin_login_attempts (
-  ip           TEXT    PRIMARY KEY,
+  ip           TEXT    NOT NULL,
+  username     TEXT    NOT NULL,
   window_start INTEGER NOT NULL,
   count        INTEGER NOT NULL DEFAULT 0,
+  last_at      TEXT    NOT NULL DEFAULT (datetime('now')),
 
-  CONSTRAINT ck_login_attempts_count CHECK (count >= 0)
+  PRIMARY KEY (ip, username),
+  CONSTRAINT ck_login_attempts_count    CHECK (count >= 0),
+  CONSTRAINT ck_login_attempts_ip       CHECK (length(trim(ip)) BETWEEN 1 AND 60),
+  CONSTRAINT ck_login_attempts_username CHECK (username = lower(username) AND length(username) <= 60),
+  CONSTRAINT ck_login_attempts_window   CHECK (window_start >= 0)
 );
+
+-- IP 단위 합산 조회(계정 열거 탐지)와 오래된 윈도 정리에 쓴다.
+CREATE INDEX IF NOT EXISTS idx_admin_login_attempts_ip
+  ON admin_login_attempts (ip, window_start);
+CREATE INDEX IF NOT EXISTS idx_admin_login_attempts_window
+  ON admin_login_attempts (window_start);

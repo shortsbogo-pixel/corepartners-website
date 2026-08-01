@@ -54,10 +54,32 @@ export interface Mission {
   tiers: MissionTier[];
 }
 
+/**
+ * 미션 데이터의 출처.
+ *
+ *   dynamic — D1 의 게시 미션을 쓴다. missions 가 빈 배열이면 **정상 빈 상태**다
+ *             (전체 비활성·게시 기간 밖도 여기에 해당한다).
+ *   static  — 운영자가 ops_settings.mission_source='static' 으로 꺼 둔 상태.
+ *             보드는 코드에 남겨 둔 정적 MISSIONS 상수로 렌더한다.
+ *             **장애가 아니라 의도된 상태**이므로 fallback 과 구분해 다룬다.
+ */
+export const MISSION_SOURCES = ["dynamic", "static"] as const;
+export type MissionSource = (typeof MISSION_SOURCES)[number];
+
+export const DEFAULT_MISSION_SOURCE: MissionSource = "dynamic";
+export const MISSION_SOURCE_KEY = "mission_source";
+
+/** ops_settings 에서 읽은 값을 계약값으로 좁힌다. 알 수 없는 값은 기본값으로. */
+export function parseMissionSource(v: unknown): MissionSource {
+  const s = String(v ?? "").trim().toLowerCase();
+  return (MISSION_SOURCES as readonly string[]).includes(s) ? (s as MissionSource) : DEFAULT_MISSION_SOURCE;
+}
+
 /** /mission-data 의 성공 응답 계약. */
 export interface MissionDataPayload {
   ok: true;
   schema: number;
+  source: MissionSource;
   serverNow: string;
   missions: Mission[];
 }
@@ -442,6 +464,7 @@ export type FallbackReason = "network" | "server" | "schema";
 export type MissionFetchOutcome =
   | { kind: "data"; payload: MissionDataPayload }
   | { kind: "empty"; payload: MissionDataPayload }
+  | { kind: "static"; payload: MissionDataPayload }
   | { kind: "fallback"; reason: FallbackReason };
 
 function isValidTier(v: unknown): boolean {
@@ -456,6 +479,7 @@ export function isMissionDataPayload(v: unknown): v is MissionDataPayload {
   const p = v as Record<string, unknown>;
   if (p.ok !== true) return false;
   if (p.schema !== MISSION_SCHEMA_VERSION) return false;
+  if (!(MISSION_SOURCES as readonly unknown[]).includes(p.source)) return false;
   if (typeof p.serverNow !== "string" || Number.isNaN(Date.parse(p.serverNow))) return false;
   if (!Array.isArray(p.missions)) return false;
   return p.missions.every((m) => {
@@ -473,13 +497,17 @@ export function isMissionDataPayload(v: unknown): v is MissionDataPayload {
 }
 
 /**
- * 정적 폴백 계약 (승인 조건 5·6).
+ * 정적 폴백 계약 (승인 조건 5·6, 4-2B1 로 갱신).
  *
- *   성공 + 미션 0건  → 'empty'    정상 빈 상태. 보드는 빈 상태 문구를 그린다.
- *                                 **정적 상수로 되돌아가지 않는다.**
- *   네트워크 실패    → 'fallback' reason='network'
- *   5xx              → 'fallback' reason='server'
- *   계약 불일치      → 'fallback' reason='schema'
+ *   source='static'          → 'static'    운영자가 의도적으로 끈 상태.
+ *                                          보드는 정적 상수로 렌더하되
+ *                                          **장애가 아니므로 오류로 보고하지 않는다.**
+ *   source='dynamic' + 0건   → 'empty'     정상 빈 상태. 전체 비활성도 여기다.
+ *                                          **정적 상수로 되돌아가지 않는다.**
+ *   source='dynamic' + N건   → 'data'
+ *   네트워크 실패            → 'fallback' reason='network'
+ *   5xx                      → 'fallback' reason='server'
+ *   계약 불일치              → 'fallback' reason='schema'
  *
  * 4xx(404 포함)는 본문이 계약을 만족하지 않으므로 자연히 schema 로 떨어진다.
  * 별도 분기를 두지 않는 이유는 "네트워크·5xx·스키마만 폴백" 규칙을 문자 그대로
@@ -494,9 +522,71 @@ export function classifyMissionResponse(input: {
   const status = input.status ?? 0;
   if (status >= 500) return { kind: "fallback", reason: "server" };
   if (!isMissionDataPayload(input.body)) return { kind: "fallback", reason: "schema" };
-  return input.body.missions.length === 0
-    ? { kind: "empty", payload: input.body }
-    : { kind: "data", payload: input.body };
+  const payload = input.body;
+  if (payload.source === "static") return { kind: "static", payload };
+  return payload.missions.length === 0 ? { kind: "empty", payload } : { kind: "data", payload };
+}
+
+/** 보드가 코드 내 정적 MISSIONS 상수를 써야 하는 경우인가. */
+export function usesStaticConstants(outcome: MissionFetchOutcome): boolean {
+  return outcome.kind === "static" || outcome.kind === "fallback";
+}
+
+/** 장애로 정적 상수를 쓰게 된 경우인가(= 로그·알림 대상). */
+export function isDegraded(outcome: MissionFetchOutcome): boolean {
+  return outcome.kind === "fallback";
+}
+
+// ─────────────────────────────────────────────────────────────
+// /mission-data 응답 결정 (서버 계약)
+// ─────────────────────────────────────────────────────────────
+
+export type MissionDataResult =
+  | { status: 200; body: MissionDataPayload }
+  | { status: 503; body: { ok: false; error: string } };
+
+/**
+ * 라우트 핸들러가 그대로 쓰는 순수 결정 함수. D1 접근과 분리해 두어야
+ * "무엇을 200 으로, 무엇을 503 으로 돌려주는가"를 테스트할 수 있다.
+ *
+ * **503 은 D1 바인딩 부재와 쿼리 장애뿐이다** (승인 조건 5).
+ * 전체 비활성·게시 기간 밖·미션 0건은 전부 200 + dynamic + [] 이다.
+ */
+export function buildMissionData(
+  input:
+    | { kind: "no_db" }
+    | { kind: "query_failed" }
+    | { kind: "static"; serverNow: string }
+    | { kind: "dynamic"; serverNow: string; missions: Mission[] },
+): MissionDataResult {
+  switch (input.kind) {
+    case "no_db":
+      return { status: 503, body: { ok: false, error: "db_unavailable" } };
+    case "query_failed":
+      return { status: 503, body: { ok: false, error: "query_failed" } };
+    case "static":
+      return {
+        status: 200,
+        body: {
+          ok: true,
+          schema: MISSION_SCHEMA_VERSION,
+          source: "static",
+          serverNow: input.serverNow,
+          missions: [],
+        },
+      };
+    case "dynamic":
+      return {
+        status: 200,
+        body: {
+          ok: true,
+          schema: MISSION_SCHEMA_VERSION,
+          source: "dynamic",
+          serverNow: input.serverNow,
+          missions: input.missions,
+        },
+      };
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -504,34 +594,64 @@ export function classifyMissionResponse(input: {
 // ─────────────────────────────────────────────────────────────
 
 /**
- * 관리자 쓰기를 허용하는 호스트.
+ * 관리자 쓰기 허용 판정 — **fail-closed** (승인 조건 9·10).
  *
- * D1 은 preview 와 production 이 데이터베이스 하나를 공유하므로, preview 배포가
- * 실운영 미션을 덮어쓸 수 있다. HF_ENV 만으로 막지 않고 **호스트를 1차 관문으로
- * 두는** 이유는, 배포 시 주입되는 HF_ENV 의 실제 값을 이쪽에서 확인할 수 없기
- * 때문이다(앱 워커가 힉스필드 계정에 있어 조회 불가). 호스트는 결정적이다.
+ * 두 값이 **모두 명시돼 있어야만** 허용한다. 하나라도 없으면 거부다.
+ *   ADMIN_WRITES_ENABLED  '1' | 'true' 일 때만 켜진다. 그 밖의 값·미설정은 전부 거부.
+ *   ADMIN_ALLOWED_HOSTS   쉼표로 구분한 호스트 목록. 비어 있으면 거부.
+ *
+ * 코드에 운영 호스트를 박아 두지 않는 이유는, 박아 두면 그 상수 자체가 두 번째
+ * 진실 공급원이 되어 프리뷰가 우연히 같은 호스트를 갖는 순간 열리기 때문이다.
+ * 운영 배포에만 두 값을 넣으면 프리뷰는 **아무것도 설정하지 않는 것만으로** 닫힌다.
+ *
+ * HF_ENV 는 **추가 거부 조건으로만** 쓴다(조건 10). 값이 비어 있어도 허용을
+ * 만들지 못하고, 비운영 값이면 위 두 관문을 통과했더라도 거부한다.
  */
-export const PRODUCTION_HOSTS = [
-  "corepartners.kr",
-  "www.corepartners.kr",
-  "corepartners-dj.higgsfield.app",
-] as const;
-
 export const NON_PRODUCTION_ENVS = ["dev", "development", "preview", "staging", "test", "local"] as const;
+
+export type WriteDenyReason =
+  | "writes_disabled"
+  | "allowed_hosts_unset"
+  | "missing_host"
+  | "host_not_allowed"
+  | "non_production_env";
 
 export interface WriteAccessResult {
   allowed: boolean;
-  reason: "ok" | "non_production_host" | "non_production_env" | "missing_host";
+  reason: "ok" | WriteDenyReason;
 }
 
-export function evaluateWriteAccess(input: { host?: string | null; hfEnv?: string | null }): WriteAccessResult {
+export function parseAllowedHosts(raw: string | null | undefined): string[] {
+  return String(raw ?? "")
+    .split(",")
+    .map((h) => h.trim().toLowerCase().split(":")[0])
+    .filter((h) => h.length > 0);
+}
+
+function isTruthyFlag(raw: string | null | undefined): boolean {
+  const v = String(raw ?? "").trim().toLowerCase();
+  return v === "1" || v === "true";
+}
+
+export function evaluateWriteAccess(input: {
+  host?: string | null;
+  hfEnv?: string | null;
+  writesEnabled?: string | null;
+  allowedHosts?: string | null;
+}): WriteAccessResult {
+  if (!isTruthyFlag(input.writesEnabled)) return { allowed: false, reason: "writes_disabled" };
+
+  const allowList = parseAllowedHosts(input.allowedHosts);
+  if (allowList.length === 0) return { allowed: false, reason: "allowed_hosts_unset" };
+
   const host = (input.host ?? "").toLowerCase().split(":")[0];
   if (!host) return { allowed: false, reason: "missing_host" };
-  if (!(PRODUCTION_HOSTS as readonly string[]).includes(host))
-    return { allowed: false, reason: "non_production_host" };
+  if (!allowList.includes(host)) return { allowed: false, reason: "host_not_allowed" };
+
   const env = (input.hfEnv ?? "").toLowerCase();
   if (env && (NON_PRODUCTION_ENVS as readonly string[]).includes(env))
     return { allowed: false, reason: "non_production_env" };
+
   return { allowed: true, reason: "ok" };
 }
 

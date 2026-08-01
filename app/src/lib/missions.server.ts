@@ -5,11 +5,14 @@
 import type { D1Database, D1PreparedStatement } from "@cloudflare/workers-types";
 import { bindings } from "./bindings.server";
 import {
-  MISSION_SCHEMA_VERSION,
+  MISSION_SOURCE_KEY,
+  buildMissionData,
   evaluateWriteAccess,
   interpretUpdateResult,
+  parseMissionSource,
   type Mission,
-  type MissionDataPayload,
+  type MissionDataResult,
+  type MissionSource,
   type MissionStatus,
   type MissionTier,
   type MissionType,
@@ -125,8 +128,45 @@ export async function listPublishedMissions(db: D1Database, nowIso: string): Pro
   }
 }
 
-export function buildPayload(missions: Mission[], nowIso: string): MissionDataPayload {
-  return { ok: true, schema: MISSION_SCHEMA_VERSION, serverNow: nowIso, missions };
+const SETTING_SELECT = `SELECT value FROM ops_settings WHERE key = ?1`;
+
+/**
+ * 운영 설정에서 미션 출처를 읽는다. **행이 없으면 'dynamic'** 이 기본이라
+ * 초기 데이터를 심을 필요가 없다. 쿼리가 실패하면(테이블 없음 포함) 던져서
+ * 호출부가 503 으로 바꾼다 — 여기서 조용히 dynamic 으로 넘어가면 운영자가
+ * 켜 둔 static 킬스위치가 장애 중에 무시되므로 fail-open 이 된다.
+ */
+export async function getMissionSource(db: D1Database): Promise<MissionSource> {
+  try {
+    const row = await db
+      .withSession("first-unconstrained")
+      .prepare(SETTING_SELECT)
+      .bind(MISSION_SOURCE_KEY)
+      .first<{ value: string }>();
+    return parseMissionSource(row?.value);
+  } catch (e) {
+    throw new MissionStoreUnavailable(e);
+  }
+}
+
+/**
+ * /mission-data 한 번의 요청 전체. 라우트는 이 결과를 그대로 응답으로 바꾼다.
+ *
+ * 200 / 503 의 경계는 buildMissionData 가 정한다(승인 조건 5):
+ *   503 — D1 바인딩 부재, 쿼리 장애(설정 조회 실패 포함)
+ *   200 — 그 밖 전부. 전체 비활성·게시 기간 밖·0건은 dynamic 빈 배열이다.
+ */
+export async function loadMissionData(db: D1Database | undefined, nowIso: string): Promise<MissionDataResult> {
+  if (!db) return buildMissionData({ kind: "no_db" });
+  try {
+    const source = await getMissionSource(db);
+    if (source === "static") return buildMissionData({ kind: "static", serverNow: nowIso });
+    const missions = await listPublishedMissions(db, nowIso);
+    return buildMissionData({ kind: "dynamic", serverNow: nowIso, missions });
+  } catch (e) {
+    console.error("mission-data query failed", e);
+    return buildMissionData({ kind: "query_failed" });
+  }
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -207,12 +247,22 @@ export async function writeWithAudit(
   return { changes, result: interpretUpdateResult(changes) };
 }
 
-/** 관리자 쓰기 허용 여부. 허용되지 않으면 403 을 만든다 (승인 조건 8). */
+/**
+ * 관리자 쓰기 허용 여부 (승인 조건 8·9·10). fail-closed —
+ * ADMIN_WRITES_ENABLED 와 ADMIN_ALLOWED_HOSTS 가 **둘 다** 명시된 배포에서만
+ * 열린다. 프리뷰는 아무것도 설정하지 않는 것만으로 닫힌다.
+ */
 export function checkWriteAccess(request: Request): WriteAccessResult {
-  const env = bindings();
+  const env = bindings() as unknown as {
+    HF_ENV?: string;
+    ADMIN_WRITES_ENABLED?: string;
+    ADMIN_ALLOWED_HOSTS?: string;
+  };
   return evaluateWriteAccess({
     host: new URL(request.url).host,
     hfEnv: env.HF_ENV ?? null,
+    writesEnabled: env.ADMIN_WRITES_ENABLED ?? null,
+    allowedHosts: env.ADMIN_ALLOWED_HOSTS ?? null,
   });
 }
 

@@ -14,7 +14,8 @@ import uuid
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MIGRATIONS = ["migrations/0001_init.sql", "migrations/0002_applications.sql",
               "migrations/0003_chat.sql", "migrations/0004_chat_logs.sql",
-              "migrations/0005_missions.sql", "migrations/0006_admin_auth.sql"]
+              "migrations/0005_missions.sql", "migrations/0006_admin_auth.sql",
+              "migrations/0007_ops_settings.sql"]
 
 passed, failed = 0, 0
 
@@ -77,13 +78,13 @@ print("=== 마이그레이션 적용 ===")
 def t_apply():
     con = fresh()
     tables = {r[0] for r in con.execute("SELECT name FROM sqlite_master WHERE type='table'")}
-    for t in ("missions", "mission_tiers", "mission_audit",
+    for t in ("missions", "mission_tiers", "mission_audit", "ops_settings",
               "admin_users", "admin_sessions", "admin_login_attempts",
               "applications", "chat_rate", "chat_logs"):
         assert t in tables, "테이블 누락: %s" % t
 
 
-check("0001~0006 전부 적용되고 기존 테이블도 남는다", t_apply)
+check("0001~0007 전부 적용되고 기존 테이블도 남는다", t_apply)
 
 
 def t_idempotent():
@@ -99,7 +100,8 @@ check("재적용해도 안전하다 (IF NOT EXISTS)", t_idempotent)
 def t_no_destructive():
     import re
     bad = []
-    for m in ("migrations/0005_missions.sql", "migrations/0006_admin_auth.sql"):
+    for m in ("migrations/0005_missions.sql", "migrations/0006_admin_auth.sql",
+              "migrations/0007_ops_settings.sql"):
         sql = (ROOT / m).read_text(encoding="utf-8")
         body = "\n".join(l for l in sql.splitlines() if not l.strip().startswith("--"))
         # 문장 형태만 잡는다. ON DELETE CASCADE / ON UPDATE CASCADE 는 제약 절이라
@@ -356,6 +358,157 @@ def t_audit_checks():
 
 
 check("감사 로그 action 화이트리스트 · actor 필수", t_audit_checks)
+
+
+print("\n=== ops_settings (4-2B1) ===")
+
+
+def t_ops_settings():
+    con = fresh()
+    # 기본은 '행 없음' = dynamic. 마이그레이션이 아무것도 심지 않는지 확인.
+    n = con.execute("SELECT COUNT(*) FROM ops_settings").fetchone()[0]
+    assert n == 0, "마이그레이션이 초기 데이터를 심었다 (%d행)" % n
+    con.execute("INSERT INTO ops_settings (key,value,updated_by) VALUES ('mission_source','static','kim')")
+    v = con.execute("SELECT value FROM ops_settings WHERE key='mission_source'").fetchone()[0]
+    assert v == "static"
+    try:
+        con.execute("INSERT INTO ops_settings (key,value) VALUES ('mission_source','dynamic')")
+        raise AssertionError("같은 키가 두 번 들어감")
+    except sqlite3.IntegrityError:
+        pass
+    try:
+        con.execute("INSERT INTO ops_settings (key,value) VALUES ('   ','x')")
+        raise AssertionError("공백 키가 통과함")
+    except sqlite3.IntegrityError:
+        pass
+    try:
+        con.execute("INSERT INTO ops_settings (key,value) VALUES ('k','x'||replace(hex(zeroblob(120)),'0','y'))")
+        raise AssertionError("200자 초과 값이 통과함")
+    except sqlite3.IntegrityError:
+        pass
+
+
+check("ops_settings — 키 유일 · 초기 데이터 0건 · 길이 제약", t_ops_settings)
+
+
+def t_ops_upsert():
+    con = fresh()
+    for v in ("static", "dynamic", "static"):
+        con.execute("INSERT INTO ops_settings (key,value,updated_at,updated_by) VALUES ('mission_source',?,?,?)"
+                    " ON CONFLICT(key) DO UPDATE SET value=excluded.value,"
+                    " updated_at=excluded.updated_at, updated_by=excluded.updated_by",
+                    (v, "2026-08-03T00:00:00Z", "kim"))
+    row = con.execute("SELECT value, updated_by FROM ops_settings WHERE key='mission_source'").fetchone()
+    assert row == ("static", "kim"), row
+    assert con.execute("SELECT COUNT(*) FROM ops_settings").fetchone()[0] == 1
+
+
+check("ops_settings — UPSERT 로 토글해도 1행 유지", t_ops_upsert)
+
+print("\n=== admin_login_attempts (IP+아이디 조합) ===")
+
+
+def t_login_attempts_key():
+    con = fresh()
+    ins = ("INSERT INTO admin_login_attempts (ip,username,window_start,count) VALUES (?,?,?,?)")
+    con.execute(ins, ("1.2.3.4", "admin", 100, 1))
+    # 같은 IP + 다른 아이디는 별개 행 (한 사람 오타가 사무실 전체를 잠그지 않는다)
+    con.execute(ins, ("1.2.3.4", "manager", 100, 1))
+    # 다른 IP + 같은 아이디도 별개 행
+    con.execute(ins, ("5.6.7.8", "admin", 100, 1))
+    try:
+        con.execute(ins, ("1.2.3.4", "admin", 200, 1))
+        raise AssertionError("(ip,username) 중복이 통과함")
+    except sqlite3.IntegrityError:
+        pass
+    # IP 단위 합산 = 계정 열거 탐지
+    total = con.execute("SELECT SUM(count) FROM admin_login_attempts WHERE ip=?", ("1.2.3.4",)).fetchone()[0]
+    assert total == 2, "IP 합산이 %s" % total
+
+
+check("(ip, username) 복합 키 — IP 합산으로 계정 열거도 탐지 가능", t_login_attempts_key)
+
+
+def t_login_attempts_checks():
+    con = fresh()
+    ins = ("INSERT INTO admin_login_attempts (ip,username,window_start,count) VALUES (?,?,?,?)")
+    for args, why in [
+        (("1.2.3.4", "Admin", 100, 1), "대문자 아이디(정규화 안 됨)"),
+        (("1.2.3.4", "admin", -1, 1), "음수 윈도"),
+        (("1.2.3.4", "admin", 100, -1), "음수 횟수"),
+        (("   ", "admin", 100, 1), "공백 IP"),
+    ]:
+        try:
+            con.execute(ins, args)
+            raise AssertionError("거부돼야 함: %s" % why)
+        except sqlite3.IntegrityError:
+            pass
+
+
+check("아이디 소문자 정규화 강제 · 음수 차단", t_login_attempts_checks)
+
+
+def t_login_attempts_index():
+    con = fresh()
+    idx = {r[0] for r in con.execute(
+        "SELECT name FROM sqlite_master WHERE type='index' AND tbl_name='admin_login_attempts'")}
+    assert "idx_admin_login_attempts_ip" in idx, idx
+    assert "idx_admin_login_attempts_window" in idx, idx
+    plan = con.execute("EXPLAIN QUERY PLAN SELECT SUM(count) FROM admin_login_attempts"
+                       " WHERE ip=? AND window_start>=?", ("1.2.3.4", 0)).fetchall()
+    assert any("idx_admin_login_attempts_ip" in str(r) or "USING" in str(r) for r in plan), plan
+
+
+check("IP 합산·윈도 정리용 인덱스 존재", t_login_attempts_index)
+
+print("\n=== admin_sessions 만료·FK ===")
+
+
+def t_sessions_fk_cascade():
+    con = fresh()
+    con.execute("INSERT INTO admin_users (id,username,pw_hash,pw_salt) VALUES ('u1','admin','h','s')")
+    con.execute("INSERT INTO admin_sessions (token_hash,user_id,expires_at) VALUES (?,?,?)",
+                ("a" * 64, "u1", "2026-08-03T00:00:00Z"))
+    try:
+        con.execute("INSERT INTO admin_sessions (token_hash,user_id,expires_at) VALUES (?,?,?)",
+                    ("b" * 64, "없는유저", "2026-08-03T00:00:00Z"))
+        raise AssertionError("존재하지 않는 사용자에 세션이 붙음")
+    except sqlite3.IntegrityError:
+        pass
+    con.execute("DELETE FROM admin_users WHERE id='u1'")
+    n = con.execute("SELECT COUNT(*) FROM admin_sessions").fetchone()[0]
+    assert n == 0, "계정 삭제 시 세션이 CASCADE 되지 않음 (%d행 잔존)" % n
+
+
+check("계정 삭제 시 세션 CASCADE · 없는 사용자 세션 차단", t_sessions_fk_cascade)
+
+
+def t_sessions_indexes():
+    con = fresh()
+    idx = {r[0] for r in con.execute(
+        "SELECT name FROM sqlite_master WHERE type='index' AND tbl_name='admin_sessions'")}
+    for want in ("idx_admin_sessions_user", "idx_admin_sessions_expiry", "idx_admin_sessions_live"):
+        assert want in idx, "%s 없음 (%s)" % (want, idx)
+    plan = str(con.execute("EXPLAIN QUERY PLAN SELECT token_hash FROM admin_sessions"
+                           " WHERE expires_at < ?", ("2026-08-03T00:00:00Z",)).fetchall())
+    assert "idx_admin_sessions_expiry" in plan or "idx_admin_sessions_live" in plan, plan
+
+
+check("만료 인덱스 3종 존재 · 만료 스윕이 인덱스를 탄다", t_sessions_indexes)
+
+
+def t_sessions_expiry_required():
+    con = fresh()
+    con.execute("INSERT INTO admin_users (id,username,pw_hash,pw_salt) VALUES ('u1','admin','h','s')")
+    try:
+        con.execute("INSERT INTO admin_sessions (token_hash,user_id,expires_at) VALUES (?,?,?)",
+                    ("c" * 64, "u1", "  "))
+        raise AssertionError("빈 만료시각이 통과함")
+    except sqlite3.IntegrityError:
+        pass
+
+
+check("만료 시각 필수", t_sessions_expiry_required)
 
 print("\n=== 공개 조회 쿼리 (=/mission-data 필터) ===")
 

@@ -10,8 +10,10 @@ import {
   DAY_MASK_ALL,
   DAY_MASK_WEEKDAY,
   DAY_MASK_WEEKEND,
+  DEFAULT_MISSION_SOURCE,
   MISSION_SCHEMA_VERSION,
   axisSegments,
+  buildMissionData,
   classifyMissionResponse,
   clockFromDate,
   dayMaskFromDays,
@@ -24,11 +26,15 @@ import {
   hasErrors,
   hhmmToMinutes,
   interpretUpdateResult,
+  isDegraded,
   isMissionDataPayload,
   isPubliclyVisible,
+  parseAllowedHosts,
+  parseMissionSource,
   minutesToHHMM,
   overlaps,
   sanitizeText,
+  usesStaticConstants,
   validateMission,
   type Mission,
   type MissionInput,
@@ -335,9 +341,10 @@ describe("문자열 안전 처리", () => {
 
 // ── 정적 폴백 계약 ──────────────────────────────────────────
 describe("정적 폴백 계약", () => {
-  const okBody = (missions: Mission[]) => ({
+  const okBody = (missions: Mission[], source = "dynamic") => ({
     ok: true,
     schema: MISSION_SCHEMA_VERSION,
+    source,
     serverNow: "2026-08-03T12:00:00.000Z",
     missions,
   });
@@ -373,6 +380,9 @@ describe("정적 폴백 계약", () => {
       { ...okBody([]), schema: 999 },
       { ...okBody([]), serverNow: "언젠가" },
       { ...okBody([]), missions: "nope" },
+      (() => { const b: Record<string, unknown> = { ...okBody([]) }; delete b.source; return b; })(),
+      { ...okBody([]), source: "bogus" },
+      { ...okBody([]), source: null },
       { ...okBody([]), missions: [{ ...base, endDayOffset: 2 }] },
       { ...okBody([]), missions: [{ ...base, type: "unknown" }] },
       { ...okBody([]), missions: [{ ...base, tiers: [{ targetCount: "10" }] }] },
@@ -411,50 +421,188 @@ describe("게시 노출 판정", () => {
   });
 });
 
-// ── 쓰기 차단 ───────────────────────────────────────────────
-describe("프리뷰·비운영 쓰기 차단", () => {
-  it("운영 호스트 + 운영 env 만 허용", () => {
-    assert.deepEqual(evaluateWriteAccess({ host: "corepartners.kr", hfEnv: "production" }), {
-      allowed: true,
-      reason: "ok",
-    });
-    assert.equal(evaluateWriteAccess({ host: "corepartners-dj.higgsfield.app", hfEnv: null }).allowed, true);
-    assert.equal(evaluateWriteAccess({ host: "corepartners.kr:443", hfEnv: "prod" }).allowed, true);
-  });
-
-  it("프리뷰 호스트는 403", () => {
-    for (const h of [
-      "preview-abc.higgsfield.app",
-      "corepartners-dj-preview.higgsfield.app",
-      "localhost",
-      "127.0.0.1",
-      "evil.example.com",
-    ]) {
-      const r = evaluateWriteAccess({ host: h, hfEnv: "production" });
-      assert.equal(r.allowed, false, `허용되면 안 됨: ${h}`);
-      assert.equal(r.reason, "non_production_host");
-    }
-  });
-
-  it("운영 호스트라도 비운영 env 면 403", () => {
-    for (const e of ["dev", "preview", "staging", "development", "test", "LOCAL"]) {
-      const r = evaluateWriteAccess({ host: "corepartners.kr", hfEnv: e });
-      assert.equal(r.allowed, false, `허용되면 안 됨: ${e}`);
-      assert.equal(r.reason, "non_production_env");
-    }
-  });
-
-  it("호스트가 없으면 거부", () => {
-    assert.equal(evaluateWriteAccess({ host: "", hfEnv: "production" }).reason, "missing_host");
-    assert.equal(evaluateWriteAccess({ host: null }).allowed, false);
-  });
-});
-
 // ── 낙관적 잠금 ─────────────────────────────────────────────
 describe("낙관적 잠금", () => {
   it("changes>0 은 갱신, 0 은 충돌", () => {
     assert.equal(interpretUpdateResult(1), "updated");
     assert.equal(interpretUpdateResult(2), "updated");
     assert.equal(interpretUpdateResult(0), "conflict");
+  });
+});
+
+
+// ── mission_source 계약 (4-2B1) ─────────────────────────────
+describe("mission_source 계약", () => {
+  const body = (source: string, missions: Mission[] = []) => ({
+    ok: true,
+    schema: MISSION_SCHEMA_VERSION,
+    source,
+    serverNow: "2026-08-03T12:00:00.000Z",
+    missions,
+  });
+
+  it("설정값 파싱 — 모르는 값·빈 값은 dynamic", () => {
+    assert.equal(parseMissionSource("static"), "static");
+    assert.equal(parseMissionSource(" STATIC "), "static");
+    assert.equal(parseMissionSource("dynamic"), "dynamic");
+    for (const v of [null, undefined, "", "bogus", 0, {}]) {
+      assert.equal(parseMissionSource(v), DEFAULT_MISSION_SOURCE, `기본값이어야 함: ${String(v)}`);
+    }
+  });
+
+  it("전체 미션 비활성은 200 + dynamic + 빈 배열 (정적 폴백이 아니다)", () => {
+    const r = classifyMissionResponse({ status: 200, body: body("dynamic", []) });
+    assert.equal(r.kind, "empty");
+    assert.equal(usesStaticConstants(r), false, "정적 상수를 쓰면 안 된다");
+    assert.equal(isDegraded(r), false, "장애로 보고하면 안 된다");
+  });
+
+  it("source=static 일 때만 정적 상수를 쓴다 — 그러나 장애는 아니다", () => {
+    const r = classifyMissionResponse({ status: 200, body: body("static", []) });
+    assert.equal(r.kind, "static");
+    assert.equal(usesStaticConstants(r), true);
+    assert.equal(isDegraded(r), false, "의도된 상태이므로 오류로 보고하지 않는다");
+  });
+
+  it("장애 폴백은 정적 상수를 쓰면서 장애로도 보고한다", () => {
+    for (const input of [
+      { networkError: true },
+      { status: 503, body: { ok: false, error: "db_unavailable" } },
+      { status: 200, body: { nope: 1 } },
+    ]) {
+      const r = classifyMissionResponse(input);
+      assert.equal(r.kind, "fallback");
+      assert.equal(usesStaticConstants(r), true);
+      assert.equal(isDegraded(r), true);
+    }
+  });
+
+  it("source 가 없거나 계약 밖이면 스키마 폴백", () => {
+    for (const s of ["bogus", "", null, undefined, 1]) {
+      const b: Record<string, unknown> = { ...body("dynamic") };
+      if (s === undefined) delete b.source;
+      else b.source = s;
+      assert.equal(classifyMissionResponse({ status: 200, body: b }).kind, "fallback", String(s));
+    }
+  });
+});
+
+// ── 서버 응답 결정 (200/503 경계) ───────────────────────────
+describe("buildMissionData — 200/503 경계", () => {
+  const now = "2026-08-03T12:00:00.000Z";
+
+  it("D1 없음·쿼리 장애만 503", () => {
+    assert.deepEqual(buildMissionData({ kind: "no_db" }), {
+      status: 503,
+      body: { ok: false, error: "db_unavailable" },
+    });
+    assert.deepEqual(buildMissionData({ kind: "query_failed" }), {
+      status: 503,
+      body: { ok: false, error: "query_failed" },
+    });
+  });
+
+  it("미션 0건은 503 이 아니라 200 + dynamic + []", () => {
+    const r = buildMissionData({ kind: "dynamic", serverNow: now, missions: [] });
+    assert.equal(r.status, 200);
+    assert.equal(r.body.ok, true);
+    assert.equal((r.body as { source: string }).source, "dynamic");
+    assert.deepEqual((r.body as { missions: unknown[] }).missions, []);
+  });
+
+  it("static 은 조회 없이 200 + static + []", () => {
+    const r = buildMissionData({ kind: "static", serverNow: now });
+    assert.equal(r.status, 200);
+    assert.equal((r.body as { source: string }).source, "static");
+    assert.deepEqual((r.body as { missions: unknown[] }).missions, []);
+  });
+
+  it("정상 응답은 전부 자기 계약을 통과한다 (서버↔클라이언트 왕복)", () => {
+    for (const input of [
+      { kind: "static" as const, serverNow: now },
+      { kind: "dynamic" as const, serverNow: now, missions: [] },
+      { kind: "dynamic" as const, serverNow: now, missions: [base] },
+    ]) {
+      const r = buildMissionData(input);
+      assert.equal(r.status, 200);
+      assert.equal(isMissionDataPayload(r.body), true, JSON.stringify(input.kind));
+      const round = classifyMissionResponse({ status: r.status, body: r.body });
+      assert.notEqual(round.kind, "fallback", "서버가 만든 응답이 폴백으로 분류되면 안 된다");
+    }
+  });
+
+  it("503 본문은 계약을 만족하지 않는다 (= 클라이언트가 폴백으로 본다)", () => {
+    const r = buildMissionData({ kind: "no_db" });
+    assert.equal(isMissionDataPayload(r.body), false);
+    assert.deepEqual(classifyMissionResponse({ status: r.status, body: r.body }), {
+      kind: "fallback",
+      reason: "server",
+    });
+  });
+});
+
+// ── fail-closed 쓰기 게이트 (4-2B1) ─────────────────────────
+describe("쓰기 게이트 — fail-closed", () => {
+  const OK = { host: "corepartners.kr", hfEnv: "production", writesEnabled: "1", allowedHosts: "corepartners.kr" };
+
+  it("두 값이 모두 명시돼야만 허용", () => {
+    assert.deepEqual(evaluateWriteAccess(OK), { allowed: true, reason: "ok" });
+  });
+
+  it("아무것도 설정하지 않으면 닫힌다 (프리뷰 기본 상태)", () => {
+    assert.equal(evaluateWriteAccess({ host: "corepartners.kr" }).reason, "writes_disabled");
+    assert.equal(evaluateWriteAccess({}).allowed, false);
+  });
+
+  it("ADMIN_WRITES_ENABLED 가 없거나 애매하면 거부", () => {
+    for (const v of [null, undefined, "", "0", "false", "yes", "on", "enabled", " "]) {
+      const r = evaluateWriteAccess({ ...OK, writesEnabled: v as string });
+      assert.equal(r.allowed, false, `허용되면 안 됨: ${String(v)}`);
+      assert.equal(r.reason, "writes_disabled");
+    }
+    for (const v of ["1", "true", "TRUE", " true "]) {
+      assert.equal(evaluateWriteAccess({ ...OK, writesEnabled: v }).allowed, true, v);
+    }
+  });
+
+  it("ADMIN_ALLOWED_HOSTS 가 비면 거부 — 호스트가 코드에 박혀 있지 않다", () => {
+    for (const v of [null, "", "   ", ",,,"]) {
+      const r = evaluateWriteAccess({ ...OK, allowedHosts: v as string });
+      assert.equal(r.allowed, false, `허용되면 안 됨: ${String(v)}`);
+      assert.equal(r.reason, "allowed_hosts_unset");
+    }
+  });
+
+  it("허용 목록 밖 호스트는 거부", () => {
+    for (const h of ["preview-abc.higgsfield.app", "localhost", "evil.example.com", "corepartners.kr.evil.com"]) {
+      const r = evaluateWriteAccess({ ...OK, host: h });
+      assert.equal(r.allowed, false, h);
+      assert.equal(r.reason, "host_not_allowed");
+    }
+    assert.equal(evaluateWriteAccess({ ...OK, host: "" }).reason, "missing_host");
+  });
+
+  it("포트·대소문자·공백이 섞여도 목록과 맞춘다", () => {
+    const multi = " CorePartners.KR , corepartners-dj.higgsfield.app ";
+    assert.deepEqual(parseAllowedHosts(multi), ["corepartners.kr", "corepartners-dj.higgsfield.app"]);
+    assert.equal(evaluateWriteAccess({ ...OK, allowedHosts: multi, host: "corepartners.kr:443" }).allowed, true);
+    assert.equal(
+      evaluateWriteAccess({ ...OK, allowedHosts: multi, host: "corepartners-dj.higgsfield.app" }).allowed,
+      true,
+    );
+  });
+
+  it("HF_ENV 는 추가 거부 조건일 뿐 — 비어 있어도 허용을 만들지 못한다", () => {
+    // 비운영 env 는 두 관문을 통과해도 거부
+    for (const e of ["dev", "preview", "staging", "development", "test", "LOCAL"]) {
+      const r = evaluateWriteAccess({ ...OK, hfEnv: e });
+      assert.equal(r.allowed, false, e);
+      assert.equal(r.reason, "non_production_env");
+    }
+    // env 가 비어 있어도 두 관문이 닫혀 있으면 여전히 거부
+    assert.equal(evaluateWriteAccess({ host: "corepartners.kr", hfEnv: null }).allowed, false);
+    // env 를 모르더라도 두 관문이 열려 있으면 허용(운영 값 문자열을 추측하지 않는다)
+    assert.equal(evaluateWriteAccess({ ...OK, hfEnv: null }).allowed, true);
+    assert.equal(evaluateWriteAccess({ ...OK, hfEnv: "whatever-prod-name" }).allowed, true);
   });
 });
