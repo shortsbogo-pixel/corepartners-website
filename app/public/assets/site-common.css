@@ -22,7 +22,7 @@
   --action:#D1FE17; --action-hover:#BCE80F;
   --revenue:#7A5A05; --service:#0B6B6A;
   --control-line:#7B8494;
-  --revenue-soft:#FDF6E1; --revenue-line:#A97F12; --required:#7A5A05;
+  --revenue-soft:#FDF6E1; --revenue-line:#A57B0E; --required:#7A5A05;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
