@@ -34,7 +34,7 @@
 .cw-in input:focus{outline:none;border-color:#173a6e}
 .cw-in button{background:var(--ink);color:#fff;border:none;border-radius:var(--r-sm);padding:0 16px;font-weight:800;font-size:14px;cursor:pointer}
 .cw-in button:disabled{opacity:.5}
-.cw-note{font-size:10px;color:#7b8499;text-align:center;padding:0 10px 8px;background:#fff}
+.cw-note{font-size:10px;color:var(--muted);text-align:center;padding:0 10px 8px;background:#fff}
 .cw-typing i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#a4abbc;margin:0 1.5px;animation:cwt 1s infinite}
 .cw-typing i:nth-child(2){animation-delay:.15s}.cw-typing i:nth-child(3){animation-delay:.3s}
 @keyframes cwt{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
