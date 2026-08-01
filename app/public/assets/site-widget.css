@@ -1,39 +1,48 @@
 /* corepartners.kr — 챗봇 위젯 · 구조 정리 단계에서 인라인 <style>에서 추출. 편집은 이 파일에서. */
 
-.cw-fab{position:fixed;right:16px;bottom:20px;z-index:70;display:none;align-items:center;gap:8px;background:var(--lime);color:var(--navy);border:none;border-radius:var(--r-pill);padding:13px 18px;font:900 14px/1 'Pretendard Variable',Pretendard,sans-serif;box-shadow:0 10px 26px rgba(120,150,10,.38);cursor:pointer}
-.cw-fab:hover{background:#b8e000}
+.cw-fab{position:fixed;right:16px;bottom:20px;z-index:70;display:none;align-items:center;gap:8px;background:var(--ink);color:#fff;border:none;border-radius:var(--r-pill);padding:13px 18px;font:900 14px/1 'Pretendard Variable',Pretendard,sans-serif;box-shadow:0 10px 26px rgba(11,31,58,.32);cursor:pointer}
+.cw-fab:hover{background:var(--ink-2)}
 .cw-fab .e{font-size:17px}
 .cw-acts{margin-top:9px;display:flex;flex-wrap:wrap;gap:7px}
 .cw-acts .cw-apply{display:inline-flex;align-items:center;margin:0}
-.cw-now{background:var(--gold)!important;border-color:var(--gold)!important;color:#fff!important}
-.cw-callb{background:#fff!important;color:var(--navy)!important}
-.cw-teaser{position:fixed;right:16px;bottom:78px;z-index:69;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #dfe6ec;border-radius:var(--r-md);padding:11px 13px;font:700 13px/1.4 'Pretendard Variable',Pretendard,sans-serif;color:var(--navy);box-shadow:0 12px 30px rgba(14,38,71,.22);cursor:pointer;max-width:240px}
+.cw-now{background:var(--service)!important;border-color:var(--service)!important;color:#fff!important}
+.cw-callb{background:#fff!important;color:var(--ink)!important}
+.cw-teaser{position:fixed;right:16px;bottom:78px;z-index:69;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #dfe6ec;border-radius:var(--r-md);padding:11px 13px;font:700 13px/1.4 'Pretendard Variable',Pretendard,sans-serif;color:var(--ink);box-shadow:0 12px 30px rgba(11,31,58,.22);cursor:pointer;max-width:240px}
 .cw-teaser .x{border:none;background:none;color:#8ea0bd;font-size:13px;cursor:pointer;padding:2px;line-height:1}
-.cw-teaser::before{content:'';flex:none;width:9px;height:9px;border-radius:50%;background:var(--lime);box-shadow:var(--glow-lime)}
+.cw-teaser::before{content:'';flex:none;width:9px;height:9px;border-radius:50%;background:var(--service)}
 @media(max-width:720px){.cw-teaser{bottom:142px;right:12px}}
 .cw-entry-wrap{display:none;text-align:center;margin-top:20px}
-.cw-entry{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--lime);background:#fff;color:var(--navy);font-family:inherit;font-weight:800;font-size:13.5px;padding:12px 20px;border-radius:var(--r-pill);cursor:pointer;box-shadow:0 3px 10px rgba(14,38,71,.08);transition:.16s}
-.cw-entry:hover{background:#d1fe17;color:#0e2647;border-color:#d1fe17}
+.cw-entry{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ink);background:#fff;color:var(--ink);font-family:inherit;font-weight:800;font-size:13.5px;padding:12px 20px;border-radius:var(--r-pill);cursor:pointer;box-shadow:0 3px 10px rgba(14,38,71,.08);transition:.16s}
+.cw-entry:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
 @media(max-width:720px){.cw-fab{bottom:86px;right:12px;padding:12px 15px}}
 .cw-panel{position:fixed;right:16px;bottom:20px;z-index:71;width:min(94vw,370px);height:min(74vh,540px);background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:0 24px 60px rgba(14,38,71,.28);display:none;flex-direction:column;overflow:hidden;font-family:'Pretendard Variable',Pretendard,sans-serif}
 @media(max-width:720px){.cw-panel{right:8px;left:8px;width:auto;bottom:8px;height:min(80vh,560px)}}
-.cw-h{background:var(--navy);color:#fff;padding:13px 16px;display:flex;align-items:center;gap:9px}
+.cw-h{background:var(--ink);color:#fff;padding:13px 16px;display:flex;align-items:center;gap:9px}
 .cw-h b{font-size:14.5px}
-.cw-h small{display:block;font-size:10.5px;color:#aebedd;font-weight:600}
+.cw-h small{display:block;font-size:10.5px;color:var(--ink-muted);font-weight:600}
 .cw-x{margin-left:auto;background:rgba(255,255,255,.12);border:none;color:#fff;width:28px;height:28px;border-radius:var(--r-xs);font-size:14px;cursor:pointer}
 .cw-m{flex:1;overflow-y:auto;padding:14px;background:var(--bg-2);display:flex;flex-direction:column;gap:9px}
 .cw-b{max-width:84%;padding:10px 13px;border-radius:var(--r-md);font-size:13.5px;line-height:1.6;word-break:keep-all;white-space:pre-wrap}
 .cw-b.bot{background:#fff;border:1px solid var(--line);color:var(--txt);align-self:flex-start;border-bottom-left-radius:5px}
-.cw-b.me{background:var(--navy-2);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
-.cw-apply{display:inline-block;margin-top:8px;background:linear-gradient(135deg,#eec95f,#cf9a10);color:var(--navy-deep);font-weight:850;font-size:13px;padding:9px 15px;border-radius:var(--r-pill);text-decoration:none}
+.cw-b.me{background:var(--ink-2);color:#fff;align-self:flex-end;border-bottom-right-radius:5px}
+.cw-apply{display:inline-block;margin-top:8px;background:var(--ink);color:#fff;font-weight:850;font-size:13px;padding:9px 15px;border-radius:var(--r-pill);text-decoration:none}
+.cw-apply:hover{background:var(--ink-2)}
 .cw-chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 8px;background:var(--bg-2)}
-.cw-chips button{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-pill);padding:7px 11px;font-size:12px;font-weight:700;color:var(--navy-2);cursor:pointer}
+.cw-chips button{background:#fff;border:1px solid var(--line-2);border-radius:var(--r-pill);padding:7px 11px;font-size:12px;font-weight:700;color:var(--ink-2);cursor:pointer}
 .cw-in{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);background:#fff}
 .cw-in input{flex:1;border:1px solid var(--line-2);border-radius:var(--r-sm);padding:11px 12px;font-size:16px;font-family:inherit}
 .cw-in input:focus{outline:none;border-color:#173a6e}
-.cw-in button{background:var(--navy);color:#fff;border:none;border-radius:var(--r-sm);padding:0 16px;font-weight:800;font-size:14px;cursor:pointer}
+.cw-in button{background:var(--ink);color:#fff;border:none;border-radius:var(--r-sm);padding:0 16px;font-weight:800;font-size:14px;cursor:pointer}
 .cw-in button:disabled{opacity:.5}
 .cw-note{font-size:10px;color:#7b8499;text-align:center;padding:0 10px 8px;background:#fff}
 .cw-typing i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#a4abbc;margin:0 1.5px;animation:cwt 1s infinite}
 .cw-typing i:nth-child(2){animation-delay:.15s}.cw-typing i:nth-child(3){animation-delay:.3s}
 @keyframes cwt{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
+
+/* E-5b: 강제 색상 모드 — 위젯 인터랙티브 요소 경계·포커스 복원. 파일 마지막 규칙으로 배치 */
+@media (forced-colors:active){
+.cw-apply,.cw-teaser{outline:1px solid LinkText;outline-offset:-2px}
+.cw-fab,.cw-entry,.cw-x,.cw-chips button,.cw-in button{outline:1px solid ButtonText;outline-offset:-2px}
+.cw-apply:focus-visible,.cw-teaser:focus-visible,.cw-fab:focus-visible,.cw-entry:focus-visible,
+.cw-x:focus-visible,.cw-chips button:focus-visible,.cw-in button:focus-visible{outline:3px solid Highlight;outline-offset:3px}
+}
