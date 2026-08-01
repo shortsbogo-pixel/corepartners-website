@@ -217,36 +217,36 @@
 }
 
 /* ── 이번 주 미션 시간표 보드 ───────────────────────── */
-.msb{--msb-lab:236px;background:var(--navy-deep,var(--navy-deep));border-radius:var(--r-xl);padding:22px 20px 20px;color:#e8f0ff;margin:0 0 20px;box-shadow:0 18px 44px rgba(10,28,54,.24)}
+.msb{--msb-lab:236px;background:var(--night-bg);border-radius:var(--r-xl);padding:22px 20px 20px;color:var(--night-txt);margin:0 0 20px;box-shadow:0 18px 44px rgba(10,28,54,.24)}
 .msb-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
-.msb-h h3{font-family:var(--font-display);font-size:clamp(17px,4.2vw,21px);font-weight:850;letter-spacing:-.035em;color:#fff;margin:0}
-.msb-pill{font-family:var(--font-display);font-size:12.5px;font-weight:800;color:var(--gold-line);background:rgba(230,194,97,.13);border:1px solid rgba(230,194,97,.3);padding:4px 11px;border-radius:var(--r-pill);white-space:nowrap}
-.msb-rg{margin-left:auto;font-size:12.5px;color:#8fa3c8;font-variant-numeric:tabular-nums}
-.msb-sub{font-size:12.5px;color:#8fa3c8;margin:6px 0 18px}
+.msb-h h3{font-family:var(--font-display);font-size:clamp(17px,4.2vw,21px);font-weight:850;letter-spacing:-.035em;color:var(--night-txt);margin:0}
+.msb-pill{font-family:var(--font-display);font-size:12.5px;font-weight:800;color:var(--night-txt);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);padding:4px 11px;border-radius:var(--r-pill);white-space:nowrap}
+.msb-rg{margin-left:auto;font-size:12.5px;color:var(--night-mut);font-variant-numeric:tabular-nums}
+.msb-sub{font-size:12.5px;color:var(--night-mut);margin:6px 0 18px}
 .msb-axis{position:relative;height:18px;margin-left:calc(var(--msb-lab) + 12px);border-bottom:1px solid rgba(255,255,255,.13)}
-.msb-axis span{position:absolute;top:0;transform:translateX(-50%);font-size:11px;color:#7f93b8;font-variant-numeric:tabular-nums}
+.msb-axis span{position:absolute;top:0;transform:translateX(-50%);font-size:11px;color:var(--night-mut);font-variant-numeric:tabular-nums}
 .msb-tracks{position:relative;margin-top:12px}
 .msb-row{display:grid;grid-template-columns:var(--msb-lab) 1fr;align-items:center;gap:12px;margin-bottom:12px}
-.msb-lab{font-family:var(--font-display);font-size:14.5px;font-weight:850;color:#dbe6fb;letter-spacing:-.02em;line-height:1.36}
-.msb-lab .d{font-family:var(--font-body);font-size:11px;font-weight:700;color:#93a8cc;background:rgba(255,255,255,.08);border-radius:var(--r-pill);padding:1px 8px;margin-left:6px;letter-spacing:0;vertical-align:1px}
-.msb-lab .tm{display:block;font-family:var(--font-display);font-size:13px;font-weight:800;color:var(--gold-line);font-variant-numeric:tabular-nums;letter-spacing:0}
-.msb-lab .py{display:block;font-family:var(--font-body);font-size:11.5px;font-weight:600;color:#9db1d4;font-variant-numeric:tabular-nums;letter-spacing:0}
-.msb-track{position:relative;height:34px;background:rgba(255,255,255,.05);border-radius:var(--r-xs)}
-.msb-bar{position:absolute;top:5px;bottom:5px;background:linear-gradient(180deg,rgba(230,194,97,.32),rgba(230,194,97,.15));border:1px solid rgba(230,194,97,.42);border-left:3px solid var(--gold-line);border-radius:var(--r-xs)}
+.msb-lab{font-family:var(--font-display);font-size:14.5px;font-weight:850;color:var(--night-txt);letter-spacing:-.02em;line-height:1.36}
+.msb-lab .d{font-family:var(--font-body);font-size:11px;font-weight:700;color:var(--night-mut);background:rgba(255,255,255,.08);border-radius:var(--r-pill);padding:1px 8px;margin-left:6px;letter-spacing:0;vertical-align:1px}
+.msb-lab .tm{display:block;font-family:var(--font-display);font-size:13px;font-weight:800;color:var(--night-txt);font-variant-numeric:tabular-nums;letter-spacing:0}
+.msb-lab .py{display:block;font-family:var(--font-body);font-size:11.5px;font-weight:600;color:var(--night-mut);font-variant-numeric:tabular-nums;letter-spacing:0}
+.msb-track{position:relative;height:34px;background:var(--night-card);box-shadow:inset 0 0 0 1px rgba(255,255,255,.34);border-radius:var(--r-xs)}
+.msb-bar{position:absolute;top:5px;bottom:5px;background:linear-gradient(180deg,rgba(232,184,75,.32),rgba(232,184,75,.15));border:1px solid rgba(232,184,75,.42);border-left:3px solid var(--night-gold);border-radius:var(--r-xs)}
 .msb-row.off{opacity:.38}
 .msb-row.live .msb-bar{background:linear-gradient(180deg,rgba(209,254,23,.34),rgba(209,254,23,.15));border-color:rgba(209,254,23,.6);border-left-color:var(--lime)}
 .msb-row.live .msb-lab,.msb-row.live .msb-lab .tm{color:var(--lime)}
-.msb-row.std .msb-lab{color:#b7c6e2}
-.msb-row.std .msb-lab .tm{color:#9db1d4}
-.msb-ghost{position:absolute;inset:4px;border:1px dashed rgba(255,255,255,.22);border-radius:var(--r-xs);display:flex;align-items:center;justify-content:center;font-size:11.5px;color:#7f93b8;text-align:center;padding:0 8px}
+.msb-row.std .msb-lab{color:var(--night-txt)}
+.msb-row.std .msb-lab .tm{color:var(--night-mut)}
+.msb-ghost{position:absolute;inset:4px;border:1px dashed rgba(255,255,255,.22);border-radius:var(--r-xs);display:flex;align-items:center;justify-content:center;font-size:11.5px;color:var(--night-mut);text-align:center;padding:0 8px}
 .msb-nowwrap{position:absolute;top:-18px;bottom:6px;left:calc(var(--msb-lab) + 12px);right:0;pointer-events:none;z-index:3}
 .msb-now{position:absolute;top:0;bottom:0;width:2px;background:var(--lime);box-shadow:var(--glow-lime)}
-.msb-offhours{margin-top:4px;font-size:12.5px;color:#8fa3c8}
+.msb-offhours{margin-top:4px;font-size:12.5px;color:var(--night-mut)}
 .msb-extra{margin-top:16px;padding-top:15px;border-top:1px solid rgba(255,255,255,.11)}
-.msb-extra .t{font-size:11.5px;color:#8095b8;margin-bottom:9px}
+.msb-extra .t{font-size:11.5px;color:var(--night-mut);margin-bottom:9px}
 .msb-chips{display:flex;flex-wrap:wrap;gap:7px}
-.msb-chip{display:inline-flex;align-items:baseline;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:var(--r-pill);padding:6px 12px;font-size:12px;color:#cfdcf3}
-.msb-chip b{font-family:var(--font-display);font-weight:850;color:var(--gold-line);font-variant-numeric:tabular-nums}
+.msb-chip{display:inline-flex;align-items:baseline;gap:6px;background:var(--night-card);border:1px solid rgba(255,255,255,.16);border-radius:var(--r-pill);padding:6px 12px;font-size:12px;color:var(--night-txt)}
+.msb-chip b{font-family:var(--font-display);font-weight:850;color:var(--night-gold);font-variant-numeric:tabular-nums}
 @media(max-width:780px){
 .msb{--msb-lab:0px;padding:18px 14px 16px;border-radius:var(--r-lg)}
 .msb-axis{margin-left:0}
