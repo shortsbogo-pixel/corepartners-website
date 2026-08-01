@@ -4,6 +4,18 @@
 /* top bar variant */
 /* hero */
 .chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:750;color:var(--navy);background:var(--surface);border:1px solid var(--line-2);padding:7px 14px;border-radius:var(--r-pill);letter-spacing:.2px;box-shadow:var(--shadow)}
+/* E-6b: coupang 섹션 배경 리듬 */
+#film{background:var(--surface)}
+#benefits{background:var(--bg)}
+#benefits + section:not([id]){background:var(--surface)}
+#weekly{background:var(--surface)}
+#income{background:var(--bg)}
+#promo{background:var(--surface)}
+#welfare{background:var(--bg)}
+#welfare + section:not([id]){background:var(--surface)}
+#start{background:var(--surface)}
+#faq{background:var(--bg)}
+#apply{background:var(--surface)}
 .hero .btn-primary{background:var(--ink);color:#fff;box-shadow:var(--elev-btn)}
 .hero .btn-primary:hover{background:var(--ink-2)}
 .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:var(--glow-lime);animation:pulse 2s infinite}
