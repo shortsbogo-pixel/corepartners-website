@@ -14,7 +14,11 @@
   // uncomment the matching block in the OPT-IN INFRA section below.
   //
   // `name` must stay a valid Cloudflare name (lowercase + dashes, 3–63 chars).
-  "name": "app-slug-placeholder",
+  // SELF-HOSTED (2026-08-05): this file is now the AUTHORITATIVE deploy config.
+  // The Higgsfield deploy CI used to regenerate it and ignore everything here,
+  // but we deploy with `wrangler deploy` from the owner's own Cloudflare
+  // account, so every value below is real and is what actually ships.
+  "name": "corepartners",
 
   // The Worker entry is the TanStack Start SSR server bundle — `vite build`
   // emits dist/server/server.js (`export default { fetch }`). The deploy CI
@@ -38,7 +42,32 @@
   // Non-secret identity for local dev/build; the deploy sets the real values.
   // SECRETS (e.g. the fnf token) are NEVER here and NEVER in the Worker — the
   // platform Outbound Worker injects them on server-side egress.
-  "vars": { "HF_ENV": "dev", "APP_SLUG": "app-slug-placeholder" }
+  // ADMIN_WRITES_ENABLED is deliberately ABSENT. The admin write gate is
+  // fail-closed and needs BOTH that flag and ADMIN_ALLOWED_HOSTS; leaving the
+  // flag out keeps every mutating admin API shut until 4-2C ships one.
+  "vars": {
+    "HF_ENV": "production",
+    "APP_SLUG": "corepartners",
+    "ADMIN_ALLOWED_HOSTS": "corepartners.kr,www.corepartners.kr"
+  },
+
+  // D1 — env.DB. Owner's own database, created 2026-08-05 in APAC.
+  // Schema is migrations/0001..0007; the d1_migrations ledger is already
+  // populated, so `wrangler d1 migrations apply` is a no-op until 0008.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "corepartners-db",
+      "database_id": "843e1c5d-eabf-4c84-8b4c-2620eff6a775"
+    }
+  ],
+
+  // R2 — env.STORAGE. Object keys the code actually reads are `promo-week`
+  // (the weekly banner image) and `promo-meta` (its label/period JSON).
+  // Note the banner's key is NOT `promo-banner` even though the route is.
+  "r2_buckets": [
+    { "binding": "STORAGE", "bucket_name": "corepartners-assets" }
+  ]
 
   // ── OPT-IN INFRA (off by default) ────────────────────────────────
   // Declare the service in app.manifest.json; the deploy injects the real
