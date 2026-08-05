@@ -11,19 +11,19 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as PromoMetaRouteImport } from './routes/promo-meta'
+import { Route as PromoBannerRouteImport } from './routes/promo-banner'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as MissionDataRouteImport } from './routes/mission-data'
+import { Route as MissionRouteImport } from './routes/mission'
 import { Route as CoupangPlusRouteImport } from './routes/coupang-plus'
 import { Route as CenterRouteImport } from './routes/center'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as MissionRouteImport } from './routes/mission'
-import { Route as MissionDataRouteImport } from './routes/mission-data'
-import { Route as PromoMetaRouteImport } from './routes/promo-meta'
-import { Route as PromoBannerRouteImport } from './routes/promo-banner'
-import { Route as ApiApplyRouteImport } from './routes/api/apply'
 import { Route as ApiPromoUploadRouteImport } from './routes/api/promo-upload'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiApplyRouteImport } from './routes/api/apply'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -33,6 +33,31 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
   id: '/robots.txt',
   path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromoMetaRoute = PromoMetaRouteImport.update({
+  id: '/promo-meta',
+  path: '/promo-meta',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromoBannerRoute = PromoBannerRouteImport.update({
+  id: '/promo-banner',
+  path: '/promo-banner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MissionDataRoute = MissionDataRouteImport.update({
+  id: '/mission-data',
+  path: '/mission-data',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MissionRoute = MissionRouteImport.update({
+  id: '/mission',
+  path: '/mission',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoupangPlusRoute = CoupangPlusRouteImport.update({
@@ -60,36 +85,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MissionRoute = MissionRouteImport.update({
-  id: '/mission',
-  path: '/mission',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MissionDataRoute = MissionDataRouteImport.update({
-  id: '/mission-data',
-  path: '/mission-data',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PromoMetaRoute = PromoMetaRouteImport.update({
-  id: '/promo-meta',
-  path: '/promo-meta',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PromoBannerRoute = PromoBannerRouteImport.update({
-  id: '/promo-banner',
-  path: '/promo-banner',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiApplyRoute = ApiApplyRouteImport.update({
-  id: '/api/apply',
-  path: '/api/apply',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiPromoUploadRoute = ApiPromoUploadRouteImport.update({
   id: '/api/promo-upload',
   path: '/api/promo-upload',
@@ -100,6 +95,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiApplyRoute = ApiApplyRouteImport.update({
+  id: '/api/apply',
+  path: '/api/apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -107,16 +107,16 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/center': typeof CenterRoute
   '/coupang-plus': typeof CoupangPlusRoute
+  '/mission': typeof MissionRoute
+  '/mission-data': typeof MissionDataRoute
+  '/privacy': typeof PrivacyRoute
+  '/promo-banner': typeof PromoBannerRoute
+  '/promo-meta': typeof PromoMetaRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/apply': typeof ApiApplyRoute
-  '/promo-banner': typeof PromoBannerRoute
-  '/api/promo-upload': typeof ApiPromoUploadRoute
-  '/privacy': typeof PrivacyRoute
-  '/mission': typeof MissionRoute
-  '/mission-data': typeof MissionDataRoute
-  '/promo-meta': typeof PromoMetaRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/promo-upload': typeof ApiPromoUploadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -124,16 +124,16 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/center': typeof CenterRoute
   '/coupang-plus': typeof CoupangPlusRoute
+  '/mission': typeof MissionRoute
+  '/mission-data': typeof MissionDataRoute
+  '/privacy': typeof PrivacyRoute
+  '/promo-banner': typeof PromoBannerRoute
+  '/promo-meta': typeof PromoMetaRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/apply': typeof ApiApplyRoute
-  '/promo-banner': typeof PromoBannerRoute
-  '/api/promo-upload': typeof ApiPromoUploadRoute
-  '/privacy': typeof PrivacyRoute
-  '/mission': typeof MissionRoute
-  '/mission-data': typeof MissionDataRoute
-  '/promo-meta': typeof PromoMetaRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/promo-upload': typeof ApiPromoUploadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -142,16 +142,16 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/center': typeof CenterRoute
   '/coupang-plus': typeof CoupangPlusRoute
+  '/mission': typeof MissionRoute
+  '/mission-data': typeof MissionDataRoute
+  '/privacy': typeof PrivacyRoute
+  '/promo-banner': typeof PromoBannerRoute
+  '/promo-meta': typeof PromoMetaRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/apply': typeof ApiApplyRoute
-  '/promo-banner': typeof PromoBannerRoute
-  '/api/promo-upload': typeof ApiPromoUploadRoute
-  '/privacy': typeof PrivacyRoute
-  '/mission': typeof MissionRoute
-  '/mission-data': typeof MissionDataRoute
-  '/promo-meta': typeof PromoMetaRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/promo-upload': typeof ApiPromoUploadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -161,15 +161,16 @@ export interface FileRouteTypes {
     | '/admin'
     | '/center'
     | '/coupang-plus'
+    | '/mission'
+    | '/mission-data'
+    | '/privacy'
+    | '/promo-banner'
+    | '/promo-meta'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/api/apply'
-    | '/promo-banner'
-    | '/api/promo-upload'
-    | '/privacy'
-    | '/mission'
-    | '/promo-meta'
     | '/api/chat'
+    | '/api/promo-upload'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -177,15 +178,16 @@ export interface FileRouteTypes {
     | '/admin'
     | '/center'
     | '/coupang-plus'
+    | '/mission'
+    | '/mission-data'
+    | '/privacy'
+    | '/promo-banner'
+    | '/promo-meta'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/api/apply'
-    | '/promo-banner'
-    | '/api/promo-upload'
-    | '/privacy'
-    | '/mission'
-    | '/promo-meta'
     | '/api/chat'
+    | '/api/promo-upload'
   id:
     | '__root__'
     | '/'
@@ -193,15 +195,16 @@ export interface FileRouteTypes {
     | '/admin'
     | '/center'
     | '/coupang-plus'
+    | '/mission'
+    | '/mission-data'
+    | '/privacy'
+    | '/promo-banner'
+    | '/promo-meta'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/api/apply'
-    | '/promo-banner'
-    | '/api/promo-upload'
-    | '/privacy'
-    | '/mission'
-    | '/promo-meta'
     | '/api/chat'
+    | '/api/promo-upload'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -210,16 +213,16 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   CenterRoute: typeof CenterRoute
   CoupangPlusRoute: typeof CoupangPlusRoute
+  MissionRoute: typeof MissionRoute
+  MissionDataRoute: typeof MissionDataRoute
+  PrivacyRoute: typeof PrivacyRoute
+  PromoBannerRoute: typeof PromoBannerRoute
+  PromoMetaRoute: typeof PromoMetaRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiApplyRoute: typeof ApiApplyRoute
-  PromoBannerRoute: typeof PromoBannerRoute
-  ApiPromoUploadRoute: typeof ApiPromoUploadRoute
-  PrivacyRoute: typeof PrivacyRoute
-  MissionRoute: typeof MissionRoute
-  MissionDataRoute: typeof MissionDataRoute
-  PromoMetaRoute: typeof PromoMetaRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiPromoUploadRoute: typeof ApiPromoUploadRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -236,6 +239,41 @@ declare module '@tanstack/react-router' {
       path: '/robots.txt'
       fullPath: '/robots.txt'
       preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/promo-meta': {
+      id: '/promo-meta'
+      path: '/promo-meta'
+      fullPath: '/promo-meta'
+      preLoaderRoute: typeof PromoMetaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/promo-banner': {
+      id: '/promo-banner'
+      path: '/promo-banner'
+      fullPath: '/promo-banner'
+      preLoaderRoute: typeof PromoBannerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mission-data': {
+      id: '/mission-data'
+      path: '/mission-data'
+      fullPath: '/mission-data'
+      preLoaderRoute: typeof MissionDataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mission': {
+      id: '/mission'
+      path: '/mission'
+      fullPath: '/mission'
+      preLoaderRoute: typeof MissionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/coupang-plus': {
@@ -273,20 +311,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/apply': {
-      id: '/api/apply'
-      path: '/api/apply'
-      fullPath: '/api/apply'
-      preLoaderRoute: typeof ApiApplyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/promo-banner': {
-      id: '/promo-banner'
-      path: '/promo-banner'
-      fullPath: '/promo-banner'
-      preLoaderRoute: typeof PromoBannerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/promo-upload': {
       id: '/api/promo-upload'
       path: '/api/promo-upload'
@@ -294,39 +318,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPromoUploadRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mission': {
-      id: '/mission'
-      path: '/mission'
-      fullPath: '/mission'
-      preLoaderRoute: typeof MissionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mission-data': {
-      id: '/mission-data'
-      path: '/mission-data'
-      fullPath: '/mission-data'
-      preLoaderRoute: typeof MissionDataRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/promo-meta': {
-      id: '/promo-meta'
-      path: '/promo-meta'
-      fullPath: '/promo-meta'
-      preLoaderRoute: typeof PromoMetaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
       fullPath: '/api/chat'
       preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/apply': {
+      id: '/api/apply'
+      path: '/api/apply'
+      fullPath: '/api/apply'
+      preLoaderRoute: typeof ApiApplyRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -338,16 +341,16 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   CenterRoute: CenterRoute,
   CoupangPlusRoute: CoupangPlusRoute,
+  MissionRoute: MissionRoute,
+  MissionDataRoute: MissionDataRoute,
+  PrivacyRoute: PrivacyRoute,
+  PromoBannerRoute: PromoBannerRoute,
+  PromoMetaRoute: PromoMetaRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiApplyRoute: ApiApplyRoute,
-  PromoBannerRoute: PromoBannerRoute,
-  ApiPromoUploadRoute: ApiPromoUploadRoute,
-  PrivacyRoute: PrivacyRoute,
-  MissionRoute: MissionRoute,
-  MissionDataRoute: MissionDataRoute,
-  PromoMetaRoute: PromoMetaRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiPromoUploadRoute: ApiPromoUploadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
