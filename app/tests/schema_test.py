@@ -7,6 +7,7 @@ D1 은 SQLite 기반이므로 제약 동작은 여기서 재현된다. 다만 D1
 batch 트랜잭션, PRAGMA 기본값은 재현 대상이 아니다(그 부분은 4-2C 실환경 확인).
 """
 import pathlib
+import re
 import sqlite3
 import sys
 import uuid
@@ -551,6 +552,200 @@ def t_optimistic_lock():
 
 
 check("낙관적 잠금 — 낡은 version 갱신은 0행", t_optimistic_lock)
+
+print("\n=== 4-2C 인증 SQL (admin-auth.server.ts 에서 그대로 추출) ===")
+
+# 여기부터는 **출하되는 SQL 원문**을 TS 소스에서 뽑아 실제 엔진에 돌린다.
+# 테스트용으로 옮겨 적으면 둘이 갈라진 것을 아무도 모르게 되므로 복사하지 않는다.
+AUTH_TS = (ROOT / "src/lib/admin-auth.server.ts").read_text(encoding="utf-8")
+
+
+def sql(name):
+    m = re.search(r"const %s = `(.*?)`;" % name, AUTH_TS, re.S)
+    assert m, "%s 를 admin-auth.server.ts 에서 찾지 못함" % name
+    return m.group(1)
+
+
+def seed_user(con, uid="u1", username="admin", disabled=0):
+    con.execute("INSERT INTO admin_users (id,username,pw_hash,pw_salt,role,disabled)"
+                " VALUES (?,?,'h','s','admin',?)", (uid, username, disabled))
+    return uid
+
+
+def t_attempt_upsert_window():
+    con = fresh()
+    up = sql("ATTEMPT_UPSERT")
+    w1, w2 = 900000, 900000 + 900000
+    for _ in range(3):
+        con.execute(up, ("1.2.3.4", "admin", w1, "2026-08-05T00:00:00Z"))
+    row = con.execute("SELECT window_start, count FROM admin_login_attempts"
+                      " WHERE ip='1.2.3.4' AND username='admin'").fetchone()
+    assert row == (w1, 3), "같은 창에서 누적되지 않음: %s" % (row,)
+    # 창이 넘어가면 이어 세지 않고 1 로 되돌린다(고정 창)
+    con.execute(up, ("1.2.3.4", "admin", w2, "2026-08-05T00:15:00Z"))
+    row = con.execute("SELECT window_start, count FROM admin_login_attempts"
+                      " WHERE ip='1.2.3.4' AND username='admin'").fetchone()
+    assert row == (w2, 1), "창이 바뀌었는데 리셋되지 않음: %s" % (row,)
+    assert con.execute("SELECT COUNT(*) FROM admin_login_attempts").fetchone()[0] == 1
+
+
+check("실패 집계 UPSERT — 같은 창은 누적, 창이 바뀌면 1로 리셋", t_attempt_upsert_window)
+
+
+def t_attempt_select_layers():
+    con = fresh()
+    up, sel = sql("ATTEMPT_UPSERT"), sql("ATTEMPT_SELECT")
+    w = 900000
+    for _ in range(2):
+        con.execute(up, ("1.2.3.4", "admin", w, "t"))
+    for name in ("manager", "staff", "owner"):
+        con.execute(up, ("1.2.3.4", name, w, "t"))
+    con.execute(up, ("9.9.9.9", "admin", w, "t"))
+    combo, ip_total = con.execute(sel, ("1.2.3.4", "admin", w)).fetchone()
+    assert combo == 2, "조합 집계가 %s" % combo
+    # 아이디를 바꿔 가며 훑어도 IP 합산에는 그대로 쌓인다. 다른 IP 는 섞이지 않는다.
+    assert ip_total == 5, "IP 합산이 %s" % ip_total
+
+
+check("집계 조회 — 조합과 IP 합산을 한 번에, 다른 IP 는 섞이지 않는다", t_attempt_select_layers)
+
+
+def t_attempt_select_past_window():
+    con = fresh()
+    up, sel = sql("ATTEMPT_UPSERT"), sql("ATTEMPT_SELECT")
+    old = 900000
+    con.execute(up, ("1.2.3.4", "admin", old, "t"))
+    combo, ip_total = con.execute(sel, ("1.2.3.4", "admin", old + 900000)).fetchone()
+    # 지난 창의 행이 남아 있어도 이번 창에서는 0 이어야 잠금이 저절로 풀린다
+    assert (combo, ip_total) == (0, 0), "지난 창이 이번 창에 섞임: %s" % ((combo, ip_total),)
+
+
+check("집계 조회 — 지난 창은 0 (잠금은 창이 지나면 풀린다)", t_attempt_select_past_window)
+
+
+def t_attempt_clear_scope():
+    con = fresh()
+    up, clear, sel = sql("ATTEMPT_UPSERT"), sql("ATTEMPT_CLEAR"), sql("ATTEMPT_SELECT")
+    w = 900000
+    con.execute(up, ("1.2.3.4", "admin", w, "t"))
+    con.execute(up, ("1.2.3.4", "manager", w, "t"))
+    con.execute(clear, ("1.2.3.4", "admin"))
+    combo, ip_total = con.execute(sel, ("1.2.3.4", "admin", w)).fetchone()
+    assert combo == 0, "성공한 조합이 안 지워짐"
+    # 성공 로그인이 같은 IP 의 다른 아이디 집계까지 지우면 열거 탐지가 무력해진다
+    assert ip_total == 1, "다른 아이디 집계까지 지워짐: %s" % ip_total
+
+
+check("성공 로그인은 그 조합만 지운다 — 같은 IP 의 다른 집계는 남는다", t_attempt_clear_scope)
+
+
+def t_session_insert_select():
+    con = fresh()
+    uid = seed_user(con)
+    h = "a" * 64
+    con.execute(sql("SESSION_INSERT"), (h, uid, "2026-08-05T00:00:00Z",
+                                        "2026-08-05T12:00:00Z", "1.2.3.4", "curl"))
+    row = con.execute(sql("SESSION_SELECT"), (h,)).fetchone()
+    assert row is not None, "세션 조회가 비었다"
+    token_hash, user_id, expires_at, revoked, username, role, disabled = row
+    assert (user_id, username, role, revoked, disabled) == (uid, "admin", "admin", 0, 0), row
+    # 없는 토큰은 None — 라우트가 401 로 바꾼다
+    assert con.execute(sql("SESSION_SELECT"), ("b" * 64,)).fetchone() is None
+
+
+check("세션 INSERT/SELECT — 계정 정보를 조인해 한 번에 가져온다", t_session_insert_select)
+
+
+def t_session_select_needs_user():
+    con = fresh()
+    # 계정이 지워지면 CASCADE 로 세션도 사라진다(0006). 조인이 고아 세션을
+    # 되살리지 못하는지 함께 확인한다.
+    uid = seed_user(con)
+    h = "c" * 64
+    con.execute(sql("SESSION_INSERT"), (h, uid, "t", "2026-08-05T12:00:00Z", None, None))
+    con.execute("DELETE FROM admin_users WHERE id=?", (uid,))
+    assert con.execute(sql("SESSION_SELECT"), (h,)).fetchone() is None
+
+
+check("계정이 사라지면 세션 조회도 비어야 한다", t_session_select_needs_user)
+
+
+def t_session_revoke_and_sweep():
+    con = fresh()
+    uid = seed_user(con)
+    live, dead = "d" * 64, "e" * 64
+    ins = sql("SESSION_INSERT")
+    con.execute(ins, (live, uid, "t", "2026-08-05T12:00:00Z", None, None))
+    con.execute(ins, (dead, uid, "t", "2026-08-04T12:00:00Z", None, None))
+    con.execute(sql("SESSION_REVOKE"), (live,))
+    assert con.execute("SELECT revoked FROM admin_sessions WHERE token_hash=?", (live,)).fetchone()[0] == 1
+    # 회수는 행을 지우지 않는다 — 만료 스윕까지 흔적이 남는다
+    cur = con.execute(sql("SESSION_SWEEP"), ("2026-08-05T00:00:00Z",))
+    assert cur.rowcount == 1, "만료 스윕이 %s행" % cur.rowcount
+    left = {r[0] for r in con.execute("SELECT token_hash FROM admin_sessions")}
+    assert left == {live}, left
+
+
+check("회수는 행을 남기고, 만료 스윕만 지운다", t_session_revoke_and_sweep)
+
+
+def t_session_renew():
+    con = fresh()
+    uid = seed_user(con)
+    h = "f" * 64
+    con.execute(sql("SESSION_INSERT"), (h, uid, "t", "2026-08-05T12:00:00Z", None, None))
+    cur = con.execute(sql("SESSION_RENEW"), (h, "2026-08-06T00:00:00Z"))
+    assert cur.rowcount == 1
+    con.execute(sql("SESSION_REVOKE"), (h,))
+    # 회수된 세션은 연장되지 않는다 — 연장이 회수를 되돌리면 안 된다
+    cur = con.execute(sql("SESSION_RENEW"), (h, "2026-08-07T00:00:00Z"))
+    assert cur.rowcount == 0, "회수된 세션이 연장됨"
+
+
+check("연장은 살아 있는 세션에만 — 회수를 되돌리지 못한다", t_session_renew)
+
+
+def t_user_insert_and_count():
+    con = fresh()
+    assert con.execute(sql("USER_COUNT")).fetchone()[0] == 0, "마이그레이션에 계정이 심어져 있다"
+    con.execute(sql("USER_INSERT"), ("u1", "admin", "h", "s", 210000, "admin",
+                                     "2026-08-05T00:00:00Z"))
+    assert con.execute(sql("USER_COUNT")).fetchone()[0] == 1
+    # 부트스트랩은 계정이 0개일 때만 도는데, 대소문자만 바꾼 아이디도 막혀야
+    # 두 번째 계정이 우회로 들어오지 못한다
+    try:
+        con.execute(sql("USER_INSERT"), ("u2", "ADMIN", "h", "s", 210000, "admin", "t"))
+        raise AssertionError("대소문자만 다른 아이디가 통과함")
+    except sqlite3.IntegrityError:
+        pass
+
+
+check("USER_INSERT/USER_COUNT — 초기 계정 0건 · 아이디 대소문자 무시 유일성", t_user_insert_and_count)
+
+
+def t_user_select_lower():
+    con = fresh()
+    con.execute(sql("USER_INSERT"), ("u1", "admin", "h", "s", 210000, "admin", "t"))
+    # 로그인은 normalizeUsername 으로 소문자를 넘기지만, 조회 SQL 자체도
+    # lower() 로 맞춰 두 경로가 갈라지지 않게 한다
+    row = con.execute(sql("USER_SELECT"), ("admin",)).fetchone()
+    assert row is not None and row[1] == "admin", row
+    assert con.execute(sql("USER_SELECT"), ("nobody",)).fetchone() is None
+
+
+check("USER_SELECT — lower(username) 으로 찾는다", t_user_select_lower)
+
+
+def t_touch_login():
+    con = fresh()
+    con.execute(sql("USER_INSERT"), ("u1", "admin", "h", "s", 210000, "admin", "t"))
+    con.execute(sql("USER_TOUCH_LOGIN"), ("u1", "2026-08-05T09:00:00Z"))
+    v = con.execute("SELECT last_login_at FROM admin_users WHERE id='u1'").fetchone()[0]
+    assert v == "2026-08-05T09:00:00Z", v
+
+
+check("마지막 로그인 시각 기록", t_touch_login)
+
 
 print("\n%d passed, %d failed" % (passed, failed))
 sys.exit(1 if failed else 0)
