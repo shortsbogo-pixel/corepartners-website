@@ -1,0 +1,84 @@
+name: Cloudflare Proxy Production Promote
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/corepartners-proxy-production-promote.yml"
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_ACCOUNT_ID: "04753403d3299a1dd586273617329b63"
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      STABLE_VERSION: "464b7ae1-fb0c-40c7-9bc9-dd6a5fc7a3bc"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Upload immutable-origin proxy candidate
+        id: upload
+        working-directory: ops/corepartners-proxy-next
+        run: |
+          set -o pipefail
+          bunx wrangler versions upload --config wrangler.jsonc 2>&1 | tee /tmp/proxy-promote-upload.log
+          VERSION_ID=$(grep -Eo 'Worker Version ID: [0-9a-f-]+' /tmp/proxy-promote-upload.log | awk '{print $4}' | tail -1)
+          if [ -z "$VERSION_ID" ]; then
+            echo "::error::Could not parse candidate version ID"
+            exit 1
+          fi
+          echo "candidate=$VERSION_ID" >> "$GITHUB_OUTPUT"
+          echo "Candidate version: $VERSION_ID"
+
+      - name: Put candidate at zero traffic
+        run: |
+          bunx wrangler versions deploy "${STABLE_VERSION}@100%" "${{ steps.upload.outputs.candidate }}@0%" --name corepartners-proxy -y --message "SEO/GEO immutable-origin smoke candidate"
+
+      - name: Smoke candidate via version override
+        run: |
+          HEADER="Cloudflare-Workers-Version-Overrides: corepartners-proxy=\"${{ steps.upload.outputs.candidate }}\""
+          sleep 2
+          for PATHNAME in / /coupang-plus /center /rent /robots.txt /sitemap.xml /api/chat; do
+            CODE=$(curl -L -sS -H "$HEADER" -o /tmp/body -w "%{http_code}" "https://corepartners.kr$PATHNAME")
+            echo "$PATHNAME -> $CODE"
+            test "$CODE" = "200"
+          done
+          curl -fsSL -H "$HEADER" https://corepartners.kr/coupang-plus -o /tmp/coupang.html
+          grep -Fq "28만 2천원" /tmp/coupang.html
+          grep -Fq "해당 주 금요일에 지급" /tmp/coupang.html
+          curl -fsSL -H "$HEADER" https://corepartners.kr/rent -o /tmp/rent.html
+          grep -Fq "대전 배달 오토바이" /tmp/rent.html
+          curl -fsSL -H "$HEADER" https://corepartners.kr/robots.txt -o /tmp/robots.txt
+          grep -Fq "OAI-SearchBot" /tmp/robots.txt
+          curl -fsSL -H "$HEADER" https://corepartners.kr/api/chat -o /tmp/chat.json
+          grep -Fq '"enabled":true' /tmp/chat.json
+
+      - name: Promote candidate to 100 percent
+        run: |
+          bunx wrangler versions deploy "${{ steps.upload.outputs.candidate }}@100%" --name corepartners-proxy -y --message "SEO/GEO production promote after zero-traffic smoke"
+
+      - name: Verify production and rollback on failure
+        run: |
+          set +e
+          sleep 3
+          FAILED=0
+          for URL in https://corepartners.kr/ https://corepartners.kr/coupang-plus https://corepartners.kr/center https://corepartners.kr/rent https://corepartners.kr/robots.txt https://corepartners.kr/sitemap.xml https://corepartners.kr/api/chat; do
+            CODE=$(curl -L -sS -o /tmp/body -w "%{http_code}" "$URL")
+            echo "$URL -> $CODE"
+            if [ "$CODE" != "200" ]; then FAILED=1; fi
+          done
+          curl -fsSL https://corepartners.kr/coupang-plus -o /tmp/coupang-live.html || FAILED=1
+          grep -Fq "28만 2천원" /tmp/coupang-live.html || FAILED=1
+          curl -fsSL https://corepartners.kr/rent -o /tmp/rent-live.html || FAILED=1
+          grep -Fq "대전 배달 오토바이" /tmp/rent-live.html || FAILED=1
+          curl -fsSL https://corepartners.kr/robots.txt -o /tmp/robots-live.txt || FAILED=1
+          grep -Fq "OAI-SearchBot" /tmp/robots-live.txt || FAILED=1
+
+          if [ "$FAILED" -ne 0 ]; then
+            echo "::error::Production verification failed. Rolling back proxy."
+            bunx wrangler versions deploy "${STABLE_VERSION}@100%" --name corepartners-proxy -y --message "Automatic rollback after failed production verification"
+            exit 1
+          fi
+          echo "Production verification passed."
