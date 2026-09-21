@@ -1,0 +1,58 @@
+name: Cloudflare Docs Core Preview
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/docs-core-preview.yml"
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_ACCOUNT_ID: "04753403d3299a1dd586273617329b63"
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Typecheck
+        run: bun run typecheck
+      - name: Build
+        run: bun run build
+      - name: Upload preview version
+        id: upload
+        run: |
+          set -o pipefail
+          bunx wrangler versions upload --name corepartners --preview-alias docs-next --keep-vars 2>&1 | tee /tmp/docs-core.log
+          VERSION_ID=$(grep -Eo 'Worker Version ID: [0-9a-f-]+' /tmp/docs-core.log | awk '{print $4}' | tail -1)
+          PREVIEW_URL=$(grep -Eo 'https://docs-next-corepartners\.[a-z0-9-]+\.workers\.dev' /tmp/docs-core.log | tail -1)
+          test -n "$VERSION_ID"
+          test -n "$PREVIEW_URL"
+          echo "version_id=$VERSION_ID" >> "$GITHUB_OUTPUT"
+          echo "url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
+          echo "Version $VERSION_ID"
+          echo "Preview $PREVIEW_URL"
+      - name: Smoke test preview
+        run: |
+          URL="${{ steps.upload.outputs.url }}"
+          for PATHNAME in / /coupang-plus /center /rent /docs /llms.txt /robots.txt /sitemap.xml /api/chat; do
+            CODE=$(curl -L -sS -o /tmp/body -w "%{http_code}" "$URL$PATHNAME")
+            echo "$PATHNAME -> $CODE"
+            test "$CODE" = "200"
+          done
+          curl -fsSL "$URL/docs" -o /tmp/docs.html
+          grep -Fq "라이더 준비서류·등록 체크리스트" /tmp/docs.html
+          grep -Fq "본인 명의 통장 사본" /tmp/docs.html
+          grep -Fq '"FAQPage"' /tmp/docs.html
+          curl -fsSL "$URL/sitemap.xml" -o /tmp/sitemap.xml
+          grep -Fq "https://corepartners.kr/docs" /tmp/sitemap.xml
+          curl -fsSL "$URL/coupang-plus" -o /tmp/coupang.html
+          grep -Fq 'href="/docs"' /tmp/coupang.html
+          curl -fsSL "$URL/api/chat" -o /tmp/chat.json
+          grep -Fq '"enabled":true' /tmp/chat.json
