@@ -1,0 +1,31 @@
+name: Cloudflare Emergency Route Restore
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/emergency-cloudflare-route-restore.yml"
+
+jobs:
+  restore-routes:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_ACCOUNT_ID: "04753403d3299a1dd586273617329b63"
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Restore routes
+        run: bunx wrangler triggers deploy --name corepartners
+      - name: Verify site
+        run: |
+          sleep 3
+          for URL in https://corepartners.kr/ https://corepartners.kr/coupang-plus https://corepartners.kr/center https://corepartners.kr/robots.txt https://corepartners.kr/sitemap.xml; do
+            CODE=$(curl -L -sS -o /tmp/body -w "%{http_code}" "$URL")
+            echo "$URL -> $CODE"
+            test "$CODE" = "200"
+          done
