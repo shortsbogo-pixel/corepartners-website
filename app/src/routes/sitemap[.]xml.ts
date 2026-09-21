@@ -6,6 +6,7 @@ const SITE = 'https://corepartners.kr'
 const PAGES: Array<{ path: string; priority: string; changefreq: string }> = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
   { path: '/coupang-plus', priority: '0.9', changefreq: 'weekly' },
+  { path: '/rent', priority: '0.85', changefreq: 'monthly' },
   { path: '/center', priority: '0.8', changefreq: 'monthly' },
   { path: '/about', priority: '0.6', changefreq: 'monthly' },
   { path: '/privacy', priority: '0.3', changefreq: 'yearly' },

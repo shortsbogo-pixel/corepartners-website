@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as RentRouteImport } from './routes/rent'
 import { Route as PromoMetaRouteImport } from './routes/promo-meta'
 import { Route as PromoBannerRouteImport } from './routes/promo-banner'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -33,6 +34,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
   id: '/robots.txt',
   path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RentRoute = RentRouteImport.update({
+  id: '/rent',
+  path: '/rent',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PromoMetaRoute = PromoMetaRouteImport.update({
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/promo-banner': typeof PromoBannerRoute
   '/promo-meta': typeof PromoMetaRoute
+  '/rent': typeof RentRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/apply': typeof ApiApplyRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/promo-banner': typeof PromoBannerRoute
   '/promo-meta': typeof PromoMetaRoute
+  '/rent': typeof RentRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/apply': typeof ApiApplyRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/promo-banner': typeof PromoBannerRoute
   '/promo-meta': typeof PromoMetaRoute
+  '/rent': typeof RentRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/apply': typeof ApiApplyRoute
@@ -166,6 +175,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/promo-banner'
     | '/promo-meta'
+    | '/rent'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/api/apply'
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/promo-banner'
     | '/promo-meta'
+    | '/rent'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/api/apply'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/promo-banner'
     | '/promo-meta'
+    | '/rent'
     | '/robots.txt'
     | '/sitemap.xml'
     | '/api/apply'
@@ -218,6 +230,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   PromoBannerRoute: typeof PromoBannerRoute
   PromoMetaRoute: typeof PromoMetaRoute
+  RentRoute: typeof RentRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiApplyRoute: typeof ApiApplyRoute
@@ -239,6 +252,13 @@ declare module '@tanstack/react-router' {
       path: '/robots.txt'
       fullPath: '/robots.txt'
       preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rent': {
+      id: '/rent'
+      path: '/rent'
+      fullPath: '/rent'
+      preLoaderRoute: typeof RentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/promo-meta': {
@@ -346,6 +366,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   PromoBannerRoute: PromoBannerRoute,
   PromoMetaRoute: PromoMetaRoute,
+  RentRoute: RentRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiApplyRoute: ApiApplyRoute,
