@@ -1,16 +1,13 @@
 name: Cloudflare Preview Deploy
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - ".github/workflows/deploy-preview.yml"
   workflow_dispatch:
 
 jobs:
   deploy-preview:
     runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_ACCOUNT_ID: "04753403d3299a1dd586273617329b63"
     defaults:
       run:
         working-directory: app
@@ -37,7 +34,31 @@ jobs:
             exit 1
           fi
 
-      - name: Deploy preview worker
+      - name: Upload preview version
+        id: upload
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: bunx wrangler deploy --name corepartners-preview
+        run: |
+          set -o pipefail
+          bunx wrangler versions upload --name corepartners --preview-alias staging --keep-vars 2>&1 | tee /tmp/wrangler-preview.log
+          PREVIEW_URL=$(grep -Eo 'https://[a-z0-9-]+-corepartners\.[a-z0-9-]+\.workers\.dev' /tmp/wrangler-preview.log | tail -1 || true)
+          if [ -z "$PREVIEW_URL" ]; then
+            echo "::error::Preview URL was not found in Wrangler output"
+            cat /tmp/wrangler-preview.log
+            exit 1
+          fi
+          echo "url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
+          echo "Preview URL: $PREVIEW_URL"
+
+      - name: Smoke test preview
+        run: |
+          URL="${{ steps.upload.outputs.url }}"
+          for PATHNAME in / /coupang-plus /center /rent /robots.txt /sitemap.xml; do
+            CODE=$(curl -L -sS -o /tmp/body -w "%{http_code}" "$URL$PATHNAME")
+            echo "$PATHNAME -> $CODE"
+            test "$CODE" = "200"
+          done
+          curl -fsSL "$URL/coupang-plus" | grep -q "28만 2천원"
+          curl -fsSL "$URL/coupang-plus" | grep -q "해당 주 금요일에 지급"
+          curl -fsSL "$URL/rent" | grep -q "대전 배달 오토바이"
+          curl -fsSL "$URL/robots.txt" | grep -q "OAI-SearchBot"
