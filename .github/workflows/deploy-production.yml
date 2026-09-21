@@ -6,6 +6,8 @@ on:
 jobs:
   deploy-production:
     runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_ACCOUNT_ID: "04753403d3299a1dd586273617329b63"
     defaults:
       run:
         working-directory: app
@@ -32,7 +34,25 @@ jobs:
             exit 1
           fi
 
-      - name: Deploy production worker
+      - name: Verify existing Worker
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: bunx wrangler deploy --name corepartners-proxy --keep-vars
+        run: |
+          bunx wrangler deployments list --name corepartners >/tmp/deployments.txt
+          test -s /tmp/deployments.txt
+
+      - name: Deploy production version
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: bunx wrangler deploy --name corepartners --keep-vars
+
+      - name: Smoke test production
+        run: |
+          for URL in https://corepartners.kr/ https://corepartners.kr/coupang-plus https://corepartners.kr/center https://corepartners.kr/rent https://corepartners.kr/robots.txt https://corepartners.kr/sitemap.xml; do
+            CODE=$(curl -L -sS -o /tmp/body -w "%{http_code}" "$URL")
+            echo "$URL -> $CODE"
+            test "$CODE" = "200"
+          done
+          curl -fsSL https://corepartners.kr/coupang-plus | grep -q "28만 2천원"
+          curl -fsSL https://corepartners.kr/rent | grep -q "대전 배달 오토바이"
+          curl -fsSL https://corepartners.kr/robots.txt | grep -q "OAI-SearchBot"
