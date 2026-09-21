@@ -18,6 +18,7 @@ import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as MissionDataRouteImport } from './routes/mission-data'
 import { Route as MissionRouteImport } from './routes/mission'
 import { Route as LlmsDottxtRouteImport } from './routes/llms[.]txt'
+import { Route as DocsRouteImport } from './routes/docs'
 import { Route as CoupangPlusRouteImport } from './routes/coupang-plus'
 import { Route as CenterRouteImport } from './routes/center'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -72,6 +73,11 @@ const LlmsDottxtRoute = LlmsDottxtRouteImport.update({
   path: '/llms.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoupangPlusRoute = CoupangPlusRouteImport.update({
   id: '/coupang-plus',
   path: '/coupang-plus',
@@ -119,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/center': typeof CenterRoute
   '/coupang-plus': typeof CoupangPlusRoute
+  '/docs': typeof DocsRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/mission': typeof MissionRoute
   '/mission-data': typeof MissionDataRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/center': typeof CenterRoute
   '/coupang-plus': typeof CoupangPlusRoute
+  '/docs': typeof DocsRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/mission': typeof MissionRoute
   '/mission-data': typeof MissionDataRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/center': typeof CenterRoute
   '/coupang-plus': typeof CoupangPlusRoute
+  '/docs': typeof DocsRoute
   '/llms.txt': typeof LlmsDottxtRoute
   '/mission': typeof MissionRoute
   '/mission-data': typeof MissionDataRoute
@@ -179,6 +188,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/center'
     | '/coupang-plus'
+    | '/docs'
     | '/llms.txt'
     | '/mission'
     | '/mission-data'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/center'
     | '/coupang-plus'
+    | '/docs'
     | '/llms.txt'
     | '/mission'
     | '/mission-data'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/center'
     | '/coupang-plus'
+    | '/docs'
     | '/llms.txt'
     | '/mission'
     | '/mission-data'
@@ -237,6 +249,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   CenterRoute: typeof CenterRoute
   CoupangPlusRoute: typeof CoupangPlusRoute
+  DocsRoute: typeof DocsRoute
   LlmsDottxtRoute: typeof LlmsDottxtRoute
   MissionRoute: typeof MissionRoute
   MissionDataRoute: typeof MissionDataRoute
@@ -316,6 +329,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LlmsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/coupang-plus': {
       id: '/coupang-plus'
       path: '/coupang-plus'
@@ -381,6 +401,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   CenterRoute: CenterRoute,
   CoupangPlusRoute: CoupangPlusRoute,
+  DocsRoute: DocsRoute,
   LlmsDottxtRoute: LlmsDottxtRoute,
   MissionRoute: MissionRoute,
   MissionDataRoute: MissionDataRoute,
