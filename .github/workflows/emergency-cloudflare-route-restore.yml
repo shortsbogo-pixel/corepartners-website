@@ -20,6 +20,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Build
+        run: bun run build
       - name: Restore routes
         run: bunx wrangler triggers deploy --name corepartners
       - name: Verify site
