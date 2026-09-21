@@ -1,6 +1,11 @@
 name: Cloudflare Production Deploy
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/deploy-production.yml"
   workflow_dispatch:
 
 jobs:
