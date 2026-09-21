@@ -27,6 +27,7 @@
   "compatibility_date": "2025-05-01",
   "compatibility_flags": ["nodejs_compat"],
   "observability": { "enabled": true },
+  "workers_dev": false,
 
   // SSR asset routing: static files in dist/client serve directly (asset-first);
   // any non-asset path — incl. "/" — falls through to the SSR Worker (no
