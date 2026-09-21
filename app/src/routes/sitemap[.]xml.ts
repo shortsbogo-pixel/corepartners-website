@@ -8,6 +8,7 @@ const PAGES: Array<{ path: string; priority: string; changefreq: string }> = [
   { path: '/coupang-plus', priority: '0.9', changefreq: 'weekly' },
   { path: '/center', priority: '0.8', changefreq: 'monthly' },
   { path: '/about', priority: '0.6', changefreq: 'monthly' },
+  { path: '/privacy', priority: '0.3', changefreq: 'yearly' },
 ]
 
 export const Route = createFileRoute('/sitemap.xml')({
