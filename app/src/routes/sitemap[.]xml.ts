@@ -8,6 +8,7 @@ const PAGES: Array<{ path: string; priority: string; changefreq: string; lastmod
   { path: '/coupang-plus', priority: '0.9', changefreq: 'weekly', lastmod: '2026-09-21' },
   { path: '/rent', priority: '0.85', changefreq: 'monthly', lastmod: '2026-09-21' },
   { path: '/docs', priority: '0.8', changefreq: 'monthly', lastmod: '2026-09-21' },
+  { path: '/store', priority: '0.8', changefreq: 'monthly', lastmod: '2026-09-21' },
   { path: '/center', priority: '0.8', changefreq: 'monthly', lastmod: '2026-09-21' },
   { path: '/about', priority: '0.6', changefreq: 'monthly', lastmod: '2026-08-02' },
   { path: '/privacy', priority: '0.3', changefreq: 'yearly', lastmod: '2026-07-30' },

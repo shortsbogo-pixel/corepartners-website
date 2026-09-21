@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StoreRouteImport } from './routes/store'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as RentRouteImport } from './routes/rent'
@@ -28,6 +29,11 @@ import { Route as ApiPromoUploadRouteImport } from './routes/api/promo-upload'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ApiApplyRouteImport } from './routes/api/apply'
 
+const StoreRoute = StoreRouteImport.update({
+  id: '/store',
+  path: '/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/rent': typeof RentRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/store': typeof StoreRoute
   '/api/apply': typeof ApiApplyRoute
   '/api/chat': typeof ApiChatRoute
   '/api/promo-upload': typeof ApiPromoUploadRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByTo {
   '/rent': typeof RentRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/store': typeof StoreRoute
   '/api/apply': typeof ApiApplyRoute
   '/api/chat': typeof ApiChatRoute
   '/api/promo-upload': typeof ApiPromoUploadRoute
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   '/rent': typeof RentRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/store': typeof StoreRoute
   '/api/apply': typeof ApiApplyRoute
   '/api/chat': typeof ApiChatRoute
   '/api/promo-upload': typeof ApiPromoUploadRoute
@@ -198,6 +207,7 @@ export interface FileRouteTypes {
     | '/rent'
     | '/robots.txt'
     | '/sitemap.xml'
+    | '/store'
     | '/api/apply'
     | '/api/chat'
     | '/api/promo-upload'
@@ -218,6 +228,7 @@ export interface FileRouteTypes {
     | '/rent'
     | '/robots.txt'
     | '/sitemap.xml'
+    | '/store'
     | '/api/apply'
     | '/api/chat'
     | '/api/promo-upload'
@@ -238,6 +249,7 @@ export interface FileRouteTypes {
     | '/rent'
     | '/robots.txt'
     | '/sitemap.xml'
+    | '/store'
     | '/api/apply'
     | '/api/chat'
     | '/api/promo-upload'
@@ -259,6 +271,7 @@ export interface RootRouteChildren {
   RentRoute: typeof RentRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  StoreRoute: typeof StoreRoute
   ApiApplyRoute: typeof ApiApplyRoute
   ApiChatRoute: typeof ApiChatRoute
   ApiPromoUploadRoute: typeof ApiPromoUploadRoute
@@ -266,6 +279,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/store': {
+      id: '/store'
+      path: '/store'
+      fullPath: '/store'
+      preLoaderRoute: typeof StoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -411,6 +431,7 @@ const rootRouteChildren: RootRouteChildren = {
   RentRoute: RentRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  StoreRoute: StoreRoute,
   ApiApplyRoute: ApiApplyRoute,
   ApiChatRoute: ApiChatRoute,
   ApiPromoUploadRoute: ApiPromoUploadRoute,

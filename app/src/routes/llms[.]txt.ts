@@ -36,6 +36,11 @@ KRW 1.5 million per week is an example of combined delivery fees and mission rew
 It is not a guaranteed income amount.
 Actual income varies by working hours, completed deliveries, dispatch conditions, service area and mission participation.
 
+## Store delivery agency
+Store page: https://corepartners.kr/store
+CORE PARTNERS operates Barogo B2B and Kkorureuk delivery agency services for stores and merchants in Daejeon.
+Pricing and service conditions are provided after consultation; no fixed public fee table is currently published.
+
 ## Motorcycle rental and maintenance
 Rental page: https://corepartners.kr/rent
 Center page: https://corepartners.kr/center
@@ -60,6 +65,7 @@ Main phone: 042-672-0901
 ## Canonical URLs
 - Home: https://corepartners.kr/
 - Rider recruitment: https://corepartners.kr/coupang-plus
+- Store delivery agency: https://corepartners.kr/store
 - Motorcycle rental: https://corepartners.kr/rent
 - Motorcycle centers: https://corepartners.kr/center
 - About: https://corepartners.kr/about
