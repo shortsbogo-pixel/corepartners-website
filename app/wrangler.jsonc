@@ -29,10 +29,6 @@
   "observability": { "enabled": true },
   "workers_dev": false,
   "preview_urls": true,
-  "routes": [
-    { "pattern": "corepartners.kr/*", "zone_name": "corepartners.kr" },
-    { "pattern": "www.corepartners.kr/*", "zone_name": "corepartners.kr" }
-  ],
 
   // SSR asset routing: static files in dist/client serve directly (asset-first);
   // any non-asset path — incl. "/" — falls through to the SSR Worker (no
