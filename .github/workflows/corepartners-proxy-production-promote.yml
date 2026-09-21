@@ -1,11 +1,6 @@
 name: Cloudflare Proxy Production Promote
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - ".github/workflows/corepartners-proxy-production-promote.yml"
   workflow_dispatch:
 
 jobs:
@@ -14,7 +9,7 @@ jobs:
     env:
       CLOUDFLARE_ACCOUNT_ID: "04753403d3299a1dd586273617329b63"
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      STABLE_VERSION: "2e70380b-3c07-4d2b-aa90-1bb0592a888f"
+      STABLE_VERSION: "2a4e8b21-65e3-42a9-a99a-309bb9d174ca"
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
