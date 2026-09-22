@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { bindings } from "../../lib/bindings.server";
 import { CHAT_MODEL, MAX_TOKENS, SYSTEM_PROMPT } from "../../lib/chatbot.server";
+import { missionKnowledgeKo } from "../../lib/mission-config";
+import { loadMissionConfig } from "../../lib/mission-config.server";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -126,8 +128,18 @@ async function log(session: string, role: string, topic: string, flagged: number
     const db = bindings().DB;
     if (!db) return;
     await db
-      .prepare("INSERT INTO chat_logs (id, session, role, topic, flagged, content, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)")
-      .bind(crypto.randomUUID(), session, role, topic, flagged, mask(content).slice(0, 800), new Date(Date.now() + 9 * 3600 * 1000).toISOString().replace("Z", "+09:00"))
+      .prepare(
+        "INSERT INTO chat_logs (id, session, role, topic, flagged, content, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      )
+      .bind(
+        crypto.randomUUID(),
+        session,
+        role,
+        topic,
+        flagged,
+        mask(content).slice(0, 800),
+        new Date(Date.now() + 9 * 3600 * 1000).toISOString().replace("Z", "+09:00"),
+      )
       .run();
   } catch {
     // logging is best-effort
@@ -144,7 +156,10 @@ export const Route = createFileRoute("/api/chat")({
       POST: async ({ request }) => {
         const env = bindings() as unknown as { ANTHROPIC_API_KEY?: string };
         if (!env.ANTHROPIC_API_KEY) {
-          return Response.json({ reply: "상담봇 준비 중입니다. 042-672-0901로 문의해 주세요." }, { status: 503 });
+          return Response.json(
+            { reply: "상담봇 준비 중입니다. 042-672-0901로 문의해 주세요." },
+            { status: 503 },
+          );
         }
         const ip = request.headers.get("cf-connecting-ip") ?? "unknown";
         if (await rateLimited(ip)) {
@@ -154,7 +169,8 @@ export const Route = createFileRoute("/api/chat")({
         }
         if (await dailyCapped()) {
           return Response.json({
-            reply: "오늘 AI 상담이 몰려 잠시 쉬어갑니다. 042-672-0901(평일 10:30~18:00)로 전화 주시면 바로 도와드립니다. {{CALL}}",
+            reply:
+              "오늘 AI 상담이 몰려 잠시 쉬어갑니다. 042-672-0901(평일 10:30~18:00)로 전화 주시면 바로 도와드립니다. {{CALL}}",
           });
         }
         let body: { messages?: Msg[]; session?: string };
@@ -163,19 +179,30 @@ export const Route = createFileRoute("/api/chat")({
         } catch {
           return Response.json({ reply: "요청 형식이 올바르지 않습니다." }, { status: 400 });
         }
-        const session = String(body.session ?? "").replace(/[^a-z0-9]/gi, "").slice(0, 24) || "anon";
+        const session =
+          String(body.session ?? "")
+            .replace(/[^a-z0-9]/gi, "")
+            .slice(0, 24) || "anon";
         const raw = Array.isArray(body.messages) ? body.messages : [];
         const messages: Msg[] = raw
-          .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
+          .filter(
+            (m) =>
+              m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string",
+          )
           .slice(-12)
           .map((m) => ({ role: m.role, content: m.content.slice(0, 1200) }));
         if (messages.length === 0 || messages[messages.length - 1].role !== "user") {
-          return Response.json({ reply: "무엇이 궁금하신가요? 미션, 수익, 렌트, 지원 절차 모두 물어보세요." });
+          return Response.json({
+            reply: "무엇이 궁금하신가요? 미션, 수익, 렌트, 지원 절차 모두 물어보세요.",
+          });
         }
         const userMsg = messages[messages.length - 1].content;
         const topic = topicOf(userMsg);
         await log(session, "user", topic, 0, userMsg);
         await purgeOldLogs();
+        // 미션 조건은 관리자 저장값(없으면 기본값)으로 매 요청 채운다 — 페이지와 챗봇이 같은 조건을 말하도록
+        const { config: missionConfig } = await loadMissionConfig();
+        const system = SYSTEM_PROMPT.replace("{{MISSIONS}}", missionKnowledgeKo(missionConfig));
         try {
           const res = await fetch("https://api.anthropic.com/v1/messages", {
             method: "POST",
@@ -187,13 +214,14 @@ export const Route = createFileRoute("/api/chat")({
             body: JSON.stringify({
               model: CHAT_MODEL,
               max_tokens: MAX_TOKENS,
-              system: SYSTEM_PROMPT,
+              system,
               messages,
             }),
           });
           if (!res.ok) {
             return Response.json({
-              reply: "지금 상담봇 연결이 원활하지 않아요. 042-672-0901로 전화 주시면 바로 도와드립니다.",
+              reply:
+                "지금 상담봇 연결이 원활하지 않아요. 042-672-0901로 전화 주시면 바로 도와드립니다.",
             });
           }
           const data = (await res.json()) as { content?: Array<{ type: string; text?: string }> };
@@ -204,12 +232,22 @@ export const Route = createFileRoute("/api/chat")({
               .join("\n")
               .trim() || "죄송해요, 다시 한 번 여쭤봐 주시겠어요?";
           const clean = plain(reply);
-          const flagged = /042-672-0901/.test(reply) && /(문의해 주세요|전화 주세요|전화로 확인)/.test(reply) ? 1 : 0;
-          await log(session, "assistant", topic, flagged, clean.replace(/\{\{(APPLY|CALL)\}\}/g, ""));
+          const flagged =
+            /042-672-0901/.test(reply) && /(문의해 주세요|전화 주세요|전화로 확인)/.test(reply)
+              ? 1
+              : 0;
+          await log(
+            session,
+            "assistant",
+            topic,
+            flagged,
+            clean.replace(/\{\{(APPLY|CALL)\}\}/g, ""),
+          );
           return Response.json({ reply: clean });
         } catch {
           return Response.json({
-            reply: "지금 상담봇 연결이 원활하지 않아요. 042-672-0901로 전화 주시면 바로 도와드립니다.",
+            reply:
+              "지금 상담봇 연결이 원활하지 않아요. 042-672-0901로 전화 주시면 바로 도와드립니다.",
           });
         }
       },

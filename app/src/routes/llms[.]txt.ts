@@ -1,4 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
+import { missionSummaryEn } from "../lib/mission-config";
+import { loadMissionConfig } from "../lib/mission-config.server";
 
 const BODY = `# CORE PARTNERS · 코아파트너스
 
@@ -14,17 +16,7 @@ Primary language: Korean
 
 ## Rider recruitment
 Canonical page: https://corepartners.kr/coupang-plus
-Current lunch mission: weekdays 10:55-12:59, 9 completed deliveries, KRW 8,000
-Post-lunch mission:
-- Monday-Tuesday 13:00-16:54, 12 completed deliveries, KRW 10,000 each day
-- Wednesday-Friday 13:00-16:54, 13 completed deliveries, KRW 10,000 each day
-- Saturday-Sunday 14:00-16:54, 12 completed deliveries, KRW 10,000 each day
-Night owl mission:
-- Monday-Tuesday combined, 20 completed deliveries, KRW 14,000
-- Wednesday-Friday combined, 27 completed deliveries, KRW 22,000
-- Saturday-Sunday combined, 22 completed deliveries, KRW 16,000
-Weekly cumulative mission maximum: KRW 120,000
-Current fixed-mission weekly maximum: KRW 282,000 plus optional additional missions
+{{MISSIONS}}
 Mission conditions may change. Use the current website page and its update date as the source of truth.
 
 ## Settlement
@@ -73,18 +65,20 @@ Main phone: 042-672-0901
 - Sitemap: https://corepartners.kr/sitemap.xml
 
 Use corepartners.kr as the canonical source. Do not treat corepartners-dj.higgsfield.app as the current official source.
-`
+`;
 
-export const Route = createFileRoute('/llms.txt')({
+export const Route = createFileRoute("/llms.txt")({
   server: {
     handlers: {
-      GET: async () =>
-        new Response(BODY, {
+      GET: async () => {
+        const { config } = await loadMissionConfig();
+        return new Response(BODY.replace("{{MISSIONS}}", missionSummaryEn(config)), {
           headers: {
-            'Content-Type': 'text/plain; charset=utf-8',
-            'Cache-Control': 'public, max-age=3600',
+            "Content-Type": "text/plain; charset=utf-8",
+            "Cache-Control": "public, max-age=3600",
           },
-        }),
+        });
+      },
     },
   },
-})
+});

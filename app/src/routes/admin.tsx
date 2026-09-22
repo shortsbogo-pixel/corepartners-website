@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { bindings } from "../lib/bindings.server";
+import { loadMissionConfig } from "../lib/mission-config.server";
 
 function esc(v: unknown): string {
   return String(v ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -273,6 +274,49 @@ export const Route = createFileRoute("/admin")({
         const chatTrs = chatRows
           .map((r) => `<tr class="${r.role === 'user' ? 'cu' : ''}${r.flagged ? ' cf' : ''}"><td>${esc(String(r.created_at ?? '').slice(5, 16).replace('T', ' '))}</td><td>${r.role === 'user' ? '👤 질문' : '🤖 답변'}</td><td>${esc(r.topic ?? '-')}</td><td>${r.flagged ? '📞 전화 안내' : ''}</td><td class="cc">${esc(r.content)}</td></tr>`)
           .join("");
+        // ── 이번 주 미션 업데이트(배너 + 주차·기간 + 미션 조건)
+        const {
+          config: mcConfig,
+          source: mcSource,
+          savedAt: mcSavedAt,
+        } = await loadMissionConfig();
+        let promoMeta: { label?: string; start?: string; end?: string } = {};
+        try {
+          const pm = await bindings().STORAGE?.get("promo-meta");
+          if (pm) promoMeta = (await pm.json()) as typeof promoMeta;
+        } catch {
+          /* 메타 없음 */
+        }
+        const endDate = String(promoMeta.end ?? "").slice(0, 10);
+        const mcData = JSON.stringify({
+          config: mcConfig,
+          extractUrl: `/api/promo-extract?key=${encodeURIComponent(key)}`,
+        }).replace(/</g, "\\u003c");
+        const promoBoxHtml = `<div class="promo-box">
+<h2>📢 이번 주 쿠팡플러스 미션 업데이트</h2>
+<p class="c">${url.searchParams.get("promo") === "ok" ? '<b style="color:#5ff0b0">✔ 저장되었습니다. 사이트·챗봇에 즉시 반영됩니다.</b>' : "배너 이미지를 고르고 <b>🤖 AI로 배너 읽기</b>를 누르면 아래 표가 자동으로 채워집니다. 배너와 대조해 고친 뒤 저장하면 이번주 쿠팡플러스미션 페이지(배너·시간표·미션 카드·주간 누적·합계·FAQ)와 AI 상담 챗봇에 반영됩니다."}</p>
+<p class="c" style="font-size:12px">현재 미션 조건: ${mcSource === "saved" ? `관리자 저장값 (${esc(kst(mcSavedAt))} 저장)` : "기본값(2026.09.23 배너 기준) — 아직 관리자 저장 이력 없음"}</p>
+<form id="mcForm" method="post" enctype="multipart/form-data" action="/api/promo-upload?key=${encodeURIComponent(key)}">
+<div class="mc-row">
+<label class="c">배너 이미지 <input type="file" name="banner" id="mcBanner" accept="image/webp,image/png,image/jpeg"></label>
+<button type="button" id="mcAi" class="mc-ai-btn">🤖 AI로 배너 읽어 조건 채우기</button>
+<span id="mcAiMsg" class="c"></span>
+</div>
+<div class="mc-row">
+<input type="text" name="label" value="${esc(promoMeta.label ?? "")}" placeholder="주차 라벨 (예: 2026년 9월 4주차)" maxlength="60" class="mc-in" style="flex:1;min-width:220px">
+<label class="c">시작 <input type="date" name="start" value="${esc(promoMeta.start ?? "")}" class="mc-in"></label>
+<label class="c">종료 <input type="date" name="end" value="${esc(endDate)}" class="mc-in"></label>
+</div>
+<div id="mcEditor"></div>
+<input type="hidden" name="missions_json" id="mcJson">
+<label class="mc-confirm"><input type="checkbox" name="confirm" value="1" id="mcConfirm"> 배너와 미션 조건(건수·금액·시간)을 대조해 확인했습니다. 저장하면 사이트와 챗봇에 그대로 게시됩니다.</label>
+<div class="mc-row"><button type="submit">저장하기</button><span id="mcSaveMsg" class="c" style="white-space:pre-line"></span></div>
+</form>
+<p class="c">현재 배너 미리보기:</p>
+<img class="promo-prev" src="/promo-banner?t=${Date.now()}" alt="현재 프로모션 배너">
+</div>
+<script type="application/json" id="mcData">${mcData}</script>
+<script src="/assets/admin-mission.js?v=1"></script>`;
         const html = `<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>지원·문의 접수 관리 · 코아파트너스</title><style>
 body{font-family:system-ui,'Malgun Gothic',sans-serif;background:#0b1a38;color:#eef3fc;margin:0;padding:22px}
 h1{font-size:20px;margin:0 0 4px}
@@ -319,6 +363,26 @@ tr.st-hold td:first-child{border-left:3px solid #8b9cbe}
 .promo-box input[type=file]{font-size:13px;color:#c5d5ef}
 .promo-box button{font-size:13px;font-weight:800;color:#0a1730;background:linear-gradient(135deg,#fde68a,#fbbf24);border:none;padding:10px 16px;border-radius:9px;cursor:pointer}
 .promo-prev{max-width:260px;border-radius:9px;border:1px solid #26436f;display:block}
+.promo-box form{display:block}
+.mc-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0}
+.mc-in,.mc-block input[type=text],.mc-block input[type=time],.mc-block select{background:#0f2244;border:1px solid #26436f;border-radius:8px;color:#e8f0ff;padding:7px 9px;font-size:13px;font-family:inherit}
+.mc-ai-btn{background:linear-gradient(135deg,#a5f3fc,#38bdf8)!important}
+#mcEditor{margin:10px 0}
+#mcEditor.ai .mc-block{border-color:#fbbf24}
+.mc-ai{background:#3b2f0b;border:1px solid #fbbf24;color:#fde68a;border-radius:9px;padding:9px 12px;font-size:13px;margin:0 0 10px}
+.mc-block{background:#0f2244;border:1px solid #26436f;border-radius:10px;padding:12px 14px;margin:0 0 10px}
+.mc-h{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.mc-t{width:auto;font-size:12.5px;margin:4px 0}
+.mc-t th{position:static;background:#152a4e}
+.mc-t td,.mc-t th{padding:6px 8px}
+.mc-days label{margin-right:6px;white-space:nowrap;font-size:12.5px}
+.mc-f{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.mc-sum{margin-left:auto;color:#fde68a;font-size:13px}
+.mc-grid{display:flex;flex-direction:column;gap:8px;font-size:13px}
+.promo-box .mc-x{background:transparent!important;border:1px solid #7f3550!important;color:#f0a0b4!important;padding:5px 9px!important;font-size:12px!important}
+.promo-box .mc-add{background:#1d3a6b!important;color:#c5d5ef!important;padding:6px 11px!important;font-size:12px!important}
+.mc-total{font-size:15px;font-weight:800;color:#fde68a;margin:10px 0 4px}
+.mc-confirm{display:block;margin:10px 0;font-size:13px;color:#fde68a}
 .ct{display:inline-block;background:#0f2244;border:1px solid #26436f;border-radius:999px;padding:6px 12px;margin:0 6px 6px 0;font-size:12.5px;color:#c5d5ef;text-decoration:none}
 .ct b{color:#fde68a}
 .ct:hover{background:#173a6e}
@@ -334,19 +398,7 @@ td.cc{max-width:520px;word-break:break-all;color:#c5d5ef;font-size:12px}
 </style></head><body>
 <h1>🛵 지원·문의 접수 관리</h1>
 <p class="c">최근순 · 최대 1,000건 · 시각은 한국시간(KST) · 상태와 메모는 저장 버튼을 눌러야 반영됩니다 · CSV에는 개인정보가 그대로 담기니 내려받은 파일은 따로 관리하세요</p>
-<div class="promo-box">
-<h2>📢 이번주 쿠팡플러스미션 배너 교체</h2>
-<p class="c">${url.searchParams.get("promo") === "ok" ? '<b style="color:#5ff0b0">✔ 배너가 교체되었습니다. 사이트에 즉시 반영됩니다.</b>' : "webp / png / jpg · 최대 5MB · 주차 라벨과 적용 기간(시작·종료일)을 함께 입력하면 페이지의 기간 표시도 같이 갱신됩니다."}</p>
-<form method="post" enctype="multipart/form-data" action="/api/promo-upload?key=${encodeURIComponent(key)}">
-<input type="file" name="banner" accept="image/webp,image/png,image/jpeg" required>
-<input type="text" name="label" placeholder="주차 라벨 (예: 2026년 7월 5주차 프로모션)" maxlength="60" style="flex:1;min-width:240px;background:#0f2244;border:1px solid #26436f;border-radius:8px;color:#e8f0ff;padding:9px 11px;font-size:13px">
-<label style="font-size:12px;color:#8fa3c8">시작 <input type="date" name="start" style="background:#0f2244;border:1px solid #26436f;border-radius:8px;color:#e8f0ff;padding:8px;font-size:13px"></label>
-<label style="font-size:12px;color:#8fa3c8">종료 <input type="date" name="end" style="background:#0f2244;border:1px solid #26436f;border-radius:8px;color:#e8f0ff;padding:8px;font-size:13px"></label>
-<button type="submit">배너 업로드</button>
-</form>
-<p class="c">현재 배너 미리보기:</p>
-<img class="promo-prev" src="/promo-banner?t=${Date.now()}" alt="현재 프로모션 배너">
-</div>
+${promoBoxHtml}
 <div class="bar">
 ${tab("all", "전체", cAll)}
 ${tab("rider", "라이더지원", cRider)}

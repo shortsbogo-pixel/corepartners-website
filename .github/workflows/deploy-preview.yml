@@ -63,7 +63,7 @@ jobs:
             echo "$PATHNAME -> $CODE"
             test "$CODE" = "200"
           done
-          curl -fsSL "$URL/coupang-plus" | grep -q "28만 2천원"
+          curl -fsSL "$URL/coupang-plus" | grep -q "주간 미션 최대"
           curl -fsSL "$URL/coupang-plus" | grep -q "해당 주 금요일에 지급"
           curl -fsSL "$URL/rent" | grep -q "대전 배달 오토바이"
           curl -fsSL "$URL/robots.txt" | grep -q "OAI-SearchBot"

@@ -26,6 +26,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPromoUploadRouteImport } from './routes/api/promo-upload'
+import { Route as ApiPromoExtractRouteImport } from './routes/api/promo-extract'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ApiApplyRouteImport } from './routes/api/apply'
 
@@ -114,6 +115,11 @@ const ApiPromoUploadRoute = ApiPromoUploadRouteImport.update({
   path: '/api/promo-upload',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPromoExtractRoute = ApiPromoExtractRouteImport.update({
+  id: '/api/promo-extract',
+  path: '/api/promo-extract',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -144,6 +150,7 @@ export interface FileRoutesByFullPath {
   '/store': typeof StoreRoute
   '/api/apply': typeof ApiApplyRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/promo-extract': typeof ApiPromoExtractRoute
   '/api/promo-upload': typeof ApiPromoUploadRoute
 }
 export interface FileRoutesByTo {
@@ -165,6 +172,7 @@ export interface FileRoutesByTo {
   '/store': typeof StoreRoute
   '/api/apply': typeof ApiApplyRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/promo-extract': typeof ApiPromoExtractRoute
   '/api/promo-upload': typeof ApiPromoUploadRoute
 }
 export interface FileRoutesById {
@@ -187,6 +195,7 @@ export interface FileRoutesById {
   '/store': typeof StoreRoute
   '/api/apply': typeof ApiApplyRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/promo-extract': typeof ApiPromoExtractRoute
   '/api/promo-upload': typeof ApiPromoUploadRoute
 }
 export interface FileRouteTypes {
@@ -210,6 +219,7 @@ export interface FileRouteTypes {
     | '/store'
     | '/api/apply'
     | '/api/chat'
+    | '/api/promo-extract'
     | '/api/promo-upload'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -231,6 +241,7 @@ export interface FileRouteTypes {
     | '/store'
     | '/api/apply'
     | '/api/chat'
+    | '/api/promo-extract'
     | '/api/promo-upload'
   id:
     | '__root__'
@@ -252,6 +263,7 @@ export interface FileRouteTypes {
     | '/store'
     | '/api/apply'
     | '/api/chat'
+    | '/api/promo-extract'
     | '/api/promo-upload'
   fileRoutesById: FileRoutesById
 }
@@ -274,6 +286,7 @@ export interface RootRouteChildren {
   StoreRoute: typeof StoreRoute
   ApiApplyRoute: typeof ApiApplyRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiPromoExtractRoute: typeof ApiPromoExtractRoute
   ApiPromoUploadRoute: typeof ApiPromoUploadRoute
 }
 
@@ -398,6 +411,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPromoUploadRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/promo-extract': {
+      id: '/api/promo-extract'
+      path: '/api/promo-extract'
+      fullPath: '/api/promo-extract'
+      preLoaderRoute: typeof ApiPromoExtractRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -434,6 +454,7 @@ const rootRouteChildren: RootRouteChildren = {
   StoreRoute: StoreRoute,
   ApiApplyRoute: ApiApplyRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiPromoExtractRoute: ApiPromoExtractRoute,
   ApiPromoUploadRoute: ApiPromoUploadRoute,
 }
 export const routeTree = rootRouteImport

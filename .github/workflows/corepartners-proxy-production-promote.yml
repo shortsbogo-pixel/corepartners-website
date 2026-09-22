@@ -42,7 +42,7 @@ jobs:
             test "$CODE" = "200"
           done
           curl -fsSL -H "$HEADER" https://corepartners.kr/coupang-plus -o /tmp/coupang.html
-          grep -Fq "28만 2천원" /tmp/coupang.html
+          grep -Fq "주간 미션 최대" /tmp/coupang.html
           grep -Fq "해당 주 금요일에 지급" /tmp/coupang.html
           curl -fsSL -H "$HEADER" https://corepartners.kr/rent -o /tmp/rent.html
           grep -Fq "대전 배달 오토바이" /tmp/rent.html
@@ -66,7 +66,7 @@ jobs:
             if [ "$CODE" != "200" ]; then FAILED=1; fi
           done
           curl -fsSL https://corepartners.kr/coupang-plus -o /tmp/coupang-live.html || FAILED=1
-          grep -Fq "28만 2천원" /tmp/coupang-live.html || FAILED=1
+          grep -Fq "주간 미션 최대" /tmp/coupang-live.html || FAILED=1
           curl -fsSL https://corepartners.kr/rent -o /tmp/rent-live.html || FAILED=1
           grep -Fq "대전 배달 오토바이" /tmp/rent-live.html || FAILED=1
           curl -fsSL https://corepartners.kr/robots.txt -o /tmp/robots-live.txt || FAILED=1
