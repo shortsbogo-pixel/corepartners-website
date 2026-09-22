@@ -353,11 +353,10 @@
         </div>
       </div>
     </div>
-    <div class="promo reveal" hidden>
-      <div class="pcard"><img src="/promo-banner" width="1000" height="1500" alt="코아파트너스 주간 프로모션 안내 배너 — 평일 런치·포스트런치·올빼미 미션 상세, 주간 누적 보상, 라이더 혜택 요약, 문의 042-672-0777 / 042-672-0901" loading="lazy"></div>
-      <p class="pcap">과거 프로모션 배너는 최신 운영정보와 혼동되지 않도록 비공개 처리했습니다.</p>
+    <div class="promo reveal" id="promoBox">
+      <div class="pcard"><img id="promoImg" src="/promo-banner" width="1000" height="1500" alt="코아파트너스 주간 프로모션 안내 배너 — 평일 런치·포스트런치·올빼미 미션 상세, 주간 누적 보상, 라이더 혜택 요약, 문의 042-672-0777 / 042-672-0901" loading="lazy"></div>
+      <p class="pcap" id="promoCap">이번 주 미션 안내 배너입니다. 배너는 매주 새 주차 기준으로 교체됩니다.</p>
     </div>
-  </div>
     <div class="rnote">지난 주차 배너와 상세 조건은 전화로 안내드립니다 · <b>042-672-0901</b></div>
   </div>
 </section>
@@ -893,7 +892,37 @@ document.addEventListener('click',function(e){
 })();
 </script>
 <script>
-/* 현재 운영 기준은 본문에 직접 게시합니다. 과거 promo-meta 데이터는 새 안내를 덮어쓰지 않습니다. */
+/* 주간 배너 · 주차 라벨 · 적용 기간: 관리자 업로드 때 저장된 /promo-meta 를 표시한다.
+   관리자 입력값은 textContent 로만 넣는다(innerHTML 금지).
+   메타가 없거나(404) 조회에 실패하면 본문에 적힌 기본 문구를 그대로 둔다. */
+(function(){
+  var lab=document.getElementById('promoLabel'), per=document.getElementById('promoPeriod'),
+      upd=document.getElementById('promoUpdated'), bw=document.getElementById('msbWk'),
+      br=document.getElementById('msbRg'), cap=document.getElementById('promoCap'),
+      img=document.getElementById('promoImg'), box=document.getElementById('promoBox');
+  if(img&&box){ img.addEventListener('error',function(){ box.hidden=true; }); }
+  fetch('/promo-meta',{cache:'no-cache'}).then(function(r){return r.ok?r.json():null}).then(function(m){
+    if(!m||typeof m!=='object') return;
+    var label=typeof m.label==='string'?m.label:'', period=typeof m.period==='string'?m.period:'';
+    if(img&&m.v&&/^\d{1,16}$/.test(String(m.v))){
+      img.src='/promo-banner?v='+String(m.v);
+    }
+    var expired=false;
+    try{ if(m.end && new Date() > new Date(m.end)) expired=true; }catch(e){}
+    if(label&&lab){ var b=document.createElement('b'); b.style.color='var(--navy)'; b.textContent=label; lab.replaceChildren(b); }
+    if(label&&bw) bw.textContent=label.replace(/\s*프로모션\s*$/,'');
+    if(period&&per) per.textContent='적용 기간 '+period;
+    if(period&&br) br.textContent=period;
+    if(m.updated&&upd) upd.textContent='최종 업데이트 '+String(m.updated);
+    if(cap){
+      if(expired){
+        cap.textContent='이 배너의 적용 기간'+(period?'('+period+')':'')+'이 지났습니다. 새 주차 배너로 교체되기 전까지 최신 조건은 042-672-0901로 확인해 주세요.';
+      }else if(period){
+        cap.textContent=(label?label+' ':'')+'미션 안내 배너 · 적용 기간 '+period;
+      }
+    }
+  }).catch(function(){});
+})();
 </script>
 <script>
 /* anchor re-scroll: images loading after initial hash jump shift layout */
