@@ -14,7 +14,13 @@
 
   var DAYS = [1, 2, 3, 4, 5, 6, 0];
   var DAY_NAMES = ["일", "월", "화", "수", "목", "금", "토"];
-  var TITLES = { lunch: "① 평일런치", postlunch: "② 포스트런치", owl: "③ 올빼미(야간)" };
+  var KEYS = ["lunch", "postlunch", "dinner", "owl"];
+  var TITLES = {
+    lunch: "① 평일런치",
+    postlunch: "② 포스트런치",
+    dinner: "③ 디너",
+    owl: "④ 올빼미(야간)",
+  };
 
   function el(tag, attrs, kids) {
     var e = document.createElement(tag);
@@ -73,14 +79,16 @@
 
   var totalsEls = {};
   function refreshTotals() {
-    ["lunch", "postlunch", "owl"].forEach(function (k) {
+    KEYS.forEach(function (k) {
       if (totalsEls[k])
         totalsEls[k].textContent = "최대 " + man(missionMax(state[k])) + " (자동 계산)";
     });
     if (totalsEls.weekly)
       totalsEls.weekly.textContent = "최대 " + man(weeklyMax()) + " (마지막 단계 누적 금액)";
     var sum =
-      missionMax(state.lunch) + missionMax(state.postlunch) + missionMax(state.owl) + weeklyMax();
+      KEYS.reduce(function (a, k) {
+        return a + missionMax(state[k]);
+      }, 0) + weeklyMax();
     if (totalsEls.total)
       totalsEls.total.textContent =
         "주간 미션 최대 합계: " + man(sum) + " — 배너의 합계와 같은지 확인하세요";
@@ -332,7 +340,7 @@
           text: "🤖 AI가 배너에서 읽어 채운 값입니다. 저장 전에 배너와 한 줄씩 대조해 주세요.",
         }),
       );
-    ["lunch", "postlunch", "owl"].forEach(function (k) {
+    KEYS.forEach(function (k) {
       editor.appendChild(timedBlock(k));
     });
     editor.appendChild(weeklyBlock());

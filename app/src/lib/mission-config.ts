@@ -30,18 +30,21 @@ export type MissionConfig = {
   schema: number;
   lunch: TimedMission;
   postlunch: TimedMission;
+  dinner: TimedMission;
   owl: TimedMission;
   weekly: { tiers: WeeklyTier[] };
   perks: { friend: number; welcomeCount: number; welcomePay: number; gearCount: number };
   rules: { cancelRateMax: number; duplicate: boolean };
 };
 
-export const TIMED_KEYS = ["lunch", "postlunch", "owl"] as const;
+// 표시 순서 = 시간대 순서(런치 → 포스트런치 → 디너 → 올빼미).
+export const TIMED_KEYS = ["lunch", "postlunch", "dinner", "owl"] as const;
 export type TimedKey = (typeof TIMED_KEYS)[number];
 
 export const MISSION_TITLES: Record<TimedKey, { card: string; board: string; sum: string }> = {
   lunch: { card: "평일런치 미션", board: "평일런치", sum: "평일런치 미션" },
   postlunch: { card: "포스트런치 미션", board: "포스트런치", sum: "포스트런치 미션" },
+  dinner: { card: "디너 미션", board: "디너", sum: "디너 미션" },
   owl: { card: "올빼미 미션", board: "야간 올빼미", sum: "올빼미 미션" },
 };
 
@@ -61,6 +64,14 @@ export const DEFAULT_MISSION_CONFIG: MissionConfig = {
       { days: [1, 2, 3, 4, 5], from: "13:00", to: "16:54", count: 12, pay: 10000 },
       { days: [0, 6], from: "14:00", to: "16:54", count: 12, pay: 10000 },
     ],
+    note: "",
+  },
+  // 디너 미션은 배너에 생길 때 관리자가 켠다. 꺼져 있으면 카드·시간표·합계 모두에서 빠진다.
+  // 아래 줄은 켤 때 바로 쓰도록 둔 기본 한 줄일 뿐, 꺼져 있는 동안은 어디에도 나오지 않는다.
+  dinner: {
+    enabled: false,
+    basis: "daily",
+    groups: [{ days: [1, 2, 3, 4, 5], from: "17:00", to: "20:59", count: 10, pay: 10000 }],
     note: "",
   },
   owl: {
@@ -130,8 +141,11 @@ export function validateMissionConfig(raw: unknown): ValidateResult {
   const timed = {} as Record<TimedKey, TimedMission>;
   for (const key of TIMED_KEYS) {
     const name = MISSION_TITLES[key].card;
-    const m = (r[key] && typeof r[key] === "object" ? r[key] : {}) as Record<string, unknown>;
-    const enabled = m.enabled !== false;
+    // 키 자체가 없으면(미션이 나중에 추가되기 전에 저장된 값) 꺼진 것으로 본다.
+    // 이렇게 해야 옛 저장값이 "줄이 0개인 켜진 미션"으로 읽혀 검증에 걸리지 않는다.
+    const present = r[key] !== undefined && r[key] !== null;
+    const m = (present && typeof r[key] === "object" ? r[key] : {}) as Record<string, unknown>;
+    const enabled = present && m.enabled !== false;
     const basis: Basis = m.basis === "sum" ? "sum" : "daily";
     const note = cleanText(m.note, 40);
     const groupsRaw = Array.isArray(m.groups) ? m.groups : [];
@@ -425,8 +439,11 @@ export function renderMissionBlocks(c: MissionConfig): Record<string, string> {
     "lunch-rows": rowsHtml(lunch),
     "postlunch-time": esc(headerTime(c, "postlunch")),
     "postlunch-rows": rowsHtml(c.postlunch),
+    "dinner-time": esc(headerTime(c, "dinner")),
+    "dinner-rows": rowsHtml(c.dinner),
     "owl-time": esc(headerTime(c, "owl")),
     "owl-rows": rowsHtml(c.owl),
+    ...cardNums(c),
     friend: `추천인 보상 <b>${man(c.perks.friend)}</b> 지급`,
     welcome: `신입기사 등록 후 첫 주 ${c.perks.welcomeCount}건 이상 달성 시 <b>${man(c.perks.welcomePay)}</b> 지급`,
     gear: `${c.perks.gearCount}건 이상 완료 시 오일·패드 <b>무상지원</b>`,
@@ -440,6 +457,17 @@ export function renderMissionBlocks(c: MissionConfig): Record<string, string> {
   return blocks;
 }
 
+/**
+ * 카드 머리의 번호(①②③…) — 켜져 있는 미션만 세어 다시 매긴다.
+ * 디너 미션을 끄면 올빼미가 3번이 되므로, 번호를 코드에 박아 두면 1·2·4 처럼 빈다.
+ */
+function cardNums(c: MissionConfig): Record<string, string> {
+  const out: Record<string, string> = {};
+  let n = 0;
+  for (const k of TIMED_KEYS) out[`${k}-num`] = String(c[k].enabled ? ++n : n + 1);
+  return out;
+}
+
 /** 카드 표시 여부 — 비활성 미션 카드는 통째로 숨긴다 */
 export function cardHidden(c: MissionConfig, k: TimedKey): string {
   return c[k].enabled ? "" : " hidden";
@@ -447,7 +475,7 @@ export function cardHidden(c: MissionConfig, k: TimedKey): string {
 
 const MARK_RE = /<!--mc:([a-z0-9-]+)-->([\s\S]*?)<!--\/mc:\1-->/g;
 const JS_MARK_RE = /\/\*mc:timetable\*\/[\s\S]*?\/\*\/mc:timetable\*\//;
-const HIDE_RE = /data-mc-card="(lunch|postlunch|owl)"(?: hidden)?/g;
+const HIDE_RE = /data-mc-card="(lunch|postlunch|dinner|owl)"(?: hidden)?/g;
 
 /** 문서 안의 `<!--mc:이름-->…<!--/mc:이름-->` 과 시간표 배열을 설정값으로 교체한다. */
 export function applyMissionConfig(html: string, c: MissionConfig): string {
@@ -496,6 +524,7 @@ export function missionSummaryEn(c: MissionConfig): string {
   const names: Record<TimedKey, string> = {
     lunch: "Lunch mission",
     postlunch: "Post-lunch mission",
+    dinner: "Dinner mission",
     owl: "Night owl mission",
   };
   for (const k of TIMED_KEYS) {

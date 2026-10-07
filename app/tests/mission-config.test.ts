@@ -103,9 +103,9 @@ describe("validateMissionConfig", () => {
 
 describe("applyMissionConfig — 페이지 렌더링", () => {
   const out = applyMissionConfig(coupang, DEFAULT_MISSION_CONFIG);
-  it("20개 마커가 모두 채워진다(마커 누락 없음)", () => {
+  it("26개 마커가 모두 채워진다(마커 누락 없음)", () => {
     const names = [...coupang.matchAll(/<!--mc:([a-z0-9-]+)-->/g)].map((m) => m[1]);
-    assert.equal(names.length, 20);
+    assert.equal(names.length, 26);
     for (const n of new Set(names)) assert.ok(out.includes(`<!--mc:${n}-->`));
   });
   it("배너 조건이 카드·시간표·칩·합계에 반영된다", () => {
@@ -158,6 +158,43 @@ describe("applyMissionConfig — 페이지 렌더링", () => {
     // 다시 켜면 hidden 이 사라진다(렌더링을 반복해도 안정)
     assert.match(applyMissionConfig(html, DEFAULT_MISSION_CONFIG), /data-mc-card="lunch">/);
   });
+  it("디너 미션은 기본으로 꺼져 있어 화면·합계에 나오지 않는다", () => {
+    assert.equal(DEFAULT_MISSION_CONFIG.dinner.enabled, false);
+    assert.equal(missionMax(DEFAULT_MISSION_CONFIG.dinner), 0);
+    assert.equal(totalMax(DEFAULT_MISSION_CONFIG), 282000);
+    assert.match(out, /data-mc-card="dinner" hidden/);
+    assert.ok(!boardRows(DEFAULT_MISSION_CONFIG).some((r) => r.name === "디너"));
+    // 꺼져 있어도 올빼미 번호는 3번 — 1·2·4 처럼 비지 않는다
+    assert.match(out, /<!--mc:owl-num-->3<!--\/mc:owl-num-->/);
+  });
+
+  it("디너 미션을 켜면 카드·시간표·합계에 들어가고 번호가 다시 매겨진다", () => {
+    const c = clone(DEFAULT_MISSION_CONFIG);
+    c.dinner.enabled = true;
+    c.dinner.groups = [{ days: [1, 2, 3, 4, 5], from: "17:00", to: "20:59", count: 10, pay: 9000 }];
+    const v = validateMissionConfig(c);
+    assert.ok(v.ok);
+    const html = applyMissionConfig(coupang, v.config);
+    assert.match(html, /data-mc-card="dinner">/);
+    assert.match(html, /<!--mc:dinner-num-->3<!--\/mc:dinner-num-->/);
+    assert.match(html, /<!--mc:owl-num-->4<!--\/mc:owl-num-->/);
+    assert.equal(missionMax(v.config.dinner), 45000);
+    assert.equal(totalMax(v.config), 327000);
+    // 시간표에서 포스트런치와 올빼미 사이에 들어간다
+    const rows = boardRows(v.config).map((r) => r.name);
+    assert.equal(rows.indexOf("디너"), rows.lastIndexOf("포스트런치") + 1);
+    assert.ok(rows.indexOf("디너") < rows.indexOf("야간 올빼미"));
+  });
+
+  it("디너 키가 없는 옛 저장값도 그대로 통과한다(꺼진 것으로 읽음)", () => {
+    const old = clone(DEFAULT_MISSION_CONFIG) as unknown as Record<string, any>;
+    delete old.dinner;
+    const v = validateMissionConfig(old);
+    assert.ok(v.ok);
+    assert.equal(v.config.dinner.enabled, false);
+    assert.equal(totalMax(v.config), 282000);
+  });
+
   it("홈 요약 문구도 채운다", () => {
     const c = clone(DEFAULT_MISSION_CONFIG);
     c.weekly.tiers[5].total = 150000;

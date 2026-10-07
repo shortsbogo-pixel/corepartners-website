@@ -14,6 +14,7 @@ export const EXTRACT_PROMPT = `이 이미지는 배달 라이더용 "주간 미�
   "config": {
     "lunch":     { "enabled": true, "basis": "daily", "note": "", "groups": [ { "days": [1,2,3,4,5], "from": "10:55", "to": "12:59", "count": 8, "pay": 8000 } ] },
     "postlunch": { "enabled": true, "basis": "daily", "note": "", "groups": [ ... ] },
+    "dinner":    { "enabled": false, "basis": "daily", "note": "", "groups": [] },
     "owl":       { "enabled": true, "basis": "sum",   "note": "", "groups": [ ... ] },
     "weekly": { "tiers": [ { "count": 150, "total": 10000 } ] },
     "perks": { "friend": 50000, "welcomeCount": 150, "welcomePay": 30000, "gearCount": 100 },
@@ -26,7 +27,8 @@ export const EXTRACT_PROMPT = `이 이미지는 배달 라이더용 "주간 미�
 - days 는 0=일, 1=월, 2=화, 3=수, 4=목, 5=금, 6=토. "평일"=[1,2,3,4,5], "주말"=[0,6], "매일/월~일"=[0,1,2,3,4,5,6].
 - 같은 미션 안에서 요일이 다르거나 시간이 다르면 groups 를 나눕니다. 예: "평일 13:00~16:54 · 주말 14:00~16:54, 매일 12건 10,000원"
   → [{days:[1,2,3,4,5],from:"13:00",to:"16:54",count:12,pay:10000},{days:[0,6],from:"14:00",to:"16:54",count:12,pay:10000}]
-- lunch=평일 런치, postlunch=포스트런치, owl=올빼미(야간). 배너에 없는 미션은 enabled:false, groups:[].
+- lunch=평일 런치, postlunch=포스트런치, dinner=디너(저녁 시간대), owl=올빼미(야간). 배너에 없는 미션은 enabled:false, groups:[].
+- 디너 미션은 배너에 없을 때가 많습니다. "디너"·"저녁" 이름이 실제로 적혀 있을 때만 dinner 를 켜고, 없으면 enabled:false 로 둡니다.
 - basis: 요일마다 따로 달성·지급이면 "daily", "합산"(요일 묶음을 합쳐 한 번 지급)이면 "sum".
 - 한 요일 묶음의 합산 조건(예: "수·목·금 합산 27건 22,000원")은 그 묶음 하나가 group 하나입니다.
 - weekly.tiers 의 total 은 그 단계까지의 "누적" 보상 금액(원)입니다. 배너가 단계별 누적 금액을 보여 주면 그대로, 단계별 추가 금액만 보여 주면 더해서 누적으로 바꿉니다.
