@@ -1,4 +1,4 @@
-const ORIGIN = "4d6a27cb-corepartners.shortsbogo.workers.dev";
+const ORIGIN = "b288d267-corepartners.shortsbogo.workers.dev";
 
 export default {
   async fetch(request) {
